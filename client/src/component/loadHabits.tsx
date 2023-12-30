@@ -84,8 +84,7 @@ const styles = StyleSheet.create({
         borderColor: "#D6D6D6",
         marginRight: 10,
         justifyContent: "center",
-        alignItems: "center",
-    
+        alignItems: "center",    
     },
     checkedCheckBox:{
         backgroundColor:"#OOF"
