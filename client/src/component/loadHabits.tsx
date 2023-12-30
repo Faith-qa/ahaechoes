@@ -32,22 +32,29 @@ const LoadHabits: React.FC = () => {
         </TouchableOpacity>)
     }
     return (
-        <View style={styles.container}>
-            <FlatList 
-            data={habits}
-            keyExtractor={(item) => item.id}
-            
-            renderItem={renderItem}
+        <><Text style={styles.todayText}>Today's Tasks</Text><View style={styles.container}>
+            <FlatList
+                data={habits}
+                keyExtractor={(item) => item.id}
 
-           
-/>
-        
-            </View>
+                renderItem={renderItem} />
+
+        </View></>
     )
 }
 
 
 const styles = StyleSheet.create({
+    todayText:{
+        color: "#444",
+        fontFamily: "Rubik",
+        fontSize:20,
+        fontStyle: "normal",
+        fontWeight: "600",
+        lineHeight: 24,
+        padding: 10,
+        alignSelf: "baseline"
+    },
     container: {
         display: "flex",
         width: 388,
@@ -58,7 +65,7 @@ const styles = StyleSheet.create({
         
     },
     itemHold: {
-        width: 387,
+        width:360,
         height: 72,
         flexShrink: 0,
         borderRadius: 20,
