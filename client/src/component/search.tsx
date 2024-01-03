@@ -6,7 +6,7 @@ import FeatherIcon from "react-native-vector-icons/Feather"
 const Search: React.FC = () =>{
 
     const handlesearch = () => {
-        //implement handle search function
+        /*implement handle search function*/
     };
 
     return(

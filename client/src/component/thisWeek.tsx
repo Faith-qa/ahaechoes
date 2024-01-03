@@ -18,7 +18,29 @@ const DaysOfWeekButtons: React.FC = () =>  {
     const getButtonStyle = (day: number) =>({
         backgroundColor: currentDay === day ?'#DFBD43' :  '#4D4117'
     });
+    const greeting = () => {
+        //get the current hour of the day
+        const currentHour: number = new Date().getHours()
 
+        //define time ranges
+        const morningStart: number = 5;
+        const afternoonStart: number = 12;
+        const eveningStart: number = 18;
+
+        // determing the time of day and return greeting
+
+        if (currentHour >= morningStart && currentHour < afternoonStart) {
+            /*TO DO: Sync username */
+            return "Good morning, Faith";
+        
+        } else if (currentHour >= afternoonStart && currentHour < eveningStart){
+            return "Good afternoon, Faith";
+        } else {
+            return "Good evening, Faith";
+        }
+
+
+    };
     const renderDayButtons = () => {
         const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 
@@ -38,10 +60,10 @@ const DaysOfWeekButtons: React.FC = () =>  {
             return (<TouchableOpacity
             key={index}>
                <View style={[styles.dayButton, getButtonStyle(index)]}>
-                <Text style={styles.buttonText}>{fdate.split('-')[2]} </Text>
+                <Text style={styles.btext}>{fdate.split('-')[2]} </Text>
                </View>
                <View>
-               <Text>{day}</Text>
+               <Text style={styles.dtext}>{day}</Text>
 
                </View>
 
@@ -49,18 +71,30 @@ const DaysOfWeekButtons: React.FC = () =>  {
     })}
     
     return(
-        <View style={styles.container}>{renderDayButtons()}</View>
+        <View>
+            <View style={styles.gcontainer}><Text style={styles.gtext}>{greeting()}</Text></View>
+        <View style={styles.dcontainer}>{renderDayButtons()}</View>
+        </View>
+        
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    gcontainer: {
+        flexDirection: 'row', // inline-flex equivalent
+        padding: 4,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start', // align-items equivalent for main axis
+        gap: 8,
+      },
+    
+    dcontainer: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         gap: 30,
-        //padding: 10
+        padding:10
 
 
         
@@ -74,16 +108,36 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent:'center',
         //marginHorizontal: 30,
-        padding: 10,
+        //padding: 10,
 
 
     },
-    buttonText:{
-        color: "#FFF",
+    dtext:{
+        color: '#4D4117',
+        fontFamily: 'Rubik',
+        fontSize: 12,
+        fontStyle: 'normal',
+        fontWeight: '400',
+    
+        lineHeight: 25,
                 
     },
-    day: {
+    btext: {
         //padd
+        color: '#FFF',
+        fontFamily: 'Rubik',
+        fontSize: 13,
+        fontStyle: 'normal',
+        fontWeight: '400',
+        lineHeight: 25
+    },
+    gtext:{
+        color: '#FFF',
+        fontFamily: 'Rubik',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '400',
+        lineHeight: 25,
     }
 })
 
