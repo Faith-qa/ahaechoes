@@ -2,11 +2,11 @@ import React, {useEffect, useState} from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 
 
-const DaysOfWeekButtons: React.FC = () => {
+const DaysOfWeekButtons: React.FC = () =>  {
     const [currentDay, setCurrentDay] = useState(new Date().getDay());
     const [currentDate, setCurrentDate] = useState(new Date().getDate());
 
-
+//{currentDate == index ? currentDate : ''}
     useEffect(()=>{
         const intervalId = setInterval(()=>{
             setCurrentDay(new Date().getDay());
@@ -22,25 +22,48 @@ const DaysOfWeekButtons: React.FC = () => {
     const renderDayButtons = () => {
         const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 
-        return daysOfWeek.map((day, index)=>(
-            <TouchableOpacity
+        return daysOfWeek.map((day, index)=>{
+            const date = new Date();
+            const daydiff = index - currentDay
+            
+            date.setDate(currentDate + daydiff)
+            const fdate = date.toISOString().split('T')[0]
+
+           // console.log(fdate.split('-')[2])
+
+
+
+            //console.log(date)
+            
+            return (<TouchableOpacity
             key={index}>
-                <Text>{day}</Text>
-                <Text>{currentDate == index ? currentDate : ''} </Text>
-            </TouchableOpacity>
-        ))
-    }
+               <View style={[styles.dayButton, getButtonStyle(index)]}>
+                <Text style={styles.buttonText}>{fdate.split('-')[2]} </Text>
+               </View>
+               <View>
+               <Text>{day}</Text>
+
+               </View>
+
+            </TouchableOpacity>)
+    })}
+    
     return(
-        <View>{renderDayButtons()}</View>
+        <View style={styles.container}>{renderDayButtons()}</View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
+        display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: 30, 
+        gap: 30,
+        //padding: 10
+
+
+        
     },
     dayButton: {
         width: 25,
@@ -49,12 +72,18 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#4D4117',
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        //marginHorizontal: 30,
+        padding: 10,
 
 
     },
     buttonText:{
-        color: "#FFF"
+        color: "#FFF",
+                
+    },
+    day: {
+        //padd
     }
 })
 
