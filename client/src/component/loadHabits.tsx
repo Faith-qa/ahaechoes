@@ -19,6 +19,7 @@ const LoadHabits: React.FC = ()=>{
                 if (value != null) {
                     const jsonVal = JSON.parse(value);
                     setHabit(jsonVal.Task)
+                    /*TO DO, Send data to database */
                 }
             }catch (e) {
                 console.error(e)
@@ -33,34 +34,31 @@ const LoadHabits: React.FC = ()=>{
           <Text>{task}</Text>
         </View>
       );
-    if (habits.length > 0) {
-        return (
-            <SafeAreaView>
+  
+    return (
+        <View>
+            <Text style={styles.todayText}>Today's task</Text>
+        <View style = {styles.container}>
+            {habits.length > 0 ? (<SafeAreaView>
               <FlatList
                 data={habits}
                 renderItem={({ item }) => <Item task={item.task} />}
                 keyExtractor={(item) => item.id.toString()}
+                style={styles.itemHold}
               />
-            </SafeAreaView>
-          );
-    }
-    return (
-        <View style = {styles.container}>
-          <Image
-            source={{
-              uri:
-                'https://plus.unsplash.com/premium_photo-1684330691489-2eb2620db612?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            }}
-            style={styles.image}
-          />
-          <Text>You don't have any habits you are tracking today.</Text>
-          <Pressable
+            </SafeAreaView>) : (<View style={styles.itemHold}> 
+                <Text style={styles.text}>No habits created, yet</Text>
+          {/*<Pressable
             onPress={() => {
               alert('Feature coming');
             }}
           >
             <Icon name="add-circle-outline" />
-          </Pressable>
+        </Pressable>*/}
+        </View>)
+ }
+         
+        </View>
         </View>
       );
 
@@ -83,6 +81,7 @@ const styles = StyleSheet.create({
     },
     container: {
         display: "flex",
+        //flexDirection: 'row',
         width: 388,
         paddingBottom:10,
         flexDirection: "column",
