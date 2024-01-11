@@ -1,16 +1,23 @@
 import React, {useEffect, useState} from "react";
-import { StyleSheet, View, Text, FlatList, TouchableOpacity,Image, Button, Pressable } from "react-native";
-//import {MMKVLoader} from "react-native-mmkv-storage";
+import { StyleSheet, View, Text, FlatList, Pressable, } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Icon  from "react-native-vector-icons/MaterialCommunityIcons";
 import getFormattedDate from "../../utils/date";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { Ionicons } from '@expo/vector-icons';
 //const MMKV = new MMKVLoader().initialize();
 
 const LoadHabits: React.FC = ()=>{
     const today = getFormattedDate();
-    const [habits, setHabit] = useState<any>([])
+    const [habits, setHabit] = useState<any>([]);
+    const [completed, setCompleted] = useState(false);
+
+    const checkbox = (): any => {
+
+        return (
+            <Pressable onPress={()=>setCompleted(!completed)} >
+                <Ionicons name="checkbox-outline" size={24} color="#DFBD43" /></Pressable>
+        )
+    }
 
     useEffect(()=>{
         const fetchData = async () =>{
@@ -39,14 +46,16 @@ const LoadHabits: React.FC = ()=>{
         <View>
             <Text style={styles.todayText}>Today's task</Text>
         <View style = {styles.container}>
+            
             {habits.length > 0 ? (<SafeAreaView>
               <FlatList
                 data={habits}
                 renderItem={({ item }) => <Item task={item.task} />}
                 keyExtractor={(item) => item.id.toString()}
                 style={styles.itemHold}
-              />
-            </SafeAreaView>) : (<View style={styles.itemHold}> 
+              >{checkbox()}
+              </FlatList>
+            </SafeAreaView>) : (<View style={styles.itemHold}> {checkbox()}
                 <Text style={styles.text}>No habits created, yet</Text>
           {/*<Pressable
             onPress={() => {
