@@ -11,7 +11,7 @@ const NavBar: React.FC = () => {
     return (
         <Tab.Navigator
             //initialRouteName="feed"
-            activeColor="#444444"
+            //activeColor="#444444"
             //style={styles.Tab}
             >
             <Tab.Screen name="home" component={Home} 
