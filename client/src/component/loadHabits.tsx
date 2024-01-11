@@ -1,92 +1,74 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { StyleSheet, View, Text, FlatList, TouchableOpacity,Image, Button, Pressable } from "react-native";
-import {MMKVLoader} from "react-native-mmkv-storage";
+//import {MMKVLoader} from "react-native-mmkv-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon  from "react-native-vector-icons/MaterialCommunityIcons";
 import getFormattedDate from "../../utils/date";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const MMKV = new MMKVLoader().initialize();
+//const MMKV = new MMKVLoader().initialize();
 
 const LoadHabits: React.FC = ()=>{
-    const today =  getFormattedDate();
-    const data = MMKV.indexer.hasKey(today)
+    const today = getFormattedDate();
+    const [habits, setHabit] = useState<any>([])
 
-    if (data) {
-        const value =JSON.parse( MMKV.getMap(today));
-        type ItemProps = {task: string};
-        const Item = ({task}: ItemProps) => (
-            <View><Text>{task}</Text></View>
-        );
-        return (<SafeAreaView>
-            <FlatList
-                data = {value.Task}
-                renderItem={({item})=> <Item task={item.task}/>}
-                keyExtractor={item => item.id}/>
-        </SafeAreaView>)
-
-    }
-    const notask = () =>(
-    <View> <Image source={{uri: "https://plus.unsplash.com/premium_photo-1684330691489-2eb2620db612?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}}
+    useEffect(()=>{
+        const fetchData = async () =>{
+            try{
+                const value = await AsyncStorage.getItem(today);
+                if (value != null) {
+                    const jsonVal = JSON.parse(value);
+                    setHabit(jsonVal.Task)
+                }
+            }catch (e) {
+                console.error(e)
+            }
+        };
+        fetchData();
         
-        style={styles.image}/>
-        <Text>You don't have any habits you are tracking today.</Text> 
-        <Pressable onPress={()=> {
-            alert("feature coming")
-        }} >
-            <Icon name="add-circle-outline"/>
-        </Pressable>
+    }, [today]);
+
+    const Item: React.FC<{ task: string }> = ({ task }) => (
+        <View>
+          <Text>{task}</Text>
         </View>
-    )
-    return (<View>
-        {notask()}
-    </View>)}
-
-    //logic:
-    //get habit from local storage if it is today's habit. 
-    // from the list of tasks, check for todays task 
-    // if it is render it and load it as todays task
-    //if not display yesterday's
-    // update new task to database
-    
-
-
-/*const LoadHabits: React.FC = () => {
-    //loads habits from server
-    //temporary data
-    const [checkedItems, setCheckedItems] = useState<string[]>([]);
-    const habits: ListItem[] = [
-        {id: "1", label: "read a book"},
-        {id: "2", label:  "play"},
-        {id: "3", label: "30 minutes sermon"}];
-    
-    const handleCheckedBoxToggle = (itemId: string) => {
-        const updatedCheckedItems = checkedItems.includes(itemId)
-        ? checkedItems.filter((item)=> item != itemId)
-        : [... checkedItems, itemId];
-        setCheckedItems(updatedCheckedItems)
-    };
-
-    const renderItem = ({item}: {item: ListItem}) => {
-        return(<TouchableOpacity style={styles.itemHold} onPress={()=> handleCheckedBoxToggle(item.id)}>
-            <View style={[styles.checkedCheckBox, checkedItems.includes(item.id) ? styles.checkedCheckBox: styles.uncheckedCheckbox]}>
-                {checkedItems.includes(item.id) && (
-                    <View/>
-                )}  
-            </View>
-            <Text style={styles.text}>{item.label}</Text>
-        </TouchableOpacity>)
+      );
+    if (habits.length > 0) {
+        return (
+            <SafeAreaView>
+              <FlatList
+                data={habits}
+                renderItem={({ item }) => <Item task={item.task} />}
+                keyExtractor={(item) => item.id.toString()}
+              />
+            </SafeAreaView>
+          );
     }
     return (
-        <><Text style={styles.todayText}>Today's Tasks</Text><View style={styles.container}>
-            <FlatList
-                data={habits}
-                keyExtractor={(item) => item.id}
+        <View style = {styles.container}>
+          <Image
+            source={{
+              uri:
+                'https://plus.unsplash.com/premium_photo-1684330691489-2eb2620db612?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            }}
+            style={styles.image}
+          />
+          <Text>You don't have any habits you are tracking today.</Text>
+          <Pressable
+            onPress={() => {
+              alert('Feature coming');
+            }}
+          >
+            <Icon name="add-circle-outline" />
+          </Pressable>
+        </View>
+      );
 
-                renderItem={renderItem} />
+}
+   
+   
+   
 
-        </View></>
-    )
-}*/
 
 
 const styles = StyleSheet.create({
@@ -96,7 +78,6 @@ const styles = StyleSheet.create({
         fontSize:20,
         fontStyle: "normal",
         fontWeight: "600",
-        lineHeight: 24,
         padding: 10,
         alignSelf: "baseline"
     },
