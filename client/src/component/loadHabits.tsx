@@ -15,9 +15,13 @@ const LoadHabits: React.FC = ()=>{
 
         return (
             <Pressable onPress={()=>setCompleted(!completed)} >
-                <Ionicons name="checkbox-outline" size={24} color="#DFBD43" /></Pressable>
+             {completed ?  <Ionicons name="checkbox-outline" style={styles.Checkbox}/> 
+            :<Ionicons name="checkbox" style={styles.Checkbox}/> } 
+            </Pressable>
         )
     }
+
+    const
 
     useEffect(()=>{
         const fetchData = async () =>{
@@ -55,7 +59,8 @@ const LoadHabits: React.FC = ()=>{
                 style={styles.itemHold}
               >{checkbox()}
               </FlatList>
-            </SafeAreaView>) : (<View style={styles.itemHold}> {checkbox()}
+            </SafeAreaView>) : (<View style={styles.itemHold}> 
+            {checkbox()} 
                 <Text style={styles.text}>No habits created, yet</Text>
           {/*<Pressable
             onPress={() => {
@@ -106,26 +111,11 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         padding: 10,
         borderColor: "#D6D6D6",
-        alignItems: "baseline"
+        //alignItems: "baseline"
 
 
     }, 
-    checkbox: {
-        width: 20,
-        height: 20,
-        borderRadius: 5,
-        borderWidth: 2,
-        borderColor: "#D6D6D6",
-        marginRight: 10,
-        justifyContent: "center",
-        alignItems: "center",    
-    },
-    checkedCheckBox:{
-        backgroundColor:"#OOF"
-    },
-    uncheckedCheckbox:{
-        backgroundColor: "transparent"
-    },
+   
     text: {
         color: 'black',
         fontFamily: "Rubik",
@@ -141,6 +131,14 @@ const styles = StyleSheet.create({
         flexShrink:0,
         borderRadius: 70,
         padding: 10,
+    },
+    Checkbox: {
+        flexShrink: 0,
+        //size: 24,
+        width: 20,
+        height: 20,
+        color: "#DFBD43",
+        fill: "DFBD43"
     }
 })
 export default LoadHabits;
