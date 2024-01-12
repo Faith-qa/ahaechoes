@@ -49,7 +49,7 @@ const LoadHabits: React.FC = ()=>{
         <View>
             <Text style={styles.todayText}>Today's task</Text>
         <View style = {styles.container}>
-            
+            /
             {habits.length > 0 ? (<SafeAreaView>
               <FlatList
                 data={habits}
@@ -60,7 +60,7 @@ const LoadHabits: React.FC = ()=>{
               </FlatList>
             </SafeAreaView>) : (<View style={styles.itemHold}> 
             {checkbox()} 
-                <Text style={styles.text}>No habits created, yet</Text>
+                <Text style={completed ? styles.strikethrough : styles.text} >No habits created, yet</Text>
           {/*<Pressable
             onPress={() => {
               alert('Feature coming');
@@ -138,6 +138,15 @@ const styles = StyleSheet.create({
         height: 20,
         color: "#DFBD43",
         //fill: "DFBD43"
+    }, 
+    strikethrough: {
+        color: 'black',
+        fontFamily: "Rubik",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "400",
+        textDecorationLine: "line-through"
+
     }
 })
 export default LoadHabits;
