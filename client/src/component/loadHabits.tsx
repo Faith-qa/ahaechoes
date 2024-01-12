@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, FlatList, Pressable, } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import getFormattedDate from "../../utils/date";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 //const MMKV = new MMKVLoader().initialize();
 
 const LoadHabits: React.FC = ()=>{
@@ -15,13 +15,12 @@ const LoadHabits: React.FC = ()=>{
 
         return (
             <Pressable onPress={()=>setCompleted(!completed)} >
-             {completed ?  <Ionicons name="checkbox-outline" style={styles.Checkbox}/> 
-            :<Ionicons name="checkbox" style={styles.Checkbox}/> } 
+             {completed ? <Ionicons name="checkbox" size={20} style={styles.Checkbox}/> :<Feather name="square" size={20}  style={styles.Checkbox}/> 
+             } 
             </Pressable>
         )
     }
 
-    const
 
     useEffect(()=>{
         const fetchData = async () =>{
@@ -134,11 +133,11 @@ const styles = StyleSheet.create({
     },
     Checkbox: {
         flexShrink: 0,
-        //size: 24,
+        //size: ,
         width: 20,
         height: 20,
         color: "#DFBD43",
-        fill: "DFBD43"
+        //fill: "DFBD43"
     }
 })
 export default LoadHabits;
