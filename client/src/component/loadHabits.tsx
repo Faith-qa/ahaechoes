@@ -85,7 +85,7 @@ const LoadHabits: React.FC = ()=>{
 const styles = StyleSheet.create({
     todayText:{
         color: "#444",
-        fontFamily: "Rubik",
+        fontFamily: "inter",
         fontSize:20,
         fontStyle: "normal",
         fontWeight: "600",

@@ -5,7 +5,7 @@ import {FontAwesome5, Fontisto, Feather, MaterialCommunityIcons} from '@expo/vec
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 import Calendar from "../screens/calendar";
 import Notification from "../screens/notification";
-import More from "../screens/calendar copy";
+import More from "../screens/more";
 
 
 
