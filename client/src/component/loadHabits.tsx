@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { StyleSheet, View, Text, FlatList, Pressable, } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import getFormattedDate from "../../utils/date";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons, Feather } from '@expo/vector-icons';
@@ -46,26 +46,31 @@ const LoadHabits: React.FC = ()=>{
       );
   
     return (
-        
         <View>
             <Text style={styles.todayText}>Today's task</Text>
         <View style = {styles.container}>
-            
-            {habits.length > 0 ? ( <SafeAreaView>
+            /
+            {habits.length > 0 ? (<SafeAreaView>
               <FlatList
                 data={habits}
                 renderItem={({ item }) => <Item task={item.task} />}
                 keyExtractor={(item) => item.id.toString()}
                 style={styles.itemHold}
-              >{checkbox()}</FlatList>
-
+              >{checkbox()}
+              </FlatList>
             </SafeAreaView>) : (<View style={styles.itemHold}> 
             {checkbox()} 
-                <Text style={completed ? styles.strikethrough : styles.text} >No habits created</Text>
-          
-        </View>)      
+                <Text style={completed ? styles.strikethrough : styles.text} >No habits created, yet</Text>
+          {/*<Pressable
+            onPress={() => {
+              alert('Feature coming');
+            }}
+          >
+            <Icon name="add-circle-outline" />
+        </Pressable>*/}
+        </View>)
  }
-
+         
         </View>
         </View>
       );
@@ -79,14 +84,13 @@ const LoadHabits: React.FC = ()=>{
 
 const styles = StyleSheet.create({
     todayText:{
-        color: "#444444",
+        color: "#444",
         fontFamily: "Rubik",
         fontSize:20,
         fontStyle: "normal",
         fontWeight: "600",
         padding: 10,
-
-       //alignSelf: "baseline"
+        alignSelf: "baseline"
     },
     container: {
         display: "flex",
@@ -99,7 +103,7 @@ const styles = StyleSheet.create({
         
     },
     itemHold: {
-        width:380,
+        width:360,
         height: 72,
         flexShrink: 0,
         borderRadius: 20,
@@ -112,11 +116,7 @@ const styles = StyleSheet.create({
     }, 
    
     text: {
-       // width: 96,
-        //height: 18,
-        flexShrink: 0,
-        paddingLeft: 25,
-        color: 'rgba(0, 0, 0, 0.50)',
+        color: 'black',
         fontFamily: "Rubik",
         fontSize: 16,
         fontStyle: "normal",
@@ -140,11 +140,7 @@ const styles = StyleSheet.create({
         //fill: "DFBD43"
     }, 
     strikethrough: {
-        //width: 96,
-        //height: 18,
-        flexShrink: 0,
-        paddingLeft: 25,
-        color: 'rgba(0, 0, 0, 0.50)',
+        color: 'black',
         fontFamily: "Rubik",
         fontSize: 16,
         fontStyle: "normal",
