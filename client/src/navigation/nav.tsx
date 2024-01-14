@@ -1,9 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 import Home from "../screens/home";
-import {MaterialCommunityIcons} from '@expo/vector-icons'
-
+import { Entypo, Feather,Ionicons } from '@expo/vector-icons';
+import Calendar from "../screens/calendar";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -17,10 +17,12 @@ const NavBar: React.FC = () => {
             <Tab.Screen name="home" component={Home} 
                 options={{
                     tabBarIcon: ({color}) => (
-                        <MaterialCommunityIcons name="home" color={color} size={26}/>
+                        <Entypo name="home" size={24} color="#44444" />
                     )
                 }}
                 />
+            <Tab.Screen name="calendar" component={Calendar}
+            options={{tabBarIcon: ()=>(<Feather name="calendar" size={24} color="black" />)}}/>
         </Tab.Navigator>
     )
     

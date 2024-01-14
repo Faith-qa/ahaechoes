@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import LoadHabits from "../component/loadHabits";
 import Search from "../component/search";
 import DaysOfWeekButtons from "../component/thisWeek";
