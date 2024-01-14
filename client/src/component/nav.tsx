@@ -6,6 +6,7 @@ import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navig
 import Calendar from "../screens/calendar";
 import Notification from "../screens/notification";
 import More from "../screens/more";
+import NewTask from "../pages/newTask";
 
 
 
