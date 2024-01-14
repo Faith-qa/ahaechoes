@@ -1,9 +1,11 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Home from "../screens/home";
-import {Ionicons, Fontisto, Feather} from '@expo/vector-icons'
+import {EvilIcons, Fontisto, Feather, MaterialCommunityIcons} from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 import Calendar from "../screens/calendar";
+import Notification from "../screens/notification";
+import More from "../screens/calendar copy";
 
 
 
@@ -12,7 +14,7 @@ const Tab = createMaterialBottomTabNavigator();
 const NavBar: React.FC = () => {
     return (
         <Tab.Navigator
-            //initialRouteName="feed"
+            initialRouteName="home"
             //activeColor="#444444"
             //style={styles.Tab}
             >
@@ -27,6 +29,20 @@ const NavBar: React.FC = () => {
                 options={{
                     tabBarIcon: ({color}) => (
                         <Feather name="calendar" size={24} color="black" />
+                    )
+                }}
+                />
+                 <Tab.Screen name="notification" component={Notification} 
+                options={{
+                    tabBarIcon: ({color}) => (
+                        <EvilIcons name="bell" size={24} color="black" />
+                    )
+                }}
+                />
+                 <Tab.Screen name="more" component={More} 
+                options={{
+                    tabBarIcon: ({color}) => (
+                        <MaterialCommunityIcons name="dots-grid" size={24} color="black" />
                     )
                 }}
                 />
