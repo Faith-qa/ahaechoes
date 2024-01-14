@@ -1,8 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Home from "../screens/home";
-import {MaterialCommunityIcons} from '@expo/vector-icons'
+import {FontAwesome5, Fontisto, Feather, MaterialCommunityIcons} from '@expo/vector-icons'
+import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
+import Calendar from "../screens/calendar";
+import Notification from "../screens/notification";
+import More from "../screens/calendar copy";
+
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -10,14 +14,35 @@ const Tab = createMaterialBottomTabNavigator();
 const NavBar: React.FC = () => {
     return (
         <Tab.Navigator
-            //initialRouteName="feed"
-            //activeColor="#444444"
-            //style={styles.Tab}
+            barStyle={styles.container}
+            initialRouteName="home"
+            //activeColor="#f0edf6"
             >
             <Tab.Screen name="home" component={Home} 
                 options={{
                     tabBarIcon: ({color}) => (
-                        <MaterialCommunityIcons name="home" color={color} size={26}/>
+                        <Fontisto name="home" size={24} color="#444444" />
+                    )
+                }}
+                />
+                <Tab.Screen name="calendar" component={Calendar} 
+                options={{
+                    tabBarIcon: ({color}) => (
+                        <Feather name="calendar" size={24} color="#444444" />
+                    )
+                }}
+                />
+                 <Tab.Screen name="notification" component={Notification} 
+                options={{
+                    tabBarIcon: ({color}) => (
+                        <FontAwesome5 name="bell" size={24} color="#444444" />
+                    )
+                }}
+                />
+                 <Tab.Screen name="more" component={More} 
+                options={{
+                    tabBarIcon: ({color}) => (
+                        <MaterialCommunityIcons name="dots-grid" size={24} color="#444444" />
                     )
                 }}
                 />
@@ -28,12 +53,15 @@ const NavBar: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-    Tab: {
-        backgroundColor: "EDEAEA",
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        overflow: "hidden"
+    container: {
+      width: 428,
+      height: 67.384,
+      postion: "absolute",
+      borderRadius:20,
+      overflow:'hidden',
+      flexShrink: 0,
+      backgroundColor: "#EDEAEA",
+      
     }
-
 })
 export default NavBar;

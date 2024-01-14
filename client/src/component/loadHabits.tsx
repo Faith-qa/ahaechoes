@@ -49,7 +49,7 @@ const LoadHabits: React.FC = ()=>{
         <View>
             <Text style={styles.todayText}>Today's task</Text>
         <View style = {styles.container}>
-            /
+            
             {habits.length > 0 ? (<SafeAreaView>
               <FlatList
                 data={habits}
