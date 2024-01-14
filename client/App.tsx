@@ -15,47 +15,24 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <SafeAreaProvider>    
-      <NavigationContainer>
-     <NavBar/>
+      <NavigationContainer >
+          <NavBar/>
+     
     </NavigationContainer>
     </SafeAreaProvider>
 
   );
-}
-
-export default App;
-/**const Stack = createNativeStackNavigator();
-
-
-export default function App() {
-  return (
-    <NavigationContainer>
-       <Stack.Navigator>
-        <Stack.Screen name="Home" component = {NavBar}/>
-      </Stack.Navigator>
-      </NavigationContainer>)
-      {/*<View style={styles.container}>
-     
-    {/*<DaysOfWeekButtons/>
-    <Search/>
-
-  <LoadHabits/>
-  <NavBar/>
-
-
-    {/*<Text>Open up App.tsx to start working on your app!</Text>
-    <StatusBar style="auto" />
-
-</View>  ;
-    
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#black',
-    alignItems: 'center',
-    justifyContent: 'center',
-  
-  },
-});*/
+    width: 428,
+    height: 926,
+    flexShrink: 0,
+    //borderRadius:30,
+    backgroundColor: 'rgba(255, 253, 244, 0.96)', 
+  }
+
+});
+
+export default App;
