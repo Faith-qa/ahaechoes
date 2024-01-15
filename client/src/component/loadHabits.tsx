@@ -1,11 +1,56 @@
 import React, {useState} from "react";
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, } from "react-native";
+import { StyleSheet, View, Text, FlatList, TouchableOpacity,Image, Button, Pressable } from "react-native";
+import {MMKVLoader} from "react-native-mmkv-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Icon  from "react-native-vector-icons/MaterialCommunityIcons";
+import getFormattedDate from "../../utils/date";
 
-interface ListItem {
-    id: string;
-    label: string;
-}
-const LoadHabits: React.FC = () => {
+const MMKV = new MMKVLoader().initialize();
+
+const LoadHabits: React.FC = ()=>{
+    const today =  getFormattedDate();
+    const data = MMKV.indexer.hasKey(today)
+
+    if (data) {
+        const value =JSON.parse( MMKV.getMap(today));
+        type ItemProps = {task: string};
+        const Item = ({task}: ItemProps) => (
+            <View><Text>{task}</Text></View>
+        );
+        return (<SafeAreaView>
+            <FlatList
+                data = {value.Task}
+                renderItem={({item})=> <Item task={item.task}/>}
+                keyExtractor={item => item.id}/>
+        </SafeAreaView>)
+
+    }
+    const notask = () =>(
+    <View> <Image source={{uri: "https://plus.unsplash.com/premium_photo-1684330691489-2eb2620db612?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}}
+        
+        style={styles.image}/>
+        <Text>You don't have any habits you are tracking today.</Text> 
+        <Pressable onPress={()=> {
+            alert("feature coming")
+        }} >
+            <Icon name="add-circle-outline"/>
+        </Pressable>
+        </View>
+    )
+    return (<View>
+        {notask()}
+    </View>)}
+
+    //logic:
+    //get habit from local storage if it is today's habit. 
+    // from the list of tasks, check for todays task 
+    // if it is render it and load it as todays task
+    //if not display yesterday's
+    // update new task to database
+    
+
+
+/*const LoadHabits: React.FC = () => {
     //loads habits from server
     //temporary data
     const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -41,7 +86,7 @@ const LoadHabits: React.FC = () => {
 
         </View></>
     )
-}
+}*/
 
 
 const styles = StyleSheet.create({
@@ -58,7 +103,7 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         width: 388,
-        padding:10,
+        paddingBottom:10,
         flexDirection: "column",
         alignItems: "center"
 
@@ -100,6 +145,13 @@ const styles = StyleSheet.create({
         fontWeight: "400",
         //textDecorationLine: "line-through"
 
+    },
+    image:{
+        width: 70,
+        height: 70,
+        flexShrink:0,
+        borderRadius: 70,
+        padding: 10,
     }
 })
 export default LoadHabits;
