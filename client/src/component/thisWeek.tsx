@@ -27,7 +27,7 @@ const DaysOfWeekButtons: React.FC = () =>  {
         const currentHour: number = new Date().getHours()
 
         //define time ranges
-        const morningStart: number = 5;
+        const morningStart: number = 0;
         const afternoonStart: number = 12;
         const eveningStart: number = 18;
 
