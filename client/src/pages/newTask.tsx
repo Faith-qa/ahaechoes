@@ -7,7 +7,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const NewTask: React.FC = () =>{
     const [isDatePickerVisble, setDatePickerVisible] = useState(false);
     const [ndate, setnDate] = useState(new Date())
-    const [isTimePickerVisible, setisTimePickerVisible] = useState(false);
+    const [isTimePickerVisible, setTimePickerVisible] = useState(false);
 
     const {control, handleSubmit, formState:{errors},} = useForm(
         {
@@ -19,7 +19,11 @@ const NewTask: React.FC = () =>{
             },
         }
 
-    )
+    );
+    const showTimePicker = () => {
+        setTimePickerVisible(true);
+    }
+
     const showDatePicker = () => {
         setDatePickerVisible(true);
     }
@@ -78,22 +82,37 @@ const NewTask: React.FC = () =>{
         name="details"
         rules={{ required: true }}
       />
-        {/*<View style = {styles.DetailsCont}>
-            <TextInput style={styles.detailsIn}/>
-    </View>*/}
         <Text style={styles.title}>Time & Date </Text>
         <View style={styles.timeDate}>
         <View style={styles.time}>
         <Pressable style={styles.timeIcont}>
         <Ionicons name="time-outline" size={24} color="#FFFFFF" style={styles.timeIcon}/>
         </Pressable>
+        <DateTimePickerModal
+            isVisible={isDatePickerVisble}
+            mode="time"
+            onConfirm={handlConfirm}
+            onCancel={hideDatePicker}/>
         <Text style={styles.timetextcont}>18:20</Text>
         </View>
         <View style={styles.time}>
         <Pressable style={styles.timeIcont} onPress={showDatePicker}>
             <Ionicons name="calendar-outline" size={24} color="#FFFFFF" style={styles.timeIcon} />
         </Pressable>
+
+        <DateTimePickerModal
+            isVisible={isDatePickerVisble}
+            mode="date"
+            onConfirm={handlConfirm}
+            onCancel={hideDatePicker}/>
+            
         <Text style={styles.timetextcont}>{ndate.toLocaleDateString()}</Text>
+        <Controller
+            control = {control}
+            render = {({field: {onChange, onBlur, value}})=>{
+                <Text>{ndate.toLocaleString()}</Text>
+            }}
+            name="date"/>
         </View>
         </View>
 
