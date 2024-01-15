@@ -6,6 +6,7 @@ import Search from './src/component/search';
 import DaysOfWeekButtons from './src/component/thisWeek';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 
@@ -13,45 +14,25 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
-     <NavBar/>
-    </NavigationContainer>
-  );
-}
-
-export default App;
-/**const Stack = createNativeStackNavigator();
-
-
-export default function App() {
-  return (
-    <NavigationContainer>
-       <Stack.Navigator>
-        <Stack.Screen name="Home" component = {NavBar}/>
-      </Stack.Navigator>
-      </NavigationContainer>)
-      {/*<View style={styles.container}>
+    <SafeAreaProvider>    
+      <NavigationContainer >
+          <NavBar/>
      
-    {/*<DaysOfWeekButtons/>
-    <Search/>
+    </NavigationContainer>
+    </SafeAreaProvider>
 
-  <LoadHabits/>
-  <NavBar/>
-
-
-    {/*<Text>Open up App.tsx to start working on your app!</Text>
-    <StatusBar style="auto" />
-
-</View>  ;
-    
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#black',
-    alignItems: 'center',
-    justifyContent: 'center',
-  
-  },
-});*/
+    width: 428,
+    height: 926,
+    flexShrink: 0,
+    //borderRadius:30,
+    backgroundColor: 'rgba(255, 253, 244, 0.96)', 
+  }
+
+});
+
+export default App;
