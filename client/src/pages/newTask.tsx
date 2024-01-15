@@ -1,8 +1,29 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import {useForm, Controller} from "react-hook-form";
 
 const NewTask: React.FC = () =>{
+
+    const {control, handleSubmit, formState:{errors},} = useForm(
+        {
+            defaultValues: {
+                title: "",
+                details: "",
+                date: "",
+                time: ""
+            },
+        }
+
+    )
+    const onSubmit = (data: any) => console.log(data);
+    const onChange = (arg: any) => {
+        return {
+            value: arg.nativeEvent.text,
+        };
+    };
+
+    console.log('errors', errors);
     
 
 
@@ -12,14 +33,38 @@ const NewTask: React.FC = () =>{
             Create New Task
         </Text>
         <Text style={styles.title}>Task title</Text>
-        
-        <View style={styles.titleCont}>
+        <Controller
+            control={control}
+            render={({field: { onChange, onBlur, value }}) => (
+                <TextInput
+                  style={styles.input}
+                  onBlur={onBlur}
+                  onChangeText={value => onChange(value)}
+                  value={value}/>)}
+            name="title"
+            rules={{required: true}}/>
+            
+        {/*<View style={styles.titleCont}>
+
             <TextInput style={styles.input}/>
-        </View>
+        </View>*/}
         <Text style={styles.title}>Task Details</Text>
-        <View style = {styles.DetailsCont}>
+        <Controller
+        control={control}
+        render={({field: { onChange, onBlur, value }}) => (
+          <TextInput
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={value => onChange(value)}
+            value={value}
+          />
+        )}
+        name="details"
+        rules={{ required: true }}
+      />
+        {/*<View style = {styles.DetailsCont}>
             <TextInput style={styles.detailsIn}/>
-        </View>
+    </View>*/}
         <Text style={styles.title}>Time & Date </Text>
         <View style={styles.timeDate}>
         <View style={styles.time}>
@@ -80,6 +125,22 @@ const styles = StyleSheet.create({
       },
 
     input: {
+        width: 358,
+        height: 48,
+        flexShrink: 0,
+        //borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, 0.40)',
+        backgroundColor: '#FFFFFF',
+        shadowColor: 'rgba(255, 255, 255, 0.14)',
+        shadowOffset: {
+          width: 0,
+          height: 16,
+        },
+        shadowRadius: 24,
+        shadowOpacity: 1,
+        elevation: 1, // For Android shadow
+        padding: 10, 
         color: "#444",
         fontFamily: "Inter",
         fontStyle: "normal",
@@ -103,9 +164,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         elevation: 1, // For Android shadow
         padding: 10, // Adjust padding based on your design
-      },
-
-    detailsIn: {
         color: "#444",
         fontFamily: "Inter",
         fontSize: 11,

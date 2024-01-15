@@ -19,7 +19,7 @@ const NavBar: React.FC = () => {
             initialRouteName="home"
             //activeColor="#f0edf6"
             >
-            <Tab.Screen name="home" component={Home} 
+            <Tab.Screen name="home" component={NewTask} 
                 options={{
                     tabBarIcon: ({color}) => (
                         <Fontisto name="home" size={24} color="#444444" />
