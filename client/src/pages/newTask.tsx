@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import {useForm, Controller} from "react-hook-form";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const NewTask: React.FC = () =>{
+    const [isDatePickerVisble, setDatePickerVisible] = useState(false);
+    const [ndate, setnDate] = useState(new Date())
+    const [isTimePickerVisible, setisTimePickerVisible] = useState(false);
 
     const {control, handleSubmit, formState:{errors},} = useForm(
         {
@@ -16,6 +20,18 @@ const NewTask: React.FC = () =>{
         }
 
     )
+    const showDatePicker = () => {
+        setDatePickerVisible(true);
+    }
+
+    const hideDatePicker = () => {
+        setDatePickerVisible(false)
+    };
+    const handlConfirm = (date: any) => {
+        setnDate(date);
+        hideDatePicker();
+    };
+
     const onSubmit = (data: any) => console.log(data);
     const onChange = (arg: any) => {
         return {
@@ -74,12 +90,11 @@ const NewTask: React.FC = () =>{
         <Text style={styles.timetextcont}>18:20</Text>
         </View>
         <View style={styles.time}>
-        <Pressable style={styles.timeIcont}>
+        <Pressable style={styles.timeIcont} onPress={showDatePicker}>
             <Ionicons name="calendar-outline" size={24} color="#FFFFFF" style={styles.timeIcon} />
         </Pressable>
-        <Text style={styles.timetextcont}>15/12/2024</Text>
+        <Text style={styles.timetextcont}>{ndate.toLocaleDateString()}</Text>
         </View>
-        <Text>Create</Text>
         </View>
 
         
