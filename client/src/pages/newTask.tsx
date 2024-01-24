@@ -19,8 +19,8 @@ const NewTask: React.FC = () =>{
             defaultValues: {
                 title: "",
                 details: "",
-                date: new Date(),
-                time: new Date()
+                date: new Date().toLocaleDateString(),
+                time: getCurrentTime(new Date())
             },
         }
 
@@ -53,6 +53,7 @@ const NewTask: React.FC = () =>{
         console.log(data);
         sendDatatoLocalStorage(data);
         reset();
+        alert("task added");
     };
     const onChange = (arg: any) => {
         return {
@@ -73,7 +74,7 @@ const NewTask: React.FC = () =>{
 
     return(
     <View style={styles.container}>
-        <Text style={styles.title}>
+        <Text style={styles.heading}>
             Create New Task
         </Text>
         <Text style={styles.title}>Task title</Text>
@@ -184,14 +185,26 @@ const styles = StyleSheet.create({
         fontSize:20,
         fontWeight: "600",
         lineHeight:27.5,
-        padding: 20,
+        marginTop:20,
+        marginBottom:20,
+        alignSelf:"flex-start"
+    },
+    heading: {
+        color:"#444",
+        fontFamily: "Inter",
+        fontSize:20,
+        fontWeight: "600",
+        lineHeight:27.5,
+        marginTop:20,
+        marginBottom:20,
+        //alignSelf:"flex-start"
     },
 
     titleCont: {
         width: 358,
         height: 48,
         flexShrink: 0,
-        //borderRadius: 20,
+        borderRadius: 20,
         borderWidth: 1,
         borderColor: 'rgba(0, 0, 0, 0.40)',
         backgroundColor: '#FFFFFF',
@@ -210,7 +223,7 @@ const styles = StyleSheet.create({
         width: 358,
         height: 48,
         flexShrink: 0,
-        borderRadius: 20,
+        //borderRadius: 20,
         borderWidth: 1,
         borderColor: 'rgba(0, 0, 0, 0.40)',
         backgroundColor: '#FFFFFF',
@@ -235,7 +248,7 @@ const styles = StyleSheet.create({
         height: 82,
         flexShrink: 0,
         borderWidth: 1,
-        borderRadius: 20,
+        //borderRadius: 20,
 
         borderColor: 'rgba(0, 0, 0, 0.40)',
         backgroundColor: '#FFFFFF',
@@ -248,9 +261,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         elevation: 1, // For Android shadow
         padding: 10, // Adjust padding based on your design
-        color: "#444",
+        color: "black",
         fontFamily: "Inter",
-        fontSize: 11,
+       // fontSize: 11,
         fontStyle: "normal",
         fontWeight: "400",
         lineHeight: 18.857
@@ -259,6 +272,8 @@ const styles = StyleSheet.create({
     timeDate: {
         flexDirection: "row",
         gap: 6,
+        alignSelf: 
+        "flex-start"
     },
     time: {
         flexDirection: "row",
@@ -300,7 +315,7 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: "500",
         lineHeight: 24,
-        margin: 20
+        margin: 40
       /* 133.333% */
     },
     button: {
