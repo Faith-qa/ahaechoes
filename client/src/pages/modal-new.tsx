@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, View, StyleSheet, Pressable, Text, } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface NewProps {
-    visible: boolean
+    visible: boolean,
+    onClose: () => void
 }
 
-const New: React.FC<NewProps> = ({visible}) => {
-   const [isvisible, setIsvisible] = useState(visible);
+const New: React.FC<NewProps> = ({visible, onClose}) => {
+   const [isvisible, setIsvisible] = useState(false);
 
-   if(!visible)  {
+   useEffect(()=>{
+    //set initial state
+    setIsvisible(visible)
+   }, [visible])
+
+
+
+   if(!isvisible)  {
     return null;
    }
   
@@ -18,10 +26,10 @@ const New: React.FC<NewProps> = ({visible}) => {
     return(
             <Modal 
             animationType="slide"
-            visible={!isvisible}
+            visible={isvisible}
             transparent={true}>
                 <View style={styles.mcontainer}>
-                <Pressable style={styles.XContainer} onPress={()=>{setIsvisible(!visible)}} >
+                <Pressable style={styles.XContainer} onPress={()=> onClose()} >
                 <Feather name="x-circle" size={24} color="black"/>
                 </Pressable>
                 <View style={styles.content}>
@@ -31,17 +39,15 @@ const New: React.FC<NewProps> = ({visible}) => {
                         <Text style={styles.title}>What would you like to do today?</Text>
                     </View>
                     <View style={styles.messageCont}>
-                        <Text style={styles.message}>In the journey of adulting, we often face tasks
-                        we'd rather not do but must. Embrace the discipline over  motivation,
-                        whether in  organizing yout space or mastering meal prep.
-                        Adulting is doing what's necessary, not just what's desired</Text>
+                        <Text style={styles.message}>Lorem ipsum dolor sit amet, consectetur
+                         adipiscing elit. Cras quis risus non eros venenatis elementum. </Text>
                     </View>
 
                 </View>
 
                 </View>
                 <Pressable style={styles.taskCont}><Text style={styles.taskText}>New Task</Text></Pressable>
-                <Pressable style={styles.taskCont}><Text style={styles.taskText}>New Task</Text></Pressable>
+                <Pressable style={styles.taskCont}><Text style={styles.taskText}>New Goal</Text></Pressable>
 
                 </View>
 
@@ -72,7 +78,7 @@ mcontainer: {
     paddingLeft: 20,
     gap: 35,
     borderRadius: 12,
-    backgroundColor: "yellow"
+    backgroundColor: "#DFBD43"
 },
 XContainer: {
     display: "flex",
@@ -93,7 +99,8 @@ content: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: 12
+    gap: 12,
+
 
 
 },
@@ -114,19 +121,20 @@ contentText: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: 5
+    gap: 5,
+    //color: "rgba(0, 0, 0, 0.50)"
 },
 titleCont: {
     width: 260,
     height: 22
 },
 title:{
-    color: '#02113C', // Default color or use your variable if it's dynamic
+    color: 'rgba(0, 0, 0, 0.50)', // Default color or use your variable if it's dynamic
     textAlign: 'center',
     fontFamily: 'SF Pro Text',
     fontSize: 17,
     fontStyle: 'normal',
-    fontWeight: '600',
+    fontWeight: 'bold',
     lineHeight: 22,
     letterSpacing: -0.073,
 },
@@ -135,7 +143,7 @@ messageCont:{
     height: 60
 },
 message: {
-    color: '#4E5876', // Default color or use your variable if it's dynamic
+    color: 'rgba(0, 0, 0, 0.50)', // Default color or use your variable if it's dynamic
     textAlign: 'center',
     fontFamily: 'SF Pro Text',
     fontSize: 15,
@@ -153,10 +161,10 @@ taskCont:{
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    backgroundColor: "blue"
+    backgroundColor: "#4D4117"
 },
 taskText:{
-    color: 'black',
+    color: '#FFF',
     fontFamily: 'SF Pro Text',
     fontSize: 15,
     fontStyle: 'normal',

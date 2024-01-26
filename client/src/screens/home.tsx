@@ -10,8 +10,13 @@ import { useNavigation } from "@react-navigation/native";
 
 const Home: React.FC = () =>{
     const [visible, setVisible] = useState(false);
-    const visiblity = () => {
+    const openModal = () => {
         setVisible(true)
+    }
+
+    const closeModal = ()=> {
+        setVisible(false);
+
     }
 
 
@@ -20,10 +25,10 @@ const Home: React.FC = () =>{
             <DaysOfWeekButtons/>
             <Search/>
             <LoadHabits/>
-            <New visible={visible}/>
+            <New visible={visible} onClose={closeModal}/>
             <View style={styles.plusbutton}>
             
-            <Pressable onPress={visiblity} >
+            <Pressable onPress={openModal} >
             <AntDesign name="pluscircle" size={45} color="#DFBD43" />
 
             </Pressable>
