@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
       height: 67.384,
       postion: "relative",
       borderRadius:20,
-      overflow:'hidden',
+      //overflow:'hidden',
       flexShrink: 0,
       backgroundColor: "#EDEAEA",
       zIndex: -5

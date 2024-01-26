@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#4D4117',
         alignItems: 'center',
-        justifyContent:'center',
+        //justifyContent:'center',
         //marginHorizontal: 30,
         //padding: 10,
 
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '400',
+        alignSelf: "center",
     
         lineHeight: 25,
                 
@@ -136,7 +137,8 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontStyle: 'normal',
         fontWeight: '400',
-        lineHeight: 25
+        lineHeight: 25,
+        paddingLeft: 4
     },
     gtext:{
         flexDirection: 'row', // inline-flex equivalent
@@ -149,7 +151,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
-        lineHeight: 25,
+       // padding: 10,
+      //  lineHeight: 25,
     },
     image:{
         width: 70,
