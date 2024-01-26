@@ -1,16 +1,33 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Pressable, Button } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, StyleSheet, Pressable, Modal } from "react-native";
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import {useForm, Controller} from "react-hook-form";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { getCurrentTime } from "../../utils/date";
 import sendDatatoLocalStorage from "../component/businessLogic/task";
 
-const NewTask: React.FC = () =>{
+
+interface NewProps {
+    newtask: boolean,
+    closeTask: () => void,
+    onClose: () => void
+
+}
+
+const NewTask: React.FC<NewProps> = ({newtask, closeTask, onClose}) =>{
     const [isDatePickerVisble, setDatePickerVisible] = useState(false);
     const [ndate, setnDate] = useState(new Date());
     const [isTimePickerVisible, setTimePickerVisible] = useState(false);
     const [time, setTime] = useState(new Date());
+    const [tvisible, setvisible] = useState(false);
+
+    useEffect(()=>{
+        setvisible(newtask)
+        
+    }, [newtask]);
+
+
+
     //const [task,setTask] = useState('');
     //const [details, setDetails] = useState('')
 
@@ -52,7 +69,12 @@ const NewTask: React.FC = () =>{
     const onSubmit = (data: any) => {
         console.log(data);
         sendDatatoLocalStorage(data);
+        closeTask();
+        onClose();
+        
         reset();
+
+        
         alert("task added");
     };
     const onChange = (arg: any) => {
@@ -73,107 +95,114 @@ const NewTask: React.FC = () =>{
 
 
     return(
-    <View style={styles.container}>
-        <Text style={styles.heading}>
-            Create New Task
-        </Text>
-        <Text style={styles.title}>Task title</Text>
-        <Controller
-            control={control}
-            render={({field: { onChange, onBlur, value }}) => (
-                <TextInput
-                  style={styles.input}
-                  onBlur={onBlur}
-                  onChangeText={(text)=> onChange(text)}
-                  value={value}/>)}
-            name="title"
-            rules={{required: true}}/>
-            
-        {/*<View style={styles.titleCont}>
-
-            <TextInput style={styles.input}/>
-        </View>*/}
-        <Text style={styles.title}>Task Details</Text>
-        <Controller
-        control={control}
-        render={({field: { onChange, onBlur, value }}) => (
-          <TextInput
-            style={styles.DetailsCont}
-            onBlur={onBlur}
-            onChangeText={(text)=> onChange(text)}
-            value={value}
-          />
-        )}
-        name="details"
-        rules={{ required: true }}
-      />
-        <Text style={styles.title}>Time & Date </Text>
-        <View style={styles.timeDate}>
-        <View style={styles.time}>
-        <Pressable style={styles.timeIcont} onPress={showTimePicker}>
-        <Ionicons name="time-outline" size={24} color="#FFFFFF" style={styles.timeIcon}/>
-        </Pressable>
-        <Controller
-            control = {control}
-            render={({field: {onChange, onBlur, value}})=>(
-                <>
-                <DateTimePickerModal
-                    isVisible={isTimePickerVisible}
-                    mode="time"
-                    onConfirm={handleConfirmT}
-                    onCancel={hideTimePicker}/>
-                    <Text style={styles.timetextcont}>{getCurrentTime(time)}</Text>   
-                </>
-            )}
-            name = "time"
-            rules={{required: true}}
-        />
-        </View>
-        <View style={styles.time}>
-        <Pressable style={styles.timeIcont} onPress={showDatePicker}>
-            <Ionicons name="calendar-outline" size={24} color="#FFFFFF" style={styles.timeIcon} />
-        </Pressable>
-        <Controller
-            control = {control}
-            render={({field: {onChange, onBlur, value}})=>(
-                <>
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisble}
-                    mode="date"
-                    onConfirm={handlConfirm}
-                    onCancel={hideDatePicker}/>
+        <Modal
+        animationType="slide"
+            visible={tvisible}
+            transparent={true}>
+            <View style={styles.container}>
+                <Text style={styles.heading}>
+                    Create New Task
+                </Text>
+                <Text style={styles.title}>Task title</Text>
+                <Controller
+                    control={control}
+                    render={({field: { onChange, onBlur, value }}) => (
+                        <TextInput
+                        style={styles.input}
+                        onBlur={onBlur}
+                        onChangeText={(text)=> onChange(text)}
+                        value={value}/>)}
+                    name="title"
+                    rules={{required: true}}/>
                     
-                    <Text style={styles.timetextcont}>{ndate.toLocaleDateString()}</Text>
-                
-                </>
-            )}
-            name = "date"
-            rules={{required: true}}
-        />
-                </View>
-               
-        </View>
-        
-        <Pressable>
-                    <Text style={styles.addnew}>Add new</Text>
+                {/*<View style={styles.titleCont}>
+
+                    <TextInput style={styles.input}/>
+                </View>*/}
+                <Text style={styles.title}>Task Details</Text>
+                <Controller
+                control={control}
+                render={({field: { onChange, onBlur, value }}) => (
+                <TextInput
+                    style={styles.DetailsCont}
+                    onBlur={onBlur}
+                    onChangeText={(text)=> onChange(text)}
+                    value={value}
+                />
+                )}
+                name="details"
+                rules={{ required: true }}
+            />
+                <Text style={styles.title}>Time & Date </Text>
+                <View style={styles.timeDate}>
+                <View style={styles.time}>
+                <Pressable style={styles.timeIcont} onPress={showTimePicker}>
+                <Ionicons name="time-outline" size={24} color="#FFFFFF" style={styles.timeIcon}/>
                 </Pressable>
-        <View style={styles.button}>
-        <Pressable
-            onPress={handleSubmit(onSubmit)}>
-                <Text style={styles.buttonText}>Create</Text>
-            </Pressable>
-        </View>
-       
+                <Controller
+                    control = {control}
+                    render={({field: {onChange, onBlur, value}})=>(
+                        <>
+                        <DateTimePickerModal
+                            isVisible={isTimePickerVisible}
+                            mode="time"
+                            onConfirm={handleConfirmT}
+                            onCancel={hideTimePicker}/>
+                            <Text style={styles.timetextcont}>{getCurrentTime(time)}</Text>   
+                        </>
+                    )}
+                    name = "time"
+                    rules={{required: true}}
+                />
+                </View>
+                <View style={styles.time}>
+                <Pressable style={styles.timeIcont} onPress={showDatePicker}>
+                    <Ionicons name="calendar-outline" size={24} color="#FFFFFF" style={styles.timeIcon} />
+                </Pressable>
+                <Controller
+                    control = {control}
+                    render={({field: {onChange, onBlur, value}})=>(
+                        <>
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisble}
+                            mode="date"
+                            onConfirm={handlConfirm}
+                            onCancel={hideDatePicker}/>
+                            
+                            <Text style={styles.timetextcont}>{ndate.toLocaleDateString()}</Text>
+                        
+                        </>
+                    )}
+                    name = "date"
+                    rules={{required: true}}
+                />
+                        </View>
+                    
+                </View>
+                
+                <Pressable>
+                            <Text style={styles.addnew}>Add new</Text>
+                        </Pressable>
+                <View style={styles.button}>
+                <Pressable
+                    onPress={handleSubmit(onSubmit)}>
+                        <Text style={styles.buttonText}>Create</Text>
+                    </Pressable>
+                </View>
+            
 
-        
+                
 
-    </View>)
+            </View>
+    </Modal>
+    )
+    
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#black',
+        backgroundColor: 'rgba(255, 253, 244, 0.96)',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 30

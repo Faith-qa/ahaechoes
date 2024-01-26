@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, View, StyleSheet, Pressable, Text, } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import NewTask from "./newTask";
 
 interface NewProps {
     visible: boolean,
@@ -10,6 +11,22 @@ interface NewProps {
 
 const New: React.FC<NewProps> = ({visible, onClose}) => {
    const [isvisible, setIsvisible] = useState(false);
+   const [newtask, setIsnewtask] = useState(false);
+
+   const openTask = () =>{
+    setIsnewtask(true);
+   }
+
+   const closeTask = () =>{
+    setIsnewtask(false);
+   }
+
+
+   //check if it's task or goal
+
+   // if goal open goal modal
+   // if task open task modal
+
 
    useEffect(()=>{
     //set initial state
@@ -46,7 +63,8 @@ const New: React.FC<NewProps> = ({visible, onClose}) => {
                 </View>
 
                 </View>
-                <Pressable style={styles.taskCont}><Text style={styles.taskText}>New Task</Text></Pressable>
+                <NewTask newtask={newtask} closeTask={closeTask} onClose={onClose}/>
+                <Pressable style={styles.taskCont} onPress={openTask} ><Text style={styles.taskText}>New Task</Text></Pressable>
                 <Pressable style={styles.taskCont}><Text style={styles.taskText}>New Goal</Text></Pressable>
 
                 </View>
@@ -131,7 +149,7 @@ titleCont: {
 title:{
     color: 'rgba(0, 0, 0, 0.50)', // Default color or use your variable if it's dynamic
     textAlign: 'center',
-    fontFamily: 'SF Pro Text',
+   // fontFamily: 'SF Pro Text',
     fontSize: 17,
     fontStyle: 'normal',
     fontWeight: 'bold',
@@ -145,7 +163,7 @@ messageCont:{
 message: {
     color: 'rgba(0, 0, 0, 0.50)', // Default color or use your variable if it's dynamic
     textAlign: 'center',
-    fontFamily: 'SF Pro Text',
+    //fontFamily: 'SF Pro Text',
     fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '400',
@@ -165,7 +183,7 @@ taskCont:{
 },
 taskText:{
     color: '#FFF',
-    fontFamily: 'SF Pro Text',
+    //fontFamily: 'SF Pro Text',
     fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '600',
