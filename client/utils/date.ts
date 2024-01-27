@@ -9,4 +9,20 @@ const getFormattedDate = (): string => {
     return `${year}-${month}-${day}`
     
 }
+
+export function getCurrentTime(now: Date): string {
+    //const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    // Convert to 12-hour format
+    hours = hours % 12;
+    hours = hours === 0 ? 12 : hours;
+
+    // Format the time
+    const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+
+    return formattedTime;
+}
 export default getFormattedDate;
