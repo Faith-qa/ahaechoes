@@ -15,9 +15,9 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <SafeAreaProvider>    
-      <NavigationContainer >
+      <NavigationContainer  >
           <NavBar/>
-     
+
     </NavigationContainer>
     </SafeAreaProvider>
 
