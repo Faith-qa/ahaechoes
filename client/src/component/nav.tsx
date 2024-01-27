@@ -57,11 +57,13 @@ const styles = StyleSheet.create({
     container: {
       width: 428,
       height: 67.384,
-      postion: "absolute",
-      borderRadius:20,
-      overflow:'hidden',
+      postion: "relative",
+      borderRadius: 200,
+
+      //overflow:'hidden',
       flexShrink: 0,
       backgroundColor: "#EDEAEA",
+      zIndex: -5
       
     }
 })
