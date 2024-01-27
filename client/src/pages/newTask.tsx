@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet, Pressable, Modal } from "react-native";
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons} from '@expo/vector-icons';
 import {useForm, Controller} from "react-hook-form";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { getCurrentTime } from "../../utils/date";
 import sendDatatoLocalStorage from "../component/businessLogic/task";
+//import * as Svg from 'react-native-svg';
+
 
 
 interface NewProps {
@@ -100,6 +102,11 @@ const NewTask: React.FC<NewProps> = ({newtask, closeTask, onClose}) =>{
             visible={tvisible}
             transparent={true}>
             <View style={styles.container}>
+            <Pressable style={styles.XContainer} onPress={closeTask}>
+            <Ionicons name="arrow-back-circle-outline" size={24} color="black" />
+
+            </Pressable>
+                
                 <Text style={styles.heading}>
                     Create New Task
                 </Text>
@@ -208,6 +215,14 @@ const styles = StyleSheet.create({
         padding: 30
       
       },
+      XContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        //alignItems: "center",
+        gap: 10,
+        alignSelf: "flex-start"
+    },
     title: {
         color:"#444",
         fontFamily: "Inter",
