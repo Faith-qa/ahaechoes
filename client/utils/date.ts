@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 
-const getFormattedDate = () => {
+const getFormattedDate = (): string => {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth()+1).padStart(2, '0');
@@ -9,4 +9,4 @@ const getFormattedDate = () => {
     return `${year}-${month}-${day}`
     
 }
-export default getFormattedDate
+export default getFormattedDate;
