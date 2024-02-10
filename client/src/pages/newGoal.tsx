@@ -1,8 +1,9 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Modal, View, Text, TextInput, StyleSheet, Pressable, Button, } from "react-native";
+import { Modal, View, Text, TextInput, StyleSheet, Pressable,} from "react-native";
 import { getCurrentTime } from "../../utils/date";
+import { Octicons, FontAwesome } from '@expo/vector-icons';
 
 
 interface NewProps {
@@ -57,6 +58,7 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
     const crudeHabits = () =>{
         const handleAddInputArea = () =>{
             setInputArea((prevInputAreas)=> [...prevInputAreas, '']);
+            //handleAddHabit();
 
         }
         const handleInputChange = (text: string, index: number) => {
@@ -85,18 +87,21 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
               });
         };
         return (
-            <View>
+            <View >
                 {inputArea.map((habit, index)=>(
-                    <View key={index}>
-                        <TextInput
+                    <View key={index} style={styles.habitCont}>
+                        <TextInput 
                         placeholder="enter habit"
                         value={habit}
                         onChangeText={(text)=> handleInputChange(text, index)}/>
-                        {inputArea.length > 1 ? <Pressable onPress={()=> handleRemoveHabit(index)}><Text>delete</Text></Pressable> : "" }
+                        {inputArea.length > 1 ? <Pressable  onPress={()=> handleRemoveHabit(index)}><Octicons name="dash" size={24} color="#DFBD43" /></Pressable> : "" }
 
                     </View>
                 ))}
-                <Pressable onPress={handleAddInputArea}><Text>add</Text></Pressable>
+                <Pressable onPress={handleAddInputArea}>
+                {inputArea.length < 3 ? <FontAwesome name="plus" size={24} color="#DFBD43" /> :"" }
+</Pressable>
+
                 {/*<Button title="Add Habbits" onPress={handleAddHabit
                 }/>*/}
             </View>
@@ -127,7 +132,7 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
         control={control}
         render={({field: {onChange, onBlur, value}})=>(<>
             <Picker
-                style={{ width: 150 }}
+                style={styles.titleCont}
                 selectedValue={habitKind}
                 onValueChange={(itemValue, itemIndex) => setHabitKind(itemValue)}>
                 <Picker.Item label="daily" value="daily" />
@@ -138,7 +143,7 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
         name="habitKind"
         rules={{required: true}}/>
 
-        <Text style={styles.title}>What {habitKind} will you cultivate to achieve this goal</Text>
+        <Text style={styles.title}>What {habitKind} habits  will you cultivate to achieve this goal</Text>
         {crudeHabits()}
     </View></Modal>)
 
@@ -186,6 +191,8 @@ const styles = StyleSheet.create({
         height: 48,
         flexShrink: 0,
         //borderRadius: 20,
+        flexDirection: "row",
+
         borderWidth: 1,
         borderColor: 'rgba(0, 0, 0, 0.40)',
         backgroundColor: '#FFFFFF',
@@ -197,7 +204,45 @@ const styles = StyleSheet.create({
         //shadowRadius: 24,
         shadowOpacity: 1,
         elevation: 1, // For Android shadow
-        padding: 10, // Adjust padding based on your design
+        padding: 10,
+        gap: 30, // Adjust padding based on your design
+      },
+      habitCont:{
+        width: 358,
+        hegiht: 48,
+        padding:10,
+        flexDirection: "row",
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, 0.40)',
+        backgroundColor: '#FFFFFF',
+        shadowColor: 'rgba(255, 255, 255, 0.14)',
+        shadowOffset: {
+          width: 0,
+          height: 16,
+        },
+        justifyContent:"space-between",
+        marginBottom:5,
+      },
+      
+      habit:{
+        width: 300,
+        height: 48,
+        flexShrink: 0,
+        orderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, 0.40)',
+        backgroundColor: '#FFFFFF',
+        shadowColor: 'rgba(255, 255, 255, 0.14)',
+        shadowOffset: {
+          width: 0,
+          height: 16,
+        },
+        //shadowRadius: 24,
+        shadowOpacity: 1,
+        elevation: 1, // For Android shadow
+        padding: 10,
+        alignSelf:"flex-start"
+
       }
     })
 
