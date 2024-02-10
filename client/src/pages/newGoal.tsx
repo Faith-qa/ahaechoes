@@ -90,7 +90,8 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
             <View >
                 {inputArea.map((habit, index)=>(
                     <View key={index} style={styles.habitCont}>
-                        <TextInput 
+                        <TextInput
+                        style={styles.habit}
                         placeholder="enter habit"
                         value={habit}
                         onChangeText={(text)=> handleInputChange(text, index)}/>
@@ -210,7 +211,8 @@ const styles = StyleSheet.create({
       habitCont:{
         width: 358,
         hegiht: 48,
-        padding:10,
+        padding:5,
+        paddingRight: 10,
         flexDirection: "row",
         borderWidth: 1,
         borderColor: 'rgba(0, 0, 0, 0.40)',
@@ -221,6 +223,7 @@ const styles = StyleSheet.create({
           height: 16,
         },
         justifyContent:"space-between",
+        alignItems: "center",
         marginBottom:5,
       },
       
@@ -228,20 +231,21 @@ const styles = StyleSheet.create({
         width: 300,
         height: 48,
         flexShrink: 0,
-        orderRadius: 20,
-        borderWidth: 1,
-        borderColor: 'rgba(0, 0, 0, 0.40)',
+        //orderRadius: 20,
+        //borderWidth: 1,
+        //borderColor: 'rgba(0, 0, 0, 0.40)',
         backgroundColor: '#FFFFFF',
-        shadowColor: 'rgba(255, 255, 255, 0.14)',
-        shadowOffset: {
+        //shadowColor: 'rgba(255, 255, 255, 0.14)',
+        /*shadowOffset: {
           width: 0,
           height: 16,
-        },
+        },*/
         //shadowRadius: 24,
-        shadowOpacity: 1,
-        elevation: 1, // For Android shadow
+        //shadowOpacity: 1,
+        //elevation: 1, // For Android shadow
         padding: 10,
-        alignSelf:"flex-start"
+        alignSelf:"flex-start",
+
 
       }
     })
