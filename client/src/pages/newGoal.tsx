@@ -90,11 +90,18 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
             <View >
                 {inputArea.map((habit, index)=>(
                     <View key={index} style={styles.habitCont}>
-                        <TextInput
+                        <Controller
+                        control={control}
+                        render={(field: {onChange,onBlur, value})=>(
+                            <>
+                            <TextInput
                         style={styles.habit}
                         placeholder="enter habit"
                         value={habit}
                         onChangeText={(text)=> handleInputChange(text, index)}/>
+                        </>
+                        )}
+                        name="habits"/>
                         {inputArea.length > 1 ? <Pressable  onPress={()=> handleRemoveHabit(index)}><Octicons name="dash" size={24} color="#DFBD43" /></Pressable> : "" }
 
                     </View>
@@ -146,6 +153,7 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
 
         <Text style={styles.title}>What {habitKind} habits  will you cultivate to achieve this goal</Text>
         {crudeHabits()}
+
     </View></Modal>)
 
 }
