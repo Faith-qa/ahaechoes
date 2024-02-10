@@ -1,7 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Modal, View, Text, TextInput, StyleSheet, Pressable, } from "react-native";
+import { Modal, View, Text, TextInput, StyleSheet, Pressable, Button, } from "react-native";
 import { getCurrentTime } from "../../utils/date";
 
 
@@ -14,8 +14,11 @@ interface NewProps {
 const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
     const [gvisible, setvisible] = useState(false);
     const [habitKind, setHabitKind] = useState<any>('daily');
+    const [habits, sethabits] = useState<string[]>([]);
+    const [inputArea, setInputArea] = useState<string[]>(['']);
 
 
+    
     //load the modal
     useEffect(()=>{
         setvisible(newGoal);
@@ -28,17 +31,79 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
             goal: "",
             habitKind: "",
             habits: [],
-            tracker: {
-                test: ""
+            tracker:(habitKind === "daily") ? {
+                time: getCurrentTime(new Date())
+            }: (habitKind === "weekly") ? {
+                day: "",
+                time: getCurrentTime(new Date())
+
+            } : {
+                week: 1,
+                day: "",
+                time: getCurrentTime(new Date())
             },
             motivations: []     
-    }})
+    }});
 
+
+//handle form submit/
     const onSubmit = (data: any) => {
         console.log(data);
         closeGoal();
         onClose();
     } 
+
+    // handle create, update and delete habit state
+    const crudeHabits = () =>{
+        const handleAddInputArea = () =>{
+            setInputArea((prevInputAreas)=> [...prevInputAreas, '']);
+
+        }
+        const handleInputChange = (text: string, index: number) => {
+            setInputArea((prevInputAreas)=>{
+                const updatedInputAreas = [...prevInputAreas];
+                updatedInputAreas[index] = text;
+                return updatedInputAreas;
+            })
+        };
+
+        const handleAddHabit = () =>{
+            sethabits((prevHabits)=> [...prevHabits]);
+            setInputArea([''])
+        };
+
+        const handleRemoveHabit = (index: number) =>{
+            setInputArea((prevInputAreas)=>{
+                const updatedInputAreas = [...prevInputAreas];
+                updatedInputAreas.splice(index, 1);
+                return updatedInputAreas;
+            });
+            sethabits((prevHabits) => {
+                const updatedHabits = [...prevHabits];
+                updatedHabits.splice(index, 1);
+                return updatedHabits;
+              });
+        };
+        return (
+            <View>
+                {inputArea.map((habit, index)=>(
+                    <View key={index}>
+                        <TextInput
+                        placeholder="enter habit"
+                        value={habit}
+                        onChangeText={(text)=> handleInputChange(text, index)}/>
+                        {inputArea.length > 1 ? <Pressable onPress={()=> handleRemoveHabit(index)}><Text>delete</Text></Pressable> : "" }
+
+                    </View>
+                ))}
+                <Pressable onPress={handleAddInputArea}><Text>add</Text></Pressable>
+                {/*<Button title="Add Habbits" onPress={handleAddHabit
+                }/>*/}
+            </View>
+        )
+    }
+    
+
     return (<Modal animationType="slide"
     visible={gvisible}
     transparent={true}>
@@ -58,16 +123,23 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
         name="goal"
         rules={{required: true}}/>
         <Text style={styles.title}>What kind of habits do you want to cultivate to help you achive this goal(daily, weekly, monthly)</Text>
-        <Picker
-        style={{width: 150}}
-        selectedValue={habitKind}
-        onValueChange={(itemValue, itemIndex)=> setHabitKind(itemValue)}>
-            <Picker.Item label="daily" value="daily"/>
-            <Picker.Item label="weekly" value="weekly"/>
-            <Picker.Item label="monthly " value="monthly"/>
+        <Controller
+        control={control}
+        render={({field: {onChange, onBlur, value}})=>(<>
+            <Picker
+                style={{ width: 150 }}
+                selectedValue={habitKind}
+                onValueChange={(itemValue, itemIndex) => setHabitKind(itemValue)}>
+                <Picker.Item label="daily" value="daily" />
+                <Picker.Item label="weekly" value="weekly" />
+                <Picker.Item label="monthly " value="monthly" />
+            </Picker>
+        </>)}
+        name="habitKind"
+        rules={{required: true}}/>
 
-        </Picker>
-      
+        <Text style={styles.title}>What {habitKind} will you cultivate to achieve this goal</Text>
+        {crudeHabits()}
     </View></Modal>)
 
 }
