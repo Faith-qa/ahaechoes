@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Modal, View, Text, TextInput, StyleSheet, Pressable,} from "react-native";
 import { getCurrentTime } from "../../utils/date";
-import { Octicons, FontAwesome } from '@expo/vector-icons';
+import { Octicons, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 
 
 interface NewProps {
@@ -17,6 +19,22 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
     const [habitKind, setHabitKind] = useState<any>('daily');
     const [habits, sethabits] = useState<string[]>([]);
     const [inputArea, setInputArea] = useState<string[]>(['']);
+    const [isTimePickerVisible, setTimePickerVisible] = useState(false);
+    const [time, setTime] = useState(getCurrentTime(new Date()));
+    const [week, setweek] = useState<number>(1);
+    const [day, setDay]= useState<string>("Mon");
+    const [scheduleVisible, setscheduleVisible] = useState(false);
+
+    /*manage schedule/tracker section of the form*/
+    const openSchedule = () =>{
+        setscheduleVisible(true);
+    }
+
+    const closeSchedule = () =>{
+        setscheduleVisible(false);
+    }
+
+
 
 
     
@@ -30,16 +48,16 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
     const {control, handleSubmit, formState: {errors}} = useForm({
         defaultValues:{
             goal: "",
-            habitKind: "",
-            habits: [],
+            habitKind: habitKind,
+            habits: habits,
             tracker:(habitKind === "daily") ? {
                 time: getCurrentTime(new Date())
             }: (habitKind === "weekly") ? {
                 day: "",
-                time: getCurrentTime(new Date())
+                time: time
 
             } : {
-                week: 1,
+                week: week,
                 day: "",
                 time: getCurrentTime(new Date())
             },
@@ -53,7 +71,62 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
         closeGoal();
         onClose();
     } 
+/*handling tracking form field*/
+const tracking =()=>{
 
+    const showTimePicker = () => {
+        setTimePickerVisible(true)
+    }
+    const hideTimePicker = () => {
+        setTimePickerVisible(false);
+    }
+    const handleConfirmT = (time: any)=> {
+        setTime(time);
+        hideTimePicker();
+    }
+    var area: any = [];
+    
+
+    if (habitKind === "daily"){
+        for(var i = 0; i < inputArea.length; i++){
+            area.push(
+                <View key={i} style={styles.reminders}>
+                    <Text>{inputArea[i]}</Text>
+                    <View style={{flexDirection:"row", alignItems:"center", }}>
+             <Pressable  onPress={showTimePicker}>
+                <Ionicons name="time-outline" size={24} color="black" />
+                </Pressable>
+        <Controller
+            control = {control}
+            render={({field: {onChange, onBlur, value}})=>(
+                <>
+                <DateTimePickerModal
+                    isVisible={isTimePickerVisible}
+                    mode="time"
+                    onConfirm={handleConfirmT}
+                    onCancel={hideTimePicker}/>
+                    <Text style={styles.timetextcont}>{time}</Text>   
+
+                </>
+            )}
+            name = "tracker"
+            rules={{required: true}}
+        />
+        </View>
+        </View>
+
+        )
+            
+        }
+
+    }
+    return (<View >
+    <Pressable onPress={openSchedule} style={styles.schedule}>
+        <Text>{habitKind}</Text>
+    <MaterialCommunityIcons name="greater-than" size={24} color="black" /></Pressable>
+    </View>)
+
+}
     // handle create, update and delete habit state
     const crudeHabits = () =>{
         const handleAddInputArea = () =>{
@@ -86,13 +159,15 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
                 return updatedHabits;
               });
         };
+
+       
         return (
             <View >
                 {inputArea.map((habit, index)=>(
                     <View key={index} style={styles.habitCont}>
                         <Controller
                         control={control}
-                        render={(field: {onChange,onBlur, value})=>(
+                        render={({field: { onChange, onBlur, value }}) => (
                             <>
                             <TextInput
                         style={styles.habit}
@@ -153,6 +228,8 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
 
         <Text style={styles.title}>What {habitKind} habits  will you cultivate to achieve this goal</Text>
         {crudeHabits()}
+        <Text style={styles.title}>Let's track your {habitKind} habits by setting {habitKind} reminders:</Text>
+        {tracking()}
 
     </View></Modal>)
 
@@ -163,7 +240,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 253, 244, 0.96)',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 30
+        padding: 30,
+        overflow: "scroll"
       
       },
       XContainer: {
@@ -204,7 +282,7 @@ const styles = StyleSheet.create({
 
         borderWidth: 1,
         borderColor: 'rgba(0, 0, 0, 0.40)',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFFFF',
         shadowColor: 'rgba(255, 255, 255, 0.14)',
         shadowOffset: {
           width: 0,
@@ -254,8 +332,48 @@ const styles = StyleSheet.create({
         padding: 10,
         alignSelf:"flex-start",
 
+      },
+      reminders:{
+        width: 358,
+        height: 35,
+        flexDirection: "row",
+        backgroundColor: '#FFFFFF',
+
+        justifyContent:"space-between",
+        flexShrink: 0,
+        alignItems:"center",
+        paddingLeft:10,
+        marginBottom:5
+
+      },
+      timetextcont:{
+        backgroundColor: "#4D4117",
+        color:"#FFFFFF",
+        width: 125,
+        height:35,
+        flexShrink:0,
+        textAlign: "center",
+        //alignSelf: "center",
+        padding: 7,
+        //borderBottomRightRadius: 20,
+        //borderTopRightRadius: 20,
+      },
+      schedule:{
+        backgroundColor: "#FFFFFF",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems:"center",
+        width: 358,
+        height: 48,
+        padding:10,
+        //paddingRight: 10,
+        borderWidth: 1,
+        borderColor: '#FFFFFF',
+
 
       }
+
+
     })
 
     export default NewGoal;
