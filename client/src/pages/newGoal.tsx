@@ -1,9 +1,9 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Modal, View, Text, TextInput, StyleSheet, Pressable,} from "react-native";
+import { Modal, View, Text, TextInput, StyleSheet, Pressable,TouchableOpacity} from "react-native";
 import { getCurrentTime } from "../../utils/date";
-import { Octicons, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Octicons,AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
@@ -23,6 +23,7 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
     const [time, setTime] = useState(getCurrentTime(new Date()));
     const [week, setweek] = useState<number>(1);
     const [day, setDay]= useState<string>("Mon");
+    const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [scheduleVisible, setscheduleVisible] = useState(false);
 
     /*manage schedule/tracker section of the form*/
@@ -72,7 +73,29 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
         onClose();
     } 
 /*handling tracking form field*/
-const tracking =()=>{
+const tracking =(scheduleVisible: boolean)=>{
+
+    const [openfrequency, setopenfrequency] = useState<boolean>(false);
+
+    const openHabitfrequency = () =>{
+        setopenfrequency(true);
+    }
+    const closeHabitfrequency = () =>{
+        setopenfrequency(false);
+    }
+    if (!scheduleVisible){
+        return null;
+    }
+    // Function to toggle the selected state of a day
+  const toggleDay = (day:string) => {
+    if (selectedDays.includes(day)) {
+      // If the day is already selected, remove it from the array
+      setSelectedDays(selectedDays.filter(selectedDay => selectedDay !== day));
+    } else {
+      // If the day is not selected, add it to the array
+      setSelectedDays([...selectedDays, day]);
+    }
+  };
 
     const showTimePicker = () => {
         setTimePickerVisible(true)
@@ -90,41 +113,65 @@ const tracking =()=>{
     if (habitKind === "daily"){
         for(var i = 0; i < inputArea.length; i++){
             area.push(
-                <View key={i} style={styles.reminders}>
-                    <Text>{inputArea[i]}</Text>
-                    <View style={{flexDirection:"row", alignItems:"center", }}>
-             <Pressable  onPress={showTimePicker}>
-                <Ionicons name="time-outline" size={24} color="black" />
-                </Pressable>
-        <Controller
-            control = {control}
-            render={({field: {onChange, onBlur, value}})=>(
-                <>
-                <DateTimePickerModal
-                    isVisible={isTimePickerVisible}
-                    mode="time"
-                    onConfirm={handleConfirmT}
-                    onCancel={hideTimePicker}/>
-                    <Text style={styles.timetextcont}>{time}</Text>   
-
-                </>
-            )}
-            name = "tracker"
-            rules={{required: true}}
-        />
-        </View>
-        </View>
-
+                <View key={i}  style={styles.modalContent}>
+                    <Pressable><Text>{inputArea[i]}</Text></Pressable>
+                    </View>
         )
             
         }
 
     }
-    return (<View >
-    <Pressable onPress={openSchedule} style={styles.schedule}>
-        <Text>{habitKind}</Text>
-    <MaterialCommunityIcons name="greater-than" size={24} color="black" /></Pressable>
-    </View>)
+    return ( <Modal
+        animationType="slide"
+        visible={scheduleVisible}
+        transparent={true}
+    >
+
+        <View         style={styles.modalCont}
+>
+<Pressable style={styles.XContainer} onPress={closeSchedule}>
+            <Ionicons name="arrow-back-circle-outline" size={24} color="black" />
+            <Text style={styles.heading}>Add repeat frequency</Text>
+
+            </Pressable>
+            <Pressable onPress={openHabitfrequency}>
+                {area}
+            </Pressable>
+            <Modal
+                animationType="slide"
+                visible={openfrequency}
+                transparent={true}>
+                    <View style={styles.modalCont}>
+                        <View style={styles.repeatCont}>
+                            <View style={styles.textCont}>
+                        <Text >I want to repeat this habit</Text></View>
+                        <View style={styles.dailyCont}>
+                        <AntDesign name="clockcircle" size={24} color="black" />
+                        <Text>Daily</Text>
+                        </View>
+                        </View>
+                        <View>
+                            <Text>On these days</Text>
+                             {/* Render buttons for each day */}
+      {['S', 'M', 'T','W','T','F','S'].map((day) => (
+        <TouchableOpacity
+          key={day}
+          style={[
+            styles.dayButton,
+            selectedDays.includes(day) && styles.selectedDayButton,
+          ]}
+          onPress={() => toggleDay(day)}
+        >
+          <Text style={styles.dayButtonText}>{day.charAt(0)}</Text>
+        </TouchableOpacity>
+      ))}
+
+                        </View>
+                    </View>
+                </Modal>
+            
+        </View>
+    </Modal>)
 
 }
     // handle create, update and delete habit state
@@ -229,12 +276,83 @@ const tracking =()=>{
         <Text style={styles.title}>What {habitKind} habits  will you cultivate to achieve this goal</Text>
         {crudeHabits()}
         <Text style={styles.title}>Let's track your {habitKind} habits by setting {habitKind} reminders:</Text>
-        {tracking()}
-
+        {tracking(scheduleVisible)}
+        <Pressable onPress={openSchedule} style={styles.schedule}>
+        <Text>{habitKind}</Text>
+    <MaterialCommunityIcons name="greater-than" size={24} color="black" /></Pressable>
     </View></Modal>)
 
 }
 const styles = StyleSheet.create({
+    textCont:{
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        height: 40,
+        width: "100%",
+        alignSelf: "center",
+        backgroundColor:"gray",
+        alignItems: "center",
+        padding: 10,
+
+    },
+    repeatCont:{
+        width: "99%",
+        borderRadius: 20,
+        backgroundColor: 'rgba(255, 253, 244, 0.96)'
+
+    },
+    dailyCont:{
+        width: 100,
+        height: 70,
+        borderRadius: 20,
+        backgroundColor:"red",
+        alignItems:"center",
+        padding: 10,
+        margin:10, 
+        gap: 5
+    },
+    dayButton:{
+        backgroundColor:"#FFFFFF",
+        width:30,
+        height: 30,
+        borderRadius: 20,
+        flexShrink: 0,
+        padding: 5,
+        margin: 5,
+        alignItems:"center"
+
+    },
+    selectedDayButton:{
+        backgroundColor:"#4D4117"
+    },
+    dayButtonText:{
+        fontSize: 12,
+        fontWeight: 'bold',
+        alignSelf: "center"
+    },
+
+    modalCont:{
+        //flex: 1,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: 'center',
+        alignSelf: "center",
+        padding: 35,
+        paddingTop: 20,
+        paddingRight: 20,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        gap: 35,
+       // borderRadius: 12,
+        backgroundColor: "#DFBD43"
+    },
+    modalContent:{
+        backgroundColor:"white",
+        padding: 20,
+        borderRadius: 10,
+        width:'80%',
+        marginBottom: 10
+    },
     container: {
         flex: 1,
         backgroundColor: 'rgba(255, 253, 244, 0.96)',
