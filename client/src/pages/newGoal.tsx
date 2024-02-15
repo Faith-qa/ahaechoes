@@ -28,6 +28,9 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
 
     /*manage schedule/tracker section of the form*/
     const openSchedule = () =>{
+       if (inputArea.length == 1 && inputArea[0] ==''){
+        return null;
+       }
         setscheduleVisible(true);
     }
 
@@ -52,7 +55,8 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
             habitKind: habitKind,
             habits: habits,
             tracker:(habitKind === "daily") ? {
-                time: getCurrentTime(new Date())
+                time: getCurrentTime(new Date()),
+                reminderDays: selectedDays,
             }: (habitKind === "weekly") ? {
                 day: "",
                 time: time
@@ -81,8 +85,17 @@ const tracking =(scheduleVisible: boolean)=>{
         setopenfrequency(true);
     }
     const closeHabitfrequency = () =>{
+        console.log(selectedDays);
         setopenfrequency(false);
     }
+
+    const done = (days:string[], setTime: string)=>{
+        console.log(days, setTime)
+        closeHabitfrequency();
+
+    }
+
+  
     if (!scheduleVisible){
         return null;
     }
@@ -97,6 +110,12 @@ const tracking =(scheduleVisible: boolean)=>{
     }
   };
 
+//select all days
+const selectAllDays = () =>{
+    const alldDays = ['S','M', 'T', 'W', 'T', 'F', 'S'];
+    setSelectedDays(alldDays);
+}
+
     const showTimePicker = () => {
         setTimePickerVisible(true)
     }
@@ -107,20 +126,25 @@ const tracking =(scheduleVisible: boolean)=>{
         setTime(time);
         hideTimePicker();
     }
+    
+    
     var area: any = [];
     
 
-    if (habitKind === "daily"){
-        for(var i = 0; i < inputArea.length; i++){
+    
+    for(var i = 0; i < inputArea.length; i++){
+        if(inputArea[i] != ''){
             area.push(
-                <View key={i}  style={styles.modalContent}>
-                    <Pressable><Text>{inputArea[i]}</Text></Pressable>
-                    </View>
-        )
-            
-        }
+            <View key={i}  style={styles.modalContent}>
+                <Text>{inputArea[i]}</Text>
+                </View>
+    )
+}
 
+        
     }
+
+    
     return ( <Modal
         animationType="slide"
         visible={scheduleVisible}
@@ -131,22 +155,28 @@ const tracking =(scheduleVisible: boolean)=>{
 >
 <Pressable style={styles.XContainer} onPress={closeSchedule}>
             <Ionicons name="arrow-back-circle-outline" size={24} color="black" />
+            </Pressable>
             <Text style={styles.heading}>Add repeat frequency</Text>
 
-            </Pressable>
             <Pressable onPress={openHabitfrequency}>
                 {area}
             </Pressable>
             <Modal
                 animationType="slide"
                 visible={openfrequency}
-                //transparent={true}
+                transparent={true}
                 >
-                    <View style={styles.modalCont}>
+                   {habitKind === "daily"? <View style={styles.modalCont}>
+                        <View style={styles.XContainer}>
+                    <Pressable  onPress={closeHabitfrequency}>
+            <Ionicons name="arrow-back-circle-outline" size={24} color="black" />
+            </Pressable>
+            <Pressable onPress={()=>{done(selectedDays, time)}} ><Text>Done</Text></Pressable></View>
                         <Text>Schedule</Text>
+                        
                         <View style={styles.repeatCont}>
                             <View style={styles.textCont}>
-                        <Text >I want to repeat this habit</Text></View>
+                        <Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}} >I want to repeat this habit</Text></View>
                         <View style={styles.dailyCont}>
                         <AntDesign name="clockcircle" size={24} color="black" />
                         <Text>Daily</Text>
@@ -154,26 +184,39 @@ const tracking =(scheduleVisible: boolean)=>{
                         </View>
                         <View style={styles.repeatCont}>
                         <View style={styles.textCont}>
-                            <Text>On these days</Text></View>
+                            <Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}} >On these days</Text></View>
                             <View style={styles.selectdaycont}>
                              {/* Render buttons for each day */}
-      {['S', 'M', 'T','W','T','F','S'].map((day) => (
+      {['S', 'M', 'T','W','T','F','S'].map((day, index) => (
        
         <TouchableOpacity
-          key={day}
+          key={index}
           style={[
             styles.dayButton,
             selectedDays.includes(day) && styles.selectedDayButton,
           ]}
           onPress={() => toggleDay(day)}
         >
+            
           <Text style={styles.dayButtonText}>{day.charAt(0)}</Text>
         </TouchableOpacity>
       ))}
 </View>
-<Pressable style={styles.everyday}><Text>Everyday</Text></Pressable>
+<Pressable style={styles.everyday} onPress={selectAllDays}><Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}}>Everyday</Text></Pressable>
                         </View>
-                    </View>
+                        <View>
+                            <Pressable onPress={showTimePicker}>
+                            <DateTimePickerModal
+                            isVisible={isTimePickerVisible}
+                            mode="time"
+                            onConfirm={handleConfirmT}
+                            onCancel={hideTimePicker}/>
+                            <Text style={styles.timetextcont}>choose reminder time: {time}</Text>
+                            </Pressable>
+                            </View>
+                    </View> : habitKind === "weekly"? <View>
+                        {/*weekly view*/}
+                    </View>:""}
                 </Modal>
             
         </View>
@@ -314,7 +357,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: "100%",
         alignSelf: "center",
-        backgroundColor:"gray",
+        backgroundColor:"#9F852E",
         alignItems: "center",
         padding: 10,
 
@@ -323,14 +366,14 @@ const styles = StyleSheet.create({
         width: "99%",
         height:150,
         borderRadius: 20,
-        backgroundColor: '#DFBD43',
+        backgroundColor: 'rgba(235, 233, 224, 0.96)',
 
     },
     dailyCont:{
         width: 100,
         height: 70,
         borderRadius: 20,
-        backgroundColor:"red",
+        backgroundColor:"#DFBD43",
         alignItems:"center",
         padding: 10,
         margin:10, 
@@ -369,7 +412,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         gap: 35,
        // borderRadius: 12,
-        backgroundColor: 'rgba(235, 233, 224, 0.96)'
+        backgroundColor: 'rgba(255, 253, 244, 0.96)'
     },
     modalContent:{
         backgroundColor:"white",
@@ -388,11 +431,12 @@ const styles = StyleSheet.create({
       
       },
       XContainer: {
-        display: "flex",
+        //display: "flex",
+        width: "100%",
         flexDirection: "row",
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
         //alignItems: "center",
-        gap: 10,
+        //gap: 10,
         alignSelf: "flex-start"
     },
     title: {
@@ -492,7 +536,7 @@ const styles = StyleSheet.create({
       timetextcont:{
         backgroundColor: "#4D4117",
         color:"#FFFFFF",
-        width: 125,
+        width: 300,
         height:35,
         flexShrink:0,
         textAlign: "center",
