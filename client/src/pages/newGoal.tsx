@@ -140,8 +140,10 @@ const tracking =(scheduleVisible: boolean)=>{
             <Modal
                 animationType="slide"
                 visible={openfrequency}
-                transparent={true}>
+                //transparent={true}
+                >
                     <View style={styles.modalCont}>
+                        <Text>Schedule</Text>
                         <View style={styles.repeatCont}>
                             <View style={styles.textCont}>
                         <Text >I want to repeat this habit</Text></View>
@@ -150,10 +152,13 @@ const tracking =(scheduleVisible: boolean)=>{
                         <Text>Daily</Text>
                         </View>
                         </View>
-                        <View>
-                            <Text>On these days</Text>
+                        <View style={styles.repeatCont}>
+                        <View style={styles.textCont}>
+                            <Text>On these days</Text></View>
+                            <View style={styles.selectdaycont}>
                              {/* Render buttons for each day */}
       {['S', 'M', 'T','W','T','F','S'].map((day) => (
+       
         <TouchableOpacity
           key={day}
           style={[
@@ -165,7 +170,8 @@ const tracking =(scheduleVisible: boolean)=>{
           <Text style={styles.dayButtonText}>{day.charAt(0)}</Text>
         </TouchableOpacity>
       ))}
-
+</View>
+<Pressable style={styles.everyday}><Text>Everyday</Text></Pressable>
                         </View>
                     </View>
                 </Modal>
@@ -284,6 +290,24 @@ const tracking =(scheduleVisible: boolean)=>{
 
 }
 const styles = StyleSheet.create({
+    everyday:{
+        alignItems: "center",
+        width: "80%",
+        height: 30,
+        borderRadius: 20,
+        backgroundColor:"#4D4117",
+        padding:5,
+        alignSelf: "center",
+        marginBottom: 10
+
+
+    },
+    selectdaycont:{
+        flexDirection: "row",
+        alignSelf: "center",
+        margin: 10
+
+    },
     textCont:{
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -297,8 +321,9 @@ const styles = StyleSheet.create({
     },
     repeatCont:{
         width: "99%",
+        height:150,
         borderRadius: 20,
-        backgroundColor: 'rgba(255, 253, 244, 0.96)'
+        backgroundColor: '#DFBD43',
 
     },
     dailyCont:{
@@ -344,7 +369,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         gap: 35,
        // borderRadius: 12,
-        backgroundColor: "#DFBD43"
+        backgroundColor: 'rgba(235, 233, 224, 0.96)'
     },
     modalContent:{
         backgroundColor:"white",
