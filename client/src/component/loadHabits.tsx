@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
    
     text: {
         color: 'black',
-        fontFamily: "Rubik",
+        //fontFamily: "Rubik",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     }, 
     strikethrough: {
         color: 'black',
-        fontFamily: "Rubik",
+        //fontFamily: "Rubik",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
