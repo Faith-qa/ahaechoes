@@ -2,7 +2,7 @@ import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Modal, View, Text, TextInput, StyleSheet, Pressable,TouchableOpacity} from "react-native";
-import { getCurrentTime } from "../../utils/date";
+import { getCurrentTime } from "../../../utils/date";
 import { Octicons,AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 

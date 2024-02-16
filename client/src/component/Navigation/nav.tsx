@@ -1,12 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import Home from "../screens/home";
+import Home from "../../screens/home";
 import {FontAwesome5, Fontisto, Feather, MaterialCommunityIcons} from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
-import Calendar from "../screens/calendar";
-import Notification from "../screens/notification";
-import More from "../screens/more";
-import NewTask from "../pages/newTask";
+import Calendar from "../../screens/calendar";
+import Notification from "../../screens/notification";
+import More from "../../screens/more";
+import NewTask from "../../pages/Home/newTask";
 
 
 

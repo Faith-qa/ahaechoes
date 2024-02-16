@@ -1,20 +1,21 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import LoadCal from "../pages/calendar/loadCalendar";
+
 
 const Calendar: React.FC = () => {
     return (
         <View style={styles.container}>
-            <Text>
-                Hi, this feature is coming soon
-            </Text>
+            <LoadCal/>
         </View>
     );
     
 };
 const styles = StyleSheet.create({
     container: {
+        position: "relative",  
       flex: 1,
-      backgroundColor: '#black',
+      backgroundColor: 'rgba(255, 253, 244, 0.96)',
       alignItems: 'center',
       justifyContent: 'center',
     
