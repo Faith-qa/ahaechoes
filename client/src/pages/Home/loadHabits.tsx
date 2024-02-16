@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { StyleSheet, View, Text, FlatList, Pressable, } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import getFormattedDate from "../../utils/date";
+import getFormattedDate from "../../../utils/date";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons, Feather } from '@expo/vector-icons';
 //const MMKV = new MMKVLoader().initialize();
