@@ -141,8 +141,10 @@ const selectAllDays = () =>{
     for(var i = 0; i < inputArea.length; i++){
         if(inputArea[i] != ''){
             area.push(
-            <View key={i}  style={styles.modalContent}>
+            <View key={i} style={[styles.titleCont, {backgroundColor: "#fff", justifyContent: "space-between"}]}>
                 <Text>{inputArea[i]}</Text>
+                <MaterialCommunityIcons name="greater-than" size={24} color="black" />
+
                 </View>
     )
 }
@@ -154,7 +156,7 @@ const selectAllDays = () =>{
     return ( <Modal
         animationType="slide"
         visible={scheduleVisible}
-        transparent={true}
+       // transparent={true}
     >
 
         <View         style={styles.modalCont}
@@ -164,13 +166,13 @@ const selectAllDays = () =>{
             </Pressable>
             <Text style={styles.heading}>Add repeat frequency</Text>
 
-            <Pressable onPress={openHabitfrequency}>
+            <Pressable onPress={openHabitfrequency} >
                 {area}
             </Pressable>
             <Modal
                 animationType="slide"
                 visible={openfrequency}
-                transparent={true}
+                //transparent={true}
                 >
                     <View style={styles.modalCont}>
                         <View style={styles.XContainer}>
