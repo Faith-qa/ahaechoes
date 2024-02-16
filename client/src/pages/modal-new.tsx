@@ -3,6 +3,7 @@ import { Modal, View, StyleSheet, Pressable, Text, } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import NewTask from "./newTask";
+import NewGoal from "./newGoal";
 
 interface NewProps {
     visible: boolean,
@@ -12,6 +13,17 @@ interface NewProps {
 const New: React.FC<NewProps> = ({visible, onClose}) => {
    const [isvisible, setIsvisible] = useState(false);
    const [newtask, setIsnewtask] = useState(false);
+   const [newGoal, setIsnewgoal] = useState(false);
+   
+   //new goal modal
+   const openGoal = () =>{
+    setIsnewgoal(true)
+   }
+
+   const closeGoal = () =>{
+    setIsnewgoal(false);
+   }
+
 
    const openTask = () =>{
     setIsnewtask(true);
@@ -64,8 +76,11 @@ const New: React.FC<NewProps> = ({visible, onClose}) => {
 
                 </View>
                 <NewTask newtask={newtask} closeTask={closeTask} onClose={onClose}/>
+                 <NewGoal newGoal={newGoal} closeGoal={closeGoal} onClose={onClose}/>
+
                 <Pressable style={styles.taskCont} onPress={openTask} ><Text style={styles.taskText}>New Task</Text></Pressable>
-                <Pressable style={styles.taskCont}><Text style={styles.taskText}>New Goal</Text></Pressable>
+
+                <Pressable style={styles.taskCont} onPress={openGoal}><Text style={styles.taskText}>New Goal</Text></Pressable>
 
                 </View>
 
