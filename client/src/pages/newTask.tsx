@@ -5,7 +5,6 @@ import {useForm, Controller} from "react-hook-form";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { getCurrentTime } from "../../utils/date";
 import sendDatatoLocalStorage from "../component/businessLogic/task";
-//import * as Svg from 'react-native-svg';
 
 
 
@@ -122,10 +121,6 @@ const NewTask: React.FC<NewProps> = ({newtask, closeTask, onClose}) =>{
                     name="title"
                     rules={{required: true}}/>
                     
-                {/*<View style={styles.titleCont}>
-
-                    <TextInput style={styles.input}/>
-                </View>*/}
                 <Text style={styles.title}>Task Details</Text>
                 <Controller
                 control={control}
