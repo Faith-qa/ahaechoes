@@ -22,7 +22,7 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
     const [isTimePickerVisible, setTimePickerVisible] = useState(false);
     const [time, setTime] = useState(getCurrentTime(new Date()));
     const [week, setweek] = useState<number>(1);
-    const [day, setDay]= useState<string>("Mon");
+    const [day, setDay]= useState<string>("M");
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [scheduleVisible, setscheduleVisible] = useState(false);
 
@@ -166,7 +166,7 @@ const selectAllDays = () =>{
                 visible={openfrequency}
                 transparent={true}
                 >
-                   {habitKind === "daily"? <View style={styles.modalCont}>
+                    <View style={styles.modalCont}>
                         <View style={styles.XContainer}>
                     <Pressable  onPress={closeHabitfrequency}>
             <Ionicons name="arrow-back-circle-outline" size={24} color="black" />
@@ -177,14 +177,18 @@ const selectAllDays = () =>{
                         <View style={styles.repeatCont}>
                             <View style={styles.textCont}>
                         <Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}} >I want to repeat this habit</Text></View>
-                        <View style={styles.dailyCont}>
+                        {habitKind === "daily" ?<View style={styles.dailyCont}>
                         <AntDesign name="clockcircle" size={24} color="black" />
                         <Text>Daily</Text>
+                        </View> : habitKind === "weekly" ? <View style={styles.dailyCont}>
+                        <AntDesign name="dotchart" size={24} color="black" />
+                        <Text>Weekly</Text>
+                        </View> : <View style={styles.dailyCont}><MaterialCommunityIcons name="calendar-month-outline" size={24} color="black" />
+                        <Text>Monthly</Text></View>}
                         </View>
-                        </View>
-                        <View style={styles.repeatCont}>
+                        {habitKind === "daily" ? <View style={styles.repeatCont}>
                         <View style={styles.textCont}>
-                            <Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}} >On these days</Text></View>
+                             <Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}} >On these days</Text></View>
                             <View style={styles.selectdaycont}>
                              {/* Render buttons for each day */}
       {['S', 'M', 'T','W','T','F','S'].map((day, index) => (
@@ -201,9 +205,62 @@ const selectAllDays = () =>{
           <Text style={styles.dayButtonText}>{day.charAt(0)}</Text>
         </TouchableOpacity>
       ))}
-</View>
+</View> 
 <Pressable style={styles.everyday} onPress={selectAllDays}><Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}}>Everyday</Text></Pressable>
-                        </View>
+                        </View>: habitKind === "weekly" ?  <View style={styles.repeatCont}>
+                             <View style={styles.textCont}><Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}} >On this day of the week</Text></View>
+                             <View style={[styles.selectdaycont, {marginTop: 30, alignSelf: "center"}]}>
+                                {/*render days of the week */}
+                                {['S', 'M', 'T','W','T','F','S'].map((iday, index) => (
+       
+       <TouchableOpacity
+         key={index}
+         style={[
+           styles.dayButton,
+           day === iday && styles.selectedDayButton,
+         ]}
+         onPress={()=>{setDay(iday)}}
+       >
+           
+         <Text style={styles.dayButtonText}>{iday}</Text>
+       </TouchableOpacity>
+     ))}</View></View> : <View style={{width: "100%", gap: 35}}><View style={styles.repeatCont}><View style={styles.textCont}>
+                             <Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}}>On this week of the month</Text></View>
+                             <View style={[styles.selectdaycont, {gap: 30, marginTop: 30}]}>
+                                {/* select week of the month*/}
+                                {[1,2,3].map((iweek, index) => (
+       
+                        <TouchableOpacity
+                            key={index}
+                            style={[
+                            styles.dayButton,
+                            iweek === week && styles.selectedDayButton,
+                            ]}
+                            onPress={()=>{setweek(iweek)}}
+                        >
+                            
+                            <Text style={styles.dayButtonText}>{iweek}</Text>
+                        </TouchableOpacity>
+                        ))}
+                                </View></View>
+                                <View style={styles.repeatCont}>
+                             <View style={styles.textCont}><Text style={{color: "#FFF", fontSize: 16, fontStyle:"normal"}} >On this day of the week</Text></View>
+                             <View style={[styles.selectdaycont, {marginTop: 30, alignSelf: "center"}]}>
+                                {/*render days of the week */}
+                                {['S', 'M', 'T','W','T','F','S'].map((iday, index) => (
+       
+       <TouchableOpacity
+         key={index}
+         style={[
+           styles.dayButton,
+           day === iday && styles.selectedDayButton,
+         ]}
+         onPress={()=>{setDay(iday)}}
+       >
+           
+         <Text style={styles.dayButtonText}>{iday}</Text>
+       </TouchableOpacity>
+     ))}</View></View></View>}
                         <View>
                             <Pressable onPress={showTimePicker}>
                             <DateTimePickerModal
@@ -214,9 +271,7 @@ const selectAllDays = () =>{
                             <Text style={styles.timetextcont}>choose reminder time: {time}</Text>
                             </Pressable>
                             </View>
-                    </View> : habitKind === "weekly"? <View>
-                        {/*weekly view*/}
-                    </View>:""}
+                    </View>
                 </Modal>
             
         </View>
