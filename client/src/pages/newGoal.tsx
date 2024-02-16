@@ -49,7 +49,7 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
     
     //set form and form requirements
 
-    const {control, handleSubmit, formState: {errors}} = useForm({
+    const {control, reset, handleSubmit, formState: {errors}} = useForm({
         defaultValues:{
             goal: "",
             habitKind: habitKind,
@@ -72,9 +72,15 @@ const NewGoal: React.FC<NewProps> = ({newGoal, closeGoal, onClose}) => {
 
 //handle form submit/
     const onSubmit = (data: any) => {
+        console.log("i'm here")
         console.log(data);
         closeGoal();
+        console.log("i'm here")
         onClose();
+        reset();
+
+        
+        alert("task added");
     } 
 /*handling tracking form field*/
 const tracking =(scheduleVisible: boolean)=>{
@@ -341,12 +347,18 @@ const selectAllDays = () =>{
             </View>
         )
     }
-    
+    console.log('errors', errors);
+
 
     return (<Modal animationType="slide"
     visible={gvisible}
     transparent={true}>
         <View style={styles.container}>
+        <View style={styles.XContainer}>
+                    <Pressable  onPress={closeGoal}>
+            <Ionicons name="arrow-back-circle-outline" size={24} color="black" />
+            </Pressable>
+            <Pressable onPress={handleSubmit(onSubmit)}><Text>Done</Text></Pressable></View>
             <Text style={styles.heading}>New Goal</Text>
         <Text style={styles.title}>
             What goal do you have in mind today
@@ -366,7 +378,7 @@ const selectAllDays = () =>{
         control={control}
         render={({field: {onChange, onBlur, value}})=>(<>
             <Picker
-                style={styles.titleCont}
+                style={[styles.titleCont, {backgroundColor: "#FFF"}]}
                 selectedValue={habitKind}
                 onValueChange={(itemValue, itemIndex) => setHabitKind(itemValue)}>
                 <Picker.Item label="daily" value="daily" />
@@ -381,7 +393,7 @@ const selectAllDays = () =>{
         {crudeHabits()}
         <Text style={styles.title}>Let's track your {habitKind} habits by setting {habitKind} reminders:</Text>
         {tracking(scheduleVisible)}
-        <Pressable onPress={openSchedule} style={styles.schedule}>
+        <Pressable onPress={openSchedule} style={[styles.titleCont, {backgroundColor: "#fff", justifyContent: "space-between"}]}>
         <Text>{habitKind}</Text>
     <MaterialCommunityIcons name="greater-than" size={24} color="black" /></Pressable>
     </View></Modal>)
