@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import Takevideo from "../pages/More/journaling/videojournaling";
 
 const More: React.FC = () => {
     return (
@@ -11,6 +12,7 @@ const More: React.FC = () => {
             <Text>
                 Hi,
             </Text>
+            <Takevideo/>
             </View>
         </View>
     );
@@ -20,7 +22,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: 'rgba(255, 253, 244, 0.96)',
-      padding: 20,
+      padding: 10,
       alignItems: 'center',
       justifyContent: 'center',
     

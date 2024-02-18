@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 
 interface NewProps {
@@ -7,6 +7,15 @@ interface NewProps {
 }
 
 const myJournals: React.FC<NewProps> =({visible})=>{
+    const [opened, setopened] = useState(false)
+
+    useEffect(()=>{
+        setopened(visible);
+    }, [visible]);
+
+    
+
     return(<View></View>);
 
 }
+
