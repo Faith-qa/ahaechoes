@@ -10,6 +10,7 @@ const Takevideo: React.FC = () =>{
     const [hasAudioPermission, setHasAudioPermission] = useState<boolean>();
     const [isRecording, setIsRecording] = useState(false);
     const [video, setVideo] = useState<any>();
+    const [camType, setCamType] = useState(CameraType.front)
 
     //set default camera permissions
 
@@ -65,10 +66,19 @@ const Takevideo: React.FC = () =>{
         cameraRef.current?.stopRecording();
     }
 
+    //function to swtich camera type to front or back
+    const switchCam = () =>{
+        setCamType(current => (current === CameraType.back ? CameraType.front : CameraType.back))
+        console.log("hello i'm here")
+    
+
+    }
+
     // manipulate video file
     if(video){
-        return(<SafeAreaView>
+        return(<SafeAreaView style={styles.container}>
             <Video
+                style={styles.video}
                 source={{uri: video.uri}}
                 useNativeControls
                 //resizeMode='contain'
@@ -78,10 +88,14 @@ const Takevideo: React.FC = () =>{
         </SafeAreaView>)
     }
     return (
-        <Camera ref={cameraRef}>
-            <View>
+        <Camera style={styles.container} ref={cameraRef} type={camType}>
+            <View style={styles.buttonContainer}>
                 <Button title={isRecording ? "stop": "start"} onPress={isRecording ? stopRecording : recordVideo}/>
             </View>
+            <View style={styles.buttonContainer}>
+                <Button title="switch" onPress={switchCam}/>
+            </View>
+
         </Camera>
     )
 }
@@ -89,7 +103,21 @@ const Takevideo: React.FC = () =>{
 const styles= StyleSheet.create({
     container :{
         flex: 1,
-        alignItems:"center"
+        alignItems:"center",
+        justifyContent: "center"
+    },
+    buttonContainer:{
+        width: 80,
+        height:50,
+        borderRadius: 40,
+        //backgroundColor: "#fff",
+        alignSelf:"flex-end", 
+        padding: 10
+
+    },
+    video: {
+        flex: 1,
+        alignSelf: "stretch",
     }
 
 })
