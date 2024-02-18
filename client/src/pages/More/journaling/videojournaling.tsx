@@ -1,11 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, CameraType } from 'expo-camera';
-import { Button, StyleSheet, Text, Pressable, View,StatusBar } from 'react-native';
+import { Button, StyleSheet, Text, Pressable, View,Modal } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import {Video} from 'expo-av';
 
-const Takevideo: React.FC = () =>{
+interface NewProps{
+    newVideo: boolean,
+    closeVideo: () => void
+}
+const Takevideo: React.FC<NewProps> = ({newVideo}) =>{
     const cameraRef = useRef<Camera>(null)
+    const [visible, setVisible] = useState<boolean>(false);
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean>();
     const [hasAudioPermission, setHasAudioPermission] = useState<boolean>();
     const [isRecording, setIsRecording] = useState(false);
@@ -20,13 +25,14 @@ const Takevideo: React.FC = () =>{
             const microprohonePermissions = await Camera.requestMicrophonePermissionsAsync();
             setHasCameraPermission(camerPermissions.status === "granted");
             setHasAudioPermission(microprohonePermissions.status === "granted");
+            setVisible(newVideo);
 
 
 
 
 
         })();
-    }, []);
+    }, [newVideo]);
 
     //confirm has camera permissions
     if (hasAudioPermission === undefined || hasCameraPermission === undefined){
@@ -63,6 +69,8 @@ const Takevideo: React.FC = () =>{
 
     const stopRecording = () =>{
         setIsRecording(false);
+        setVisible(false);
+
         cameraRef.current?.stopRecording();
     }
 
@@ -88,6 +96,10 @@ const Takevideo: React.FC = () =>{
         </SafeAreaView>)
     }
     return (
+        <Modal 
+            animationType="slide"
+            visible={visible}
+            transparent={true}>
         <Camera style={styles.container} ref={cameraRef} type={camType}>
             
             <Pressable onPress={isRecording ? stopRecording : recordVideo} >
@@ -98,7 +110,7 @@ const Takevideo: React.FC = () =>{
 
             
 
-        </Camera>
+        </Camera></Modal>
     )
 }
 
