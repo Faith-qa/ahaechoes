@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, CameraType } from 'expo-camera';
 import { Button, StyleSheet, Text, TouchableOpacity, View,StatusBar } from 'react-native';
-
+import { SafeAreaView } from "react-native-safe-area-context";
+import {Video} from 'expo-av';
 
 const Takevideo: React.FC = () =>{
     const cameraRef = useRef<Camera>(null)
@@ -65,14 +66,33 @@ const Takevideo: React.FC = () =>{
     }
 
     // manipulate video file
-
-
-
-
-
-    return (<View/>)
+    if(video){
+        return(<SafeAreaView>
+            <Video
+                source={{uri: video.uri}}
+                useNativeControls
+                //resizeMode='contain'
+                isLooping/>
+                <Button title="share"/>
+                <Button title="Discard" onPress={()=> setVideo(undefined)}/>
+        </SafeAreaView>)
+    }
+    return (
+        <Camera ref={cameraRef}>
+            <View>
+                <Button title={isRecording ? "stop": "start"} onPress={isRecording ? stopRecording : recordVideo}/>
+            </View>
+        </Camera>
+    )
 }
 
+const styles= StyleSheet.create({
+    container :{
+        flex: 1,
+        alignItems:"center"
+    }
+
+})
 
   export default Takevideo;
 
