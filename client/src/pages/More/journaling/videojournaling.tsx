@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, CameraType } from 'expo-camera';
-import { Button, StyleSheet, Text, TouchableOpacity, View,StatusBar } from 'react-native';
+import { Button, StyleSheet, Text, Pressable, View,StatusBar } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import {Video} from 'expo-av';
 
@@ -89,12 +89,14 @@ const Takevideo: React.FC = () =>{
     }
     return (
         <Camera style={styles.container} ref={cameraRef} type={camType}>
-            <View style={styles.buttonContainer}>
-                <Button title={isRecording ? "stop": "start"} onPress={isRecording ? stopRecording : recordVideo}/>
-            </View>
-            <View style={styles.buttonContainer}>
-                <Button title="switch" onPress={switchCam}/>
-            </View>
+            
+            <Pressable onPress={isRecording ? stopRecording : recordVideo} >
+                <View style={[styles.startButton, {backgroundColor: !isRecording ? "#fff": "clear"}]}>
+                <View style={isRecording ? styles.stopinButton : styles.inButton}></View>
+                </View>
+            </Pressable>
+
+            
 
         </Camera>
     )
@@ -103,8 +105,11 @@ const Takevideo: React.FC = () =>{
 const styles= StyleSheet.create({
     container :{
         flex: 1,
-        alignItems:"center",
-        justifyContent: "center"
+        width: "100%",
+        flexDirection: "row",
+        alignItems:"flex-end",
+        justifyContent: "center",
+        padding: 10,
     },
     buttonContainer:{
         width: 80,
@@ -118,6 +123,30 @@ const styles= StyleSheet.create({
     video: {
         flex: 1,
         alignSelf: "stretch",
+    },
+    startButton: {
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        borderColor: '#fff',
+        //backgroundColor: "#fff",
+        alignItems: "center",
+        borderWidth: 2,
+        padding:10,
+
+    },
+    inButton: {
+        width: 10,
+        height: 10,
+        backgroundColor: "#fff",
+        
+    },
+    stopinButton: {
+        width: 20,
+        height: 20,
+        borderRadius: 20,
+        backgroundColor: "red",
+        margin: 3
     }
 
 })
