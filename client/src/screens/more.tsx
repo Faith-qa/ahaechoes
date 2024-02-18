@@ -33,8 +33,10 @@ const More: React.FC = () => {
             <View style={styles.jContainer}>
             <Text style={[styles.jText, {fontSize: 30, fontWeight:"normal"}]}>Get inspired...</Text>
             </View>
-            
-                <Image source={{uri:'https://unsplash.com/photos/black-microphone-on-white-background-gKKB13zJ1ss'}}/>
+            <View style={[styles.jContainer, {backgroundColor: "#019090", borderRadius: 10}]}>
+                <Text style={[styles.jText, {fontSize: 20, fontWeight:"normal"}]}>Coffee chats with Amina</Text>
+                <Image source={{uri:'https://images.unsplash.com/photo-1585102651425-8caf7848e44b?q=80&w=2962&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}} style={styles.image}/>
+                </View>
             <View>
 
             </View>
@@ -53,10 +55,10 @@ const styles = StyleSheet.create({
     
     },
     image:{
-        width: 70,
-        height: 70,
+        width: 100,
+        height: 100,
         flexShrink:0,
-        borderRadius: 70,
+        //borderRadius: 70,
         padding: 10,
     },
     imageCont:{
