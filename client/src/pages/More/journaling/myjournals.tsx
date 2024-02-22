@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useAnimatedValue, View, Text, Modal, Pressable } from "react-native";
-import { Entypo, MaterialIcons,FontAwesome } from '@expo/vector-icons';
+import { useAnimatedValue, View, Text, Modal, Pressable, StyleSheet } from "react-native";
+import { Entypo, MaterialIcons,FontAwesome, Feather } from '@expo/vector-icons';
 import Takevideo from "./videojournaling";
 
 interface NewProps {
@@ -30,8 +30,15 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     }
 
 
-    return(<View>
-        {opened ? <View>
+    return(
+    <Modal
+        animationType="slide"
+        visible={opened}
+        transparent={true}
+        ><View>
+            <Pressable style={styles.XContainer} onPress={()=> onClose()} >
+                <Feather name="x-circle" size={24} color="black"/>
+                </Pressable>
         <Text>pick an input mode.</Text>
         <View>
             <Pressable onPress={openVideo}>
@@ -46,8 +53,18 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
             <Takevideo newVideo={newVideo} closeVideo={closeVideo}/>
 
         </View>
-    </View>: "" }</View>);
+    </View></Modal>);
 
 }
+
+const styles = StyleSheet.create({
+    XContainer: {
+        display: "flex",
+        justifyContent: "flex-end",
+        //alignItems: "center",
+        gap: 10,
+        alignSelf: "stretch"
+    },
+})
 
 export default MyJournals;

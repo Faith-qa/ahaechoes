@@ -7,10 +7,10 @@ import Calendar from "../../screens/calendar";
 import Notification from "../../screens/notification";
 import More from "../../screens/more";
 import NewTask from "../../pages/Home/newTask";
-
-
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createMaterialBottomTabNavigator();
+//const navigation = useNavigation()
 
 const NavBar: React.FC = () => {
     return (
@@ -44,7 +44,7 @@ const NavBar: React.FC = () => {
                 options={{
                     tabBarIcon: ({color}) => (
                         <MaterialCommunityIcons name="dots-grid" size={24} color="#444444" />
-                    )
+                    ),
                 }}
                 />
         </Tab.Navigator>
