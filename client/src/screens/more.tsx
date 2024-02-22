@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import MyJournals from "../pages/More/journaling/myjournals";
 import Takevideo from "../pages/More/journaling/videojournaling";
-
+import { useNavigation } from "@react-navigation/native";
 const More: React.FC = () => {
     const [visible, setVisible] = useState(false);
+
 
     const journal = () =>{
         setVisible(true);
@@ -13,7 +14,7 @@ const More: React.FC = () => {
     const closejournal = () =>{
         setVisible(false);
     }
-
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.imageCont}>
