@@ -3,8 +3,8 @@ import { View, Text, TextInput, StyleSheet, Pressable, Modal } from "react-nativ
 import { Ionicons} from '@expo/vector-icons';
 import {useForm, Controller} from "react-hook-form";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { getCurrentTime } from "../../utils/date";
-import sendDatatoLocalStorage from "../component/businessLogic/task";
+import { getCurrentTime } from "../../../utils/date";
+import sendDatatoLocalStorage from "../../component/businessLogic/task";
 
 
 
