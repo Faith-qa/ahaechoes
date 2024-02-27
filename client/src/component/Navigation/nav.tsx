@@ -1,16 +1,16 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import Home from "../screens/home";
+import Home from "../../screens/home";
 import {FontAwesome5, Fontisto, Feather, MaterialCommunityIcons} from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
-import Calendar from "../screens/calendar";
-import Notification from "../screens/notification";
-import More from "../screens/more";
-import NewTask from "../pages/newTask";
-
-
+import Calendar from "../../screens/calendar";
+import Notification from "../../screens/notification";
+import More from "../../screens/more";
+import NewTask from "../../pages/Home/newTask";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createMaterialBottomTabNavigator();
+//const navigation = useNavigation()
 
 const NavBar: React.FC = () => {
     return (
@@ -44,7 +44,7 @@ const NavBar: React.FC = () => {
                 options={{
                     tabBarIcon: ({color}) => (
                         <MaterialCommunityIcons name="dots-grid" size={24} color="#444444" />
-                    )
+                    ),
                 }}
                 />
         </Tab.Navigator>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
       width: 428,
       height: 67.384,
       postion: "relative",
-      borderRadius: 200,
+      //borderRadius: 20,
 
       //overflow:'hidden',
       flexShrink: 0,

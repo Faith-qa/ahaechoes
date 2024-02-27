@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     },
     dtext:{
         color: '#4D4117',
-        fontFamily: 'Rubik',
+        //fontFamily: 'Rubik',
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '400',
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     btext: {
         //padd
         color: '#FFF',
-        fontFamily: 'Rubik',
+        //fontFamily: 'Rubik',
         fontSize: 13,
         fontStyle: 'normal',
         fontWeight: '400',
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start', // align-items equivalent for main axis
         gap: 8,
         //color: '#FFF',
-        fontFamily: 'Rubik',
+        //fontFamily: 'Rubik',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
