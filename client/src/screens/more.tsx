@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import MyJournals from "../pages/More/journaling/myjournals";
-import Takevideo from "../pages/More/journaling/videojournaling";
+import Takevideo from "../pages/More/journaling/videoJoun/videojournaling";
 import { useNavigation } from "@react-navigation/native";
 const More: React.FC = () => {
     const [visible, setVisible] = useState(false);
