@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useAnimatedValue, View, Text, Modal, Pressable, StyleSheet, Image } from "react-native";
-import { Entypo, MaterialIcons,FontAwesome, Feather } from '@expo/vector-icons';
-import Takevideo from "./videojournaling";
+import { useAnimatedValue, View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "react-native";
+import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
+import Takevideo from "./videoJoun/videojournaling";
 import { DayOfTheWeek } from "expo-calendar";
 import DaysOfWeekButtons from "../../Home/thisWeek";
 import { greeting } from "../../../../utils/date";
+import { Video } from "expo-av";
+import DisplayVideoJournal from "./videoJoun/displaySavedVid";
 
 interface NewProps {
     visible: boolean,
@@ -16,6 +18,15 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     const [newVideo, isNewVideo] = useState(false);
     const [newAudio, isNewAudio] = useState(false);
     const [newDoc, isNewDoc] = useState(false);
+    const [jmode, isJmodeOpen] = useState(false);
+    //update video state
+    const [videoList, setVideoList] = useState<Array<{videoUri: any}>>([]);
+    
+    //handle video journal
+    const handleVideoJournal = (videoData: {videoUri: any})=>{
+        console.log("this is video data",videoData);
+        setVideoList((prevList)=>[...prevList, videoData])
+    }
 
 
     useEffect(()=>{
@@ -31,6 +42,40 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     const closeVideo = () => {
         isNewVideo(false);
     }
+    const openMode = () =>{
+        isJmodeOpen(true);
+    }
+    const closeMode = ()=>{
+        isJmodeOpen(false);
+    }
+    const launchJournalmode = (jmode: boolean) => {
+        
+            return(<Modal
+            visible={jmode}><View style={styles.container}>
+                <Pressable style={styles.XContainer} onPress={closeMode} >
+                <Feather name="x-circle" size={24} color="black"/>
+                </Pressable>
+                <Text>How are you doing today</Text>
+                <Pressable onPress={openVideo} style={styles.video}>
+                        <Text>Take a video</Text>
+            <Entypo name="video-camera" size={24} color="black" />
+            </Pressable>
+            <Takevideo newVideo={newVideo} closeVideo={closeVideo} onVideoUpload={handleVideoJournal}/>
+            <Pressable style={styles.video}>
+                <Text>Record</Text>
+            <MaterialIcons name="audiotrack" size={24} color="black" />
+            </Pressable>
+            <Pressable style={styles.video}>
+                <Text>Write it down</Text>
+            <FontAwesome name="pencil-square-o" size={24} color="black" />
+            </Pressable>
+
+
+            </View></Modal>)
+        
+
+
+    }
 
 
     return(
@@ -38,7 +83,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
         animationType="slide"
         visible={opened}
        // transparent={true}
-        ><View style={styles.container}>
+        ><View style={[styles.container]}>
             <Pressable style={styles.XContainer} onPress={()=> onClose()} >
                 <Feather name="x-circle" size={24} color="black"/>
                 </Pressable>
@@ -46,30 +91,40 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
              style={styles.image} />
         <Text style={styles.gtext}>{greeting()}</Text>
         <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch"}}/>
-            <Pressable onPress={openVideo}>
-            <Entypo name="video-camera" size={60} color="black" />
-            </Pressable>
-            <Pressable>
-            <MaterialIcons name="audiotrack" size={24} color="black" />
-            </Pressable>
-            <Pressable>
-            <FontAwesome name="pencil-square-o" size={24} color="black" />
-            </Pressable>
-            <Takevideo newVideo={newVideo} closeVideo={closeVideo}/>
+        
+        <Pressable onPress={openMode} >
+            <AntDesign name="pluscircle" size={45} color="#DFBD43" />
 
+            </Pressable>
+            {launchJournalmode(jmode)}
+            <FlatList
+            data = {videoList}
+            keyExtractor={(item, index)=>index.toString()}
+            renderItem={({item})=>(
+                <Video
+                style={styles.videoCont}
+                source={{uri: item.videoUri}}
+                useNativeControls
+                //resizeMode="contain"
+                />
+            )}/>
+            
     </View></Modal>);
 
 }
 
 const styles = StyleSheet.create({
 container:{
-    position: "relative",
+    //position: "relative",
         flex: 1,
         backgroundColor: 'rgba(255, 253, 244, 0.96)',
         alignItems: 'flex-start',
         justifyContent: 'center',
         margin: 20,
-        gap: 10
+        gap: 10,
+        //marginBottom: "80%",
+        height: "100%"
+        //alignSelf: "flex-start"
 
 },
     XContainer: {
@@ -103,6 +158,26 @@ container:{
        // padding: 10,
       //  lineHeight: 25,
     },
+    videoCont:{
+        width: "35%",
+        height: 315,
+    },
+    video:{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: 200,
+        height: 50,
+        //borderBlockColor: "brown",
+        borderWidth: 1,
+        borderRadius: 20,
+        padding: 10,
+        margin: 10,
+        shadowColor: 'rgba(255, 255, 255, 0.14)',
+        shadowOffset:{
+            width: 0,
+            height: 16
+        }}
 })
 
 export default MyJournals;
