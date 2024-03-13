@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import getFormattedDate from "../../../utils/date";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons, Feather } from '@expo/vector-icons';
-//const MMKV = new MMKVLoader().initialize();
 
 const LoadHabits: React.FC = ()=>{
     const today = getFormattedDate();
@@ -60,17 +59,8 @@ const LoadHabits: React.FC = ()=>{
               </FlatList>
             </SafeAreaView>) : (<View style={styles.itemHold}> 
             {checkbox()} 
-                <Text style={completed ? styles.strikethrough : styles.text} >No habits created, yet</Text>
-          {/*<Pressable
-            onPress={() => {
-              alert('Feature coming');
-            }}
-          >
-            <Icon name="add-circle-outline" />
-        </Pressable>*/}
         </View>)
- }
-         
+ }  
         </View>
         </View>
       );

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import LoadHabits from './src/pages/Home/loadHabits';
-import NavBar from './src/component/Navigation/nav';
+import NavBar from './src/Navigation/nav';
 import Search from './src/pages/Home/search';
 import DaysOfWeekButtons from './src/pages/Home/thisWeek';
 import { NavigationContainer } from '@react-navigation/native';
