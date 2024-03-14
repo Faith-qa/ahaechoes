@@ -1,36 +1,30 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import MyJournals from "../pages/More/journaling/myjournals";
-import Takevideo from "../pages/More/journaling/videojournaling";
+import Takevideo from "../pages/More/journaling/videoJoun/videojournaling";
 import { useNavigation } from "@react-navigation/native";
+import {useSelector, useDispatch} from 'react-redux'
+import { RootState } from "../store/store";
+import { closeJournalSection, openJournalSection } from "../store/jounalActions";
+
 const More: React.FC = () => {
-    const [visible, setVisible] = useState(false);
-
-
-    const journal = () =>{
-        setVisible(true);
-    }
-
-    const closejournal = () =>{
-        setVisible(false);
-    }
+    //const [visible, setVisible] = useState(false);
+    const isJournalSectionVisible = useSelector((state: RootState) => state.journalData.isJournalSection)
+    
+    const dispatch = useDispatch();
+    
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.imageCont}>
-            {/*<Image source={{uri: 'https://images.pexels.com/photos/18340828/pexels-photo-18340828/free-photo-of-man-in-traditional-north-american-indigenous-clothing.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'}}
-        style={styles.image} />
-
-            <Text>
-                Hi,
-    </Text>*/}
+           
             <View style={styles.jContainer}>
                 <Text style={[styles.jText, {fontSize: 30, fontWeight: "normal"}]}>Your journals</Text>
-                <Pressable style={styles.mcont} onPress={()=>journal()}>
+                <Pressable style={styles.mcont} onPress={()=> dispatch(openJournalSection())}>
                     <Text style={[styles.jText, {alignSelf: "center"}]} >New Entry</Text>
                 </Pressable>
             </View>
-            <MyJournals visible={visible} onClose={closejournal}/>
+            <MyJournals visible={isJournalSectionVisible} onClose={()=>dispatch(closeJournalSection())}/>
             <View style={styles.jContainer}>
             <Text style={[styles.jText, {fontSize: 30, fontWeight:"normal"}]}>Get inspired...</Text>
             </View>
