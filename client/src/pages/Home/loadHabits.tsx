@@ -61,8 +61,7 @@ const LoadHabits: React.FC = ()=>{
             {checkbox()} 
                 <Text style={completed ? styles.strikethrough : styles.text} >No habits created, yet</Text>
         </View>)
- }
-         
+ }  
         </View>
         </View>
       );
