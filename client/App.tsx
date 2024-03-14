@@ -1,25 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import LoadHabits from './src/pages/Home/loadHabits';
 import NavBar from './src/component/Navigation/nav';
-import Search from './src/pages/Home/search';
-import DaysOfWeekButtons from './src/pages/Home/thisWeek';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import {Provider} from 'react-redux';
+import { store } from './src/store/store';
 
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <SafeAreaProvider>    
+    <Provider store={store}>
+      <SafeAreaProvider>
       <NavigationContainer  >
           <NavBar/>
 
     </NavigationContainer>
     </SafeAreaProvider>
+    </Provider>
 
   );
 };

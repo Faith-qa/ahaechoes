@@ -1,23 +1,21 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import Home from "../../screens/home";
+import Home from "../screens/home";
 import {FontAwesome5, Fontisto, Feather, MaterialCommunityIcons} from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
-import Calendar from "../../screens/calendar";
-import Notification from "../../screens/notification";
-import More from "../../screens/more";
-import NewTask from "../../pages/Home/newTask";
+import Calendar from "../screens/calendar";
+import Notification from "../screens/notification";
+import More from "../screens/more";
+import NewTask from "../pages/Home/newTask";
 import { useNavigation } from "@react-navigation/native";
 
 const Tab = createMaterialBottomTabNavigator();
-//const navigation = useNavigation()
 
 const NavBar: React.FC = () => {
     return (
         <Tab.Navigator
             barStyle={styles.container}
             initialRouteName="home"
-            //activeColor="#f0edf6"
             >
             <Tab.Screen name="home" component={Home} 
                 options={{
@@ -55,12 +53,9 @@ const NavBar: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-      width: 428,
+      width: 410,
       height: 67.384,
       postion: "relative",
-      //borderRadius: 20,
-
-      //overflow:'hidden',
       flexShrink: 0,
       backgroundColor: "#EDEAEA",
       zIndex: -5
