@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useAnimatedValue, View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "react-native";
 import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
 import Takevideo from "./videoJoun/videojournaling";
-import { DayOfTheWeek } from "expo-calendar";
-import DaysOfWeekButtons from "../../Home/thisWeek";
 import { greeting } from "../../../../utils/date";
 import { Video } from "expo-av";
-import DisplayVideoJournal from "./videoJoun/displaySavedVid";
-
+import {useSelector, useDispatch} from 'react-redux'
+import { RootState } from "../../../store/store";
+import {startVideoRecording, stopVideoRecording} from "../../../store/jounalActions"
 interface NewProps {
     visible: boolean,
     onClose: () => void
 }
 
 const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
-    const [opened, setopened] = useState(false)
-    const [newVideo, isNewVideo] = useState(false);
+    const recordVideo = useSelector((state:RootState)=> state.journalData.recordVideo)
+    
+    const dispatch = useDispatch()
     const [newAudio, isNewAudio] = useState(false);
     const [newDoc, isNewDoc] = useState(false);
     const [jmode, isJmodeOpen] = useState(false);
@@ -29,19 +29,13 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     }
 
 
-    useEffect(()=>{
-        setopened(visible);
-    }, [visible]);
+    // useEffect(()=>{
+    //     setopened(visible);
+    // }, [visible]);
     
     // handle video modal
 
-    const openVideo = () =>{
-        isNewVideo(true);
-    }
-
-    const closeVideo = () => {
-        isNewVideo(false);
-    }
+    
     const openMode = () =>{
         isJmodeOpen(true);
     }
@@ -56,11 +50,11 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
                 <Feather name="x-circle" size={24} color="black"/>
                 </Pressable>
                 <Text>How are you doing today</Text>
-                <Pressable onPress={openVideo} style={styles.video}>
+                <Pressable onPress={()=> dispatch(startVideoRecording())} style={styles.video}>
                         <Text>Take a video</Text>
             <Entypo name="video-camera" size={24} color="black" />
             </Pressable>
-            <Takevideo newVideo={newVideo} closeVideo={closeVideo} onVideoUpload={handleVideoJournal}/>
+            <Takevideo newVideo={recordVideo} closeVideo={()=>{dispatch(stopVideoRecording())}} onVideoUpload={handleVideoJournal}/>
             <Pressable style={styles.video}>
                 <Text>Record</Text>
             <MaterialIcons name="audiotrack" size={24} color="black" />
@@ -81,7 +75,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     return(
     <Modal
         animationType="slide"
-        visible={opened}
+        visible={visible}
        // transparent={true}
         ><View style={[styles.container]}>
             <Pressable style={styles.XContainer} onPress={()=> onClose()} >
