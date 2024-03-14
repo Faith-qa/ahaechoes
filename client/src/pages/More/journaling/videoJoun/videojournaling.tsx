@@ -3,19 +3,24 @@ import { Camera, CameraType } from 'expo-camera';
 import { Button, StyleSheet, Text, Pressable, View,Modal } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import {Video} from 'expo-av';
+import * as MedaLibrary from 'expo-media-library';
 
 interface NewProps{
     newVideo: boolean,
-    closeVideo: () => void
+    closeVideo: () => void,
+    onVideoUpload: (videoData: {videoUri: string})=> void;
+
 }
-const Takevideo: React.FC<NewProps> = ({newVideo}) =>{
+const Takevideo: React.FC<NewProps> = ({newVideo, closeVideo, onVideoUpload}) =>{
     const cameraRef = useRef<Camera>(null)
     const [visible, setVisible] = useState<boolean>(false);
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean>();
     const [hasAudioPermission, setHasAudioPermission] = useState<boolean>();
+    const [hasMediaLibraryPermissions, setHasMediaLibraryPermissions] = useState<boolean>();
     const [isRecording, setIsRecording] = useState(false);
     const [video, setVideo] = useState<any>();
     const [camType, setCamType] = useState(CameraType.front)
+    const [loadVideo, setLoadVideo] = useState(false);
 
     //set default camera permissions
 
@@ -23,8 +28,10 @@ const Takevideo: React.FC<NewProps> = ({newVideo}) =>{
          (async() => {
             const camerPermissions = await Camera.requestCameraPermissionsAsync();
             const microprohonePermissions = await Camera.requestMicrophonePermissionsAsync();
+            const mediaLibraryPermissions = await MedaLibrary.requestPermissionsAsync();
             setHasCameraPermission(camerPermissions.status === "granted");
             setHasAudioPermission(microprohonePermissions.status === "granted");
+            setHasMediaLibraryPermissions(mediaLibraryPermissions.status === "granted")
             setVisible(newVideo);
 
 
@@ -56,6 +63,8 @@ const Takevideo: React.FC<NewProps> = ({newVideo}) =>{
             cameraRef.current.recordAsync(options).then((recordedVideo)=>{
                 setVideo(recordedVideo);
                 setIsRecording(false);
+                setLoadVideo(true);
+                //closeVideo();
 
             })
 
@@ -71,6 +80,7 @@ const Takevideo: React.FC<NewProps> = ({newVideo}) =>{
         setIsRecording(false);
         setVisible(false);
 
+
         cameraRef.current?.stopRecording();
     }
 
@@ -84,7 +94,23 @@ const Takevideo: React.FC<NewProps> = ({newVideo}) =>{
 
     // manipulate video file
     if(video){
-        return(<SafeAreaView style={styles.container}>
+        //save a video
+        let saveVideo = async() =>{
+          /* MedaLibrary.saveToLibraryAsync(video.uri).then(()=>{
+                setVideo(video.uri);
+                onVideoUpload({videoUri: video.uri})
+            })
+            console.log("this is a video", video)*/
+            const asset = await MedaLibrary.createAssetAsync(video.uri)
+            onVideoUpload({videoUri: asset.uri});
+            console.log("this is an sasset",);
+            setVideo(undefined);
+            closeVideo();
+
+        }
+        return(<Modal
+        visible={loadVideo}>
+            <SafeAreaView style={styles.container}>
             <Video
                 style={styles.video}
                 source={{uri: video.uri}}
@@ -92,8 +118,9 @@ const Takevideo: React.FC<NewProps> = ({newVideo}) =>{
                 //resizeMode='contain'
                 isLooping/>
                 <Button title="share"/>
+                {hasMediaLibraryPermissions ? <Button title="save" onPress={saveVideo}/> : undefined}
                 <Button title="Discard" onPress={()=> setVideo(undefined)}/>
-        </SafeAreaView>)
+        </SafeAreaView></Modal>)
     }
     return (
         <Modal 
