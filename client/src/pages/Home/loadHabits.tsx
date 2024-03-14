@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import getFormattedDate from "../../../utils/date";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons, Feather } from '@expo/vector-icons';
-//const MMKV = new MMKVLoader().initialize();
 
 const LoadHabits: React.FC = ()=>{
     const today = getFormattedDate();
@@ -61,13 +60,6 @@ const LoadHabits: React.FC = ()=>{
             </SafeAreaView>) : (<View style={styles.itemHold}> 
             {checkbox()} 
                 <Text style={completed ? styles.strikethrough : styles.text} >No habits created, yet</Text>
-          {/*<Pressable
-            onPress={() => {
-              alert('Feature coming');
-            }}
-          >
-            <Icon name="add-circle-outline" />
-        </Pressable>*/}
         </View>)
  }
          
@@ -94,7 +86,6 @@ const styles = StyleSheet.create({
     },
     container: {
         display: "flex",
-        //flexDirection: 'row',
         width: 388,
         paddingBottom:10,
         flexDirection: "column",
@@ -110,18 +101,15 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         padding: 10,
         borderColor: "#D6D6D6",
-        //alignItems: "baseline"
 
 
     }, 
    
     text: {
         color: 'black',
-        //fontFamily: "Rubik",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
-        //textDecorationLine: "line-through"
 
     },
     image:{
@@ -133,15 +121,12 @@ const styles = StyleSheet.create({
     },
     Checkbox: {
         flexShrink: 0,
-        //size: ,
         width: 20,
         height: 20,
         color: "#DFBD43",
-        //fill: "DFBD43"
     }, 
     strikethrough: {
         color: 'black',
-        //fontFamily: "Rubik",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",

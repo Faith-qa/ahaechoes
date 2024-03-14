@@ -18,12 +18,7 @@ const More: React.FC = () => {
     return (
         <View style={styles.container}>
             <View style={styles.imageCont}>
-            {/*<Image source={{uri: 'https://images.pexels.com/photos/18340828/pexels-photo-18340828/free-photo-of-man-in-traditional-north-american-indigenous-clothing.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'}}
-        style={styles.image} />
-
-            <Text>
-                Hi,
-    </Text>*/}
+           
             <View style={styles.jContainer}>
                 <Text style={[styles.jText, {fontSize: 30, fontWeight: "normal"}]}>Your journals</Text>
                 <Pressable style={styles.mcont} onPress={()=>journal()}>

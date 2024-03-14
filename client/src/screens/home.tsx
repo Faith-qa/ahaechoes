@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 253, 244, 0.96)',
         alignItems: 'center',
         justifyContent: 'center',
-       // zIndex: 1
         
 
     
@@ -55,7 +54,6 @@ const styles = StyleSheet.create({
         alignSelf:"center",
         bottom: -20,
         zIndex:10
-        //transfcd orm: translate()
         
     }
 
