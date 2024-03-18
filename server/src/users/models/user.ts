@@ -26,6 +26,9 @@ const userSchema = new Schema<Iuser>({
         type: String,
         min: 3,
         max: 256,
+        default: function(){
+            return this.firstname
+        }
     },
     email:{
         type: String,
