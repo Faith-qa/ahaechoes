@@ -6,7 +6,13 @@ export function auth(req: any,res: any,next: any){
         return res.status(401).send({message: "access denied"})
     }
     try{
-        const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+        const tokenSecret = process.env.TOKEN_SECRET;
+        if (!tokenSecret) {
+            throw new Error('TOKEN_SECRET environment variable is not defined');
+        }
+        
+    
+        const verified = jwt.verify(token, tokenSecret);
         req.user = verified;
         next()
     }catch(err){
