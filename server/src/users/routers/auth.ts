@@ -73,8 +73,15 @@ router.post('/login', async(req, res)=>{
     const passValidation = await bcryptjs.compare(req.body.password, user.password);
     if(!passValidation){
         return res.status(400).send({message: "invalid password"})
+
     }
-    const token:string = jwt.sign({_id: user._id},process.env.TOKEN_SECRET);
+    const tokenSecret = process.env.TOKEN_SECRET;
+    if (!tokenSecret) {
+        throw new Error('TOKEN_SECRET environment variable is not defined');
+    }
+    
+
+    const token:string = jwt.sign({_id: user._id}, tokenSecret);
     
     return res.header('auth-token', token).send({"auth-token": token});
 
