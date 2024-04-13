@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput, View, Text } from "react-native";
-import { getCurrentTime } from "../../utils/date";
+import { getCurrentTime } from "../../../utils/date";
 
 const Goal: React.FC = () => {
     const {control, handleSubmit, reset, formState:{errors}} = useForm(
