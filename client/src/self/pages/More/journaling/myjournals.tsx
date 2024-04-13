@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useAnimatedValue, View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "react-native";
+import React, { useState } from "react";
+import {  View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "react-native";
 import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
 import Takevideo from "./videoJoun/videojournaling";
-import { greeting } from "../../../../utils/date";
+import { greeting } from "../../../../../utils/date";
 import { Video } from "expo-av";
 import {useSelector, useDispatch} from 'react-redux'
-import { RootState } from "../../../store/store";
-import {startVideoRecording, stopVideoRecording} from "../../../store/jounalActions"
+import { RootState } from "../../../../store/store";
+import {startVideoRecording, stopVideoRecording} from "../../../../store/jounalActions"
 interface NewProps {
     visible: boolean,
     onClose: () => void

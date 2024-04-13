@@ -4,8 +4,8 @@ import MyJournals from "../pages/More/journaling/myjournals";
 import Takevideo from "../pages/More/journaling/videoJoun/videojournaling";
 import { useNavigation } from "@react-navigation/native";
 import {useSelector, useDispatch} from 'react-redux'
-import { RootState } from "../store/store";
-import { closeJournalSection, openJournalSection } from "../store/jounalActions";
+import { RootState } from "../../store/store";
+import { closeJournalSection, openJournalSection } from "../../store/jounalActions";
 
 const More: React.FC = () => {
     //const [visible, setVisible] = useState(false);
