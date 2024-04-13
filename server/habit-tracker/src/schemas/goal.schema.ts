@@ -26,7 +26,7 @@ export const GoalSchema = new mongoose.Schema({
                 time: Date
             },
             monthly: {
-                week: String,
+                week: Number,
                 day: String,
                 time: Date
             }

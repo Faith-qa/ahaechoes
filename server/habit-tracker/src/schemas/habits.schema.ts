@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const HabitsSchema = new mongoose.Schema({
+export const HabitsSchema = new mongoose.Schema({
     goal : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Goal'
