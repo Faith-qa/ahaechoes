@@ -2,7 +2,7 @@ import {Schema} from "mongoose";
 import {UNKNOWN_EXPORT_MESSAGE} from "@nestjs/core/errors/messages";
 
 export class CreateGoalDto{
-readonly user: Schema.Types.ObjectId;
+readonly user: string;
 readonly goal: string;
 readonly habitKind: 'daily' | 'weekly' | 'monthly';
 readonly tracker: TrackerDto;
