@@ -2,7 +2,7 @@ import {Controller, Patch,Post,Body, Delete} from "@nestjs/common";
 import {CreateUserDto} from "../dto/users/create-user.dto";
 import {UsersService} from "../services/users.service";
 import {User} from "../interfaces/user.interface";
-import {AuthService} from "../services/auth.service";
+import {AuthService} from "../auth/auth.service";
 import {UpdateUserDto} from "../dto/users/update-user.dto";
 import {hash} from "bcryptjs";
 
@@ -14,7 +14,7 @@ export class UsersControllers{
         private readonly authService: AuthService,
     ) {}
 
-    @Post()
+    @Post('signup')
     async create(@Body() createUserDto: CreateUserDto){
         let hashPassword:string = '';
         await this.authService.hashPassword(createUserDto.password).then(res=>{
@@ -27,8 +27,8 @@ export class UsersControllers{
     }
 
     @Patch()
-    async update(@Body() updatedUserDto: UpdateUserDto, userid:string){
-        return this.usersService.update(updatedUserDto, userid);
+    async update(@Body() updatedUserDto: UpdateUserDto){
+        return this.usersService.update(updatedUserDto);
     }
     @Delete()
 
