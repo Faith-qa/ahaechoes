@@ -1,7 +1,7 @@
 import {Connection} from "mongoose";
 import {UserSchema} from "../schemas/user.schema";
 
-export const usersProviders = [
+export const UsersProviders = [
     {
         provide: 'USER_MODEL',
         useFactory: (connection:Connection) => connection.model('User', UserSchema),
