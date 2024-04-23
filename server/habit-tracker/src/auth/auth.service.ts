@@ -1,6 +1,6 @@
 import {Injectable, UnauthorizedException} from "@nestjs/common";
 import * as bcrypt from 'bcryptjs';
-import {UsersService} from "./users.service";
+import {UsersService} from "../services/users.service";
 import {JwtService} from "@nestjs/jwt";
 import {buildSolutionReferences} from "ts-loader/dist/instances";
 import {NotFoundError} from "rxjs";

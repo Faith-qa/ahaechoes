@@ -1,8 +1,8 @@
 import {Module} from "@nestjs/common";
-import {AuthService} from "../services/auth.service";
-import {AuthController} from "../controllers/auth.controller";
+import {AuthService} from "./auth.service";
+import {AuthController} from "./auth.controller";
 import {DatabaseModule} from "../db/db.module";
-import {UsersModule} from "./users.module";
+import {UsersModule} from "../Modules/users.module";
 import {JwtModule} from "@nestjs/jwt";
 import * as dotenv from 'dotenv';
 import {UsersService} from "../services/users.service";

@@ -19,9 +19,9 @@ export class UsersService {
         return createdUser.save();
     }
 
-    async update(updateUserDto: UpdateUserDto, user_id: string): Promise<User>{
+    async update(updateUserDto: UpdateUserDto): Promise<User>{
         //find current user
-        const existingUser = await this.userModel.findByIdAndUpdate(user_id, updateUserDto,{new: true});
+        const existingUser = await this.userModel.findOneAndUpdate({email: updateUserDto.email}, updateUserDto,{new: true});
         if (!existingUser){
             throw new NotFoundError('user not found');
         }
