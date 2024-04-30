@@ -5,6 +5,8 @@ import {UsersProviders} from "../providers/user.providers";
 import {DatabaseModule} from "../db/db.module";
 import {AuthModule} from "../auth/auth.module";
 import {AuthService} from "../auth/auth.service";
+import {UserSchema} from "../schemas/user.schema";
+import { MongooseModule } from "@nestjs/mongoose";
 
 
 @Module({

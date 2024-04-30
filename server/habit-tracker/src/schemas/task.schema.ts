@@ -10,6 +10,11 @@ export const TaskSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    status:{
+        type: Boolean,
+        required: true,
+        default: false
+    },
     details: {
         type: String
     },

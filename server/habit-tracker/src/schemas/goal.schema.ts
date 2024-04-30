@@ -6,6 +6,11 @@ export const GoalSchema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
+    status:{
+        type: Boolean,
+        default: false,
+        required: true,
+    },
     goal: {
         type: String,
     },

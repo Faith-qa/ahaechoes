@@ -1,8 +1,8 @@
 import {Schema} from "mongoose";
 
 export class CreateHabitDto {
-    goal: Schema.Types.ObjectId;
-    user: Schema.Types.ObjectId;
+    goal:string;
+    user: string;
     habit: string;
-    notes: string[]
+    notes?: string[]
 }

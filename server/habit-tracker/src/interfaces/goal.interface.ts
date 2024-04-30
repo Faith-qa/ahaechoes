@@ -18,5 +18,6 @@ export interface Goal extends Document {
            day: string;
            time: Date;
        }
-   }
+   };
+   habits?: [any]
 }
