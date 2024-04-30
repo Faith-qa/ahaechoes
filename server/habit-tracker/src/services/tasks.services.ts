@@ -91,6 +91,11 @@ export class TasksServices {
             throw new Error(`error filtering tasks ${err}`);
         }
     }
+    //list all my tasks
+    async myTasks(userId:string):Promise<Task[]>{
+        const tasks = await this.taskModel.find({user: userId});
+        return tasks;
+    }
 
 
 }
