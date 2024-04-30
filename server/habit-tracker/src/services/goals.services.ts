@@ -1,31 +1,29 @@
 import {Model} from "mongoose";
-import {Injectable, Inject} from "@nestjs/common";
+import {Injectable, Inject, UnauthorizedException} from "@nestjs/common";
 import {Goal} from "../interfaces/goal.interface";
 import {CreateGoalDto} from "../dto/goals/create-goal.dto";
 import {UpdateGoalDto} from "../dto/goals/update-goat.dto";
 import {NotFoundError} from "rxjs";
-import {User} from "../interfaces/user.interface";
 
 @Injectable()
 export class GoalsServices{
     constructor (
         @Inject('GOAL_MODEL')
-        @Inject('USER_MODEL')
         private goalModel: Model<Goal>,
-        private userModel: Model<User>
 
     ){}
 
     // CREATE A GOAL
 
     async create(createGoalDto: CreateGoalDto): Promise<Goal>{
-        const user = await this.userModel.findById(createGoalDto.user);
-        if(!user){
-            throw new NotFoundError('user does not exist')
-        }
+       try{
+           const createdGoal = new this.goalModel(createGoalDto);
+           return await createdGoal.save();
 
-        const createdGoal = new this.goalModel(createGoalDto);
-        return await createdGoal.save();
+       } catch{
+           throw new Error('something went wrong')
+       }
+
     }
     // updateGoals
     async updateGoal(updatedGoalDto: UpdateGoalDto, goal_id: string):Promise<Goal>{
@@ -52,13 +50,13 @@ export class GoalsServices{
 
     //find one goal
 
-    /*async findOneFoal(goal_id: string):Promise<Goal>{
+    async findOneGoal(goal_id: string):Promise<Goal>{
        const goal = await this.goalModel.findById(goal_id);
        if(!goal){
            throw new NotFoundError("goal does not exist")
        }
        return goal;
-    }*/
+    }
 
 
 
