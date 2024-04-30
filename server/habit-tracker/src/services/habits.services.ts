@@ -5,12 +5,13 @@ import {CreateHabitDto} from "../dto/goals/create-habit.dto";
 import {UpdateGoalDto} from "../dto/goals/update-goat.dto";
 import {GoalsServices} from "./goals.services";
 import {Goal} from "../interfaces/goal.interface";
+import {GoalsModule} from "../Modules/goals.module";
 
 @Injectable()
 export class HabitServices{
     constructor(@Inject('HABIT_MODEL')
     private habitModel: Model<Habit>,
-                private goalModel: Model<Goal>
+                private readonly goalService: GoalsServices
 
     ) {}
 
@@ -20,7 +21,7 @@ export class HabitServices{
         const habit =  await newHabit.save()
          //send the add the habit to the goal tracker
         try {
-            const actualGoal = await this.goalModel.findById(newHabit.goal);
+            const actualGoal = await this.goalService.findOneGoal(createHabitDto.goal);
             if(actualGoal){
                 if (actualGoal.habits) { // Check if habits is defined
                     actualGoal.habits.push(habit);
