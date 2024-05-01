@@ -8,9 +8,10 @@ import {GoalsModule} from "./Modules/goals.module";
 import {DatabaseModule} from "./db/db.module";
 import {TasksModule} from "./Modules/tasks.module";
 import {HabitsModule} from "./Modules/habits.module";
+import {JournalsModule} from "./Modules/journals.module";
 
 @Module({
-  imports: [AuthModule,UsersModule, GoalsModule, TasksModule, ],
+  imports: [AuthModule,UsersModule, GoalsModule, TasksModule, JournalsModule],
   controllers: [AppController],
   providers: [AppService],
 })
