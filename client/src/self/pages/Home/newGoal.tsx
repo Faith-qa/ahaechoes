@@ -573,18 +573,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 48,
         flexShrink: 0,
-        //orderRadius: 20,
-        //borderWidth: 1,
-        //borderColor: 'rgba(0, 0, 0, 0.40)',
         backgroundColor: '#FFFFFF',
-        //shadowColor: 'rgba(255, 255, 255, 0.14)',
-        /*shadowOffset: {
-          width: 0,
-          height: 16,
-        },*/
-        //shadowRadius: 24,
-        //shadowOpacity: 1,
-        //elevation: 1, // For Android shadow
         padding: 10,
         alignSelf:"flex-start",
 
@@ -609,10 +598,7 @@ const styles = StyleSheet.create({
         height:35,
         flexShrink:0,
         textAlign: "center",
-        //alignSelf: "center",
         padding: 7,
-        //borderBottomRightRadius: 20,
-        //borderTopRightRadius: 20,
       },
       schedule:{
         backgroundColor: "#FFFFFF",
@@ -622,7 +608,6 @@ const styles = StyleSheet.create({
         width: 358,
         height: 48,
         padding:10,
-        //paddingRight: 10,
         borderWidth: 1,
         borderColor: '#FFFFFF',
 

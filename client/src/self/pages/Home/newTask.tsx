@@ -28,10 +28,6 @@ const NewTask: React.FC<NewProps> = ({newtask, closeTask, onClose}) =>{
     }, [newtask]);
 
 
-
-    //const [task,setTask] = useState('');
-    //const [details, setDetails] = useState('')
-
     const {control, handleSubmit, reset, formState:{errors},} = useForm(
         {
             defaultValues: {
@@ -84,13 +80,7 @@ const NewTask: React.FC<NewProps> = ({newtask, closeTask, onClose}) =>{
         };
     };
 
-   /*const handleNew = (data: any): any =>{
-        onSubmit(data);
-        setTask('');
-        setDetails('');
-
-    }*/
-
+   
     console.log('errors', errors);
     
 
@@ -262,7 +252,6 @@ const styles = StyleSheet.create({
         width: 358,
         height: 48,
         flexShrink: 0,
-        //borderRadius: 20,
         borderWidth: 1,
         borderColor: 'rgba(0, 0, 0, 0.40)',
         backgroundColor: '#FFFFFF',
@@ -338,12 +327,8 @@ const styles = StyleSheet.create({
         height:35,
         flexShrink:0,
         textAlign: "center",
-        //alignSelf: "center",
         padding: 7,
-        //borderBottomRightRadius: 20,
-        //borderTopRightRadius: 20,
-
-
+        
 
     },
     addnew: {
@@ -355,7 +340,6 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         lineHeight: 24,
         margin: 40
-      /* 133.333% */
     },
     button: {
         width: 358,
@@ -364,7 +348,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#DFBD43",
         alignItems: "center",
         justifyContent: "center",
-        //margin: 20
     
     },
     buttonText:{

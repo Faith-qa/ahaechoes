@@ -113,15 +113,11 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#4D4117',
         alignItems: 'center',
-        //justifyContent:'center',
-        //marginHorizontal: 30,
-        //padding: 10,
-
+        
 
     },
     dtext:{
         color: '#4D4117',
-        //fontFamily: 'Rubik',
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '400',
@@ -131,9 +127,7 @@ const styles = StyleSheet.create({
                 
     },
     btext: {
-        //padd
         color: '#FFF',
-        //fontFamily: 'Rubik',
         fontSize: 13,
         fontStyle: 'normal',
         fontWeight: '400',
@@ -146,13 +140,10 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'flex-start', // align-items equivalent for main axis
         gap: 8,
-        //color: '#FFF',
-        //fontFamily: 'Rubik',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
-       // padding: 10,
-      //  lineHeight: 25,
+       
     },
     image:{
         width: 70,
