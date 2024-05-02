@@ -25,4 +25,28 @@ export function getCurrentTime(now: Date): string {
 
     return formattedTime;
 }
+
+export function greeting(){
+      //get the current hour of the day
+      const currentHour: number = new Date().getHours()
+
+      //define time ranges
+      const morningStart: number = 0;
+      const afternoonStart: number = 12;
+      const eveningStart: number = 18;
+
+      // determing the time of day and return greeting
+
+      if (currentHour >= morningStart && currentHour < afternoonStart) {
+          /*TO DO: Sync username */
+          return "Good morning, Faith";
+      
+      } else if (currentHour >= afternoonStart && currentHour < eveningStart){
+          return "Good afternoon, Faith";
+      } else {
+          return "Good evening, Faith";
+      }
+
+
+}
 export default getFormattedDate;
