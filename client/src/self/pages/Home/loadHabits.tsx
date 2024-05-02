@@ -59,6 +59,7 @@ const LoadHabits: React.FC = ()=>{
               </FlatList>
             </SafeAreaView>) : (<View style={styles.itemHold}> 
             {checkbox()} 
+                <Text style={completed ? styles.strikethrough : styles.text} >No habits created, yet</Text>
         </View>)
  }  
         </View>
@@ -84,7 +85,6 @@ const styles = StyleSheet.create({
     },
     container: {
         display: "flex",
-        //flexDirection: 'row',
         width: 388,
         paddingBottom:10,
         flexDirection: "column",
@@ -100,18 +100,15 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         padding: 10,
         borderColor: "#D6D6D6",
-        //alignItems: "baseline"
 
 
     }, 
    
     text: {
         color: 'black',
-        //fontFamily: "Rubik",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
-        //textDecorationLine: "line-through"
 
     },
     image:{
@@ -123,15 +120,12 @@ const styles = StyleSheet.create({
     },
     Checkbox: {
         flexShrink: 0,
-        //size: ,
         width: 20,
         height: 20,
         color: "#DFBD43",
-        //fill: "DFBD43"
     }, 
     strikethrough: {
         color: 'black',
-        //fontFamily: "Rubik",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
