@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import NavBar from './src/component/Navigation/nav';
+import NavBar from "./src/Navigation/nav";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
