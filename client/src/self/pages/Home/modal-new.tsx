@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     },
 mcontainer: {
     flex: 0,
-    //flexDirection: 'column',
     alignItems: 'center',
     alignSelf: "center",
     justifyContent: "center",
@@ -116,15 +115,11 @@ mcontainer: {
 XContainer: {
     display: "flex",
     justifyContent: "flex-end",
-    //alignItems: "center",
     gap: 10,
     alignSelf: "stretch"
 },
 xbutton: {
-    //display: "flex",
-    //width: 20,
     height: 14,
-    //flexDirection: "column",
     justifyContent: "center",
     flexShrink: 0
 },
@@ -164,7 +159,6 @@ titleCont: {
 title:{
     color: 'rgba(0, 0, 0, 0.50)', // Default color or use your variable if it's dynamic
     textAlign: 'center',
-   // fontFamily: 'SF Pro Text',
     fontSize: 17,
     fontStyle: 'normal',
     fontWeight: 'bold',
@@ -178,7 +172,6 @@ messageCont:{
 message: {
     color: 'rgba(0, 0, 0, 0.50)', // Default color or use your variable if it's dynamic
     textAlign: 'center',
-    //fontFamily: 'SF Pro Text',
     fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '400',
@@ -198,7 +191,6 @@ taskCont:{
 },
 taskText:{
     color: '#FFF',
-    //fontFamily: 'SF Pro Text',
     fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '600',
