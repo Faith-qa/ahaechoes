@@ -11,24 +11,29 @@ import {loginUser} from "../store/auth/auth.actions";
 import {RootState, AppDispatch} from "../store/store";
 import {useDispatch, useSelector} from "react-redux";
 import {createStackNavigator} from "@react-navigation/stack";
+import SignUp from "../self/screens/register";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const NavBar: React.FC = () => {
-    const {userInfo, userToken} = useSelector((state: RootState)=> state.auth);
+    const {userInfo, userToken, loading} = useSelector((state: RootState)=> state.auth);
     const dispatch = useDispatch<AppDispatch>()
-    const [loggedIn, isLoggedIn] = useState(userInfo)
 
+    if(userToken == null){
+         return(<>
+           <SignUp/>
+        </>)
+     }
 
     return (
 <Tab.Navigator
                     barStyle={styles.container}
-                    initialRouteName={'LogIn'}
+                    initialRouteName={'Home'}
                 >
                     <Tab.Screen
-                        name="login"
-                        component={LogIn}
+                        name="home"
+                        component={Home}
                         options={{
                             tabBarIcon: ({color}) => (
                                 <Fontisto name="home" size={24} color="#444444" />
@@ -74,8 +79,11 @@ const styles = StyleSheet.create({
       height: 67.384,
       postion: "relative",
       flexShrink: 0,
-      backgroundColor: "#EDEAEA",
-      zIndex: -5
+      backgroundColor: "#B4D8E2",
+      zIndex: -5,
+        fontFamily: "Raleway_300Light",
+
+
       
     }
 })

@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
         height:40,
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: 'rgba(0, 0, 0, 0.40)',
+        borderColor: '#B4D8E2',
         backgroundColor: '#FFF',
-        shadowColor: 'rgba(255, 255, 255, 0.14)',
+        shadowColor: '#8AA6B5',
         shadowOffset: {
           width: 0,
           height: 16,
@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
         shadowRadius: 24,
         shadowOpacity: 1,
         elevation: 1, // For Android shadow
-        padding: 10, // Adjust padding based on your design
+        padding: 10,
+        fontFamily: "Raleway_400Regular"// Adjust padding based on your design
       },
     searchIcon: {
         width: 15,
@@ -48,14 +49,16 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         height: 40,
-        color: 'rgba(0, 0, 0, 0.50)',
-        fontFamily: 'Rubik',
+        color: '#365b6d',
+        fontFamily: 'Raleway_400Regular',
         fontSize: 9,
         fontStyle: 'normal',
         fontWeight: '400',
         lineHeight: 10,
         paddingLeft: 10,
-        paddingBottom: 25
+        paddingBottom: 25,
+
+
         
         
         

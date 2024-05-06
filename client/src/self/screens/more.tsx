@@ -32,6 +32,7 @@ const More: React.FC = () => {
                 <Text style={[styles.jText, {fontSize: 20, fontWeight:"normal"}]}>Coffee chats with Amina</Text>
                 <Image source={{uri:'https://images.unsplash.com/photo-1585102651425-8caf7848e44b?q=80&w=2962&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}} style={styles.image}/>
                 </View>
+
             <View>
 
             </View>
@@ -43,7 +44,7 @@ const More: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'rgba(255, 253, 244, 0.96)',
+      backgroundColor: '#FFFFFF',
       padding: 10,
       alignItems: 'center',
       justifyContent: 'center',
