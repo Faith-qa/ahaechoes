@@ -2,13 +2,13 @@ import axios from 'axios';
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import AsyncStorage, {useAsyncStorage} from "@react-native-async-storage/async-storage";
 
-const api_URL = "http://10.0.2.2:3000/auth";
+const api_URL = process.env.API_URI;
 //registration data
 interface userRegistrationData {
 firstName: string;
 lastName: string;
 preferredName?: string;
-avatar: string;
+avatar?: string;
 email: string;
 password: string;
 }

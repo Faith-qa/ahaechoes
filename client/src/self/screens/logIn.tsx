@@ -1,17 +1,14 @@
 import React, {useState} from "react";
 import {StatusBar, TouchableOpacity, View, Text, Image, StyleSheet, ActivityIndicator} from "react-native";
 import CustomBox from 'react-native-customized-box';
-import {useDispatch, useSelector, UseSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {loginUser} from "../../store/auth/auth.actions";
 import {AppDispatch, RootState} from "../../store/store";
-import {useForm} from "react-hook-form";
-import {log} from "expo-updates/build-cli/utils/log";
 import Home from "./home";
 
 const LogIn: React.FC = () =>{
     const {loading, error} = useSelector((state: RootState)=> state.auth);
     const dispatch = useDispatch<AppDispatch>();
-    const {register, handleSubmit} = useForm();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState("")

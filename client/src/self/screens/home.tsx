@@ -6,6 +6,7 @@ import DaysOfWeekButtons from "../pages/Home/thisWeek";
 import { AntDesign } from '@expo/vector-icons';
 import New from "../pages/Home/modal-new";
 import { useNavigation } from "@react-navigation/native";
+import NewChallenge from "../pages/Home/newChallenge";
 
 
 const Home: React.FC = () =>{
@@ -25,7 +26,8 @@ const Home: React.FC = () =>{
             <DaysOfWeekButtons/>
             <Search/>
             <LoadHabits/>
-            <New visible={visible} onClose={closeModal}/>
+            {/*<New visible={visible} onClose={closeModal}/>*/}
+            <NewChallenge visible={visible} onClose={closeModal}/>
             <View style={styles.plusbutton}>
             
             <Pressable onPress={openModal} >
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     container: {
         position: "relative",
         flex: 1,
-        backgroundColor: 'rgba(255, 253, 244, 0.96)',
+        backgroundColor: '#FFFFFF',
         alignItems: 'center',
         justifyContent: 'center',
         
