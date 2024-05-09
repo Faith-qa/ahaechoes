@@ -2,7 +2,8 @@ import axios from 'axios';
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import AsyncStorage, {useAsyncStorage} from "@react-native-async-storage/async-storage";
 
-const api_URL = process.env.API_URI;
+const api_URL = process.env.EXPO_PUBLIC_API_URI;
+if (api_URL === undefined) throw new Error('api url unreachable')
 //registration data
 interface userRegistrationData {
 firstName: string;
@@ -20,14 +21,17 @@ interface userLoginData{
 export const registerUser = createAsyncThunk(
     'auth/register',
     async(userData: userRegistrationData, {rejectWithValue})=>{
+        console.log("this is data", userData)
         try{
             const config = {
                 headers: {
                     'Content-Type':'application/json'
                 },
             }
-            const response = await axios.post(`${api_URL}/signup`, userData, config);
-            return response.data;
+            //console.log(`${api_URL}/users/signup`)
+            const {data} = await axios.post(`${api_URL}/users/signup`, userData, config)
+            return data;
+
         }catch(error){
             return rejectWithValue(error);
         }
@@ -47,7 +51,7 @@ export const loginUser = createAsyncThunk(
             }
 
             const {data} = await axios.post(
-                `${api_URL}/login`, userData, config
+                `${api_URL}/auth/login`, userData, config
             )
             //console.log(data)
 

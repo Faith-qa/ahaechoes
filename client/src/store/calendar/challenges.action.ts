@@ -9,17 +9,17 @@ interface challengeRegistration{
     habitKind: 'daily'|'weekly'|'monthly';
     tracker:{
         daily?:{
-            time:Date;
+            time: string;
             reminderDays: string[];
         }
         weekly?: {
             reminderDay: string;
-            time: Date;
+            time: string;
         };
         monthly?:{
             week: number;
             day: string;
-            time: Date;
+            time: string;
         }
     }
 }

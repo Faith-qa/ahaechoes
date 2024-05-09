@@ -8,7 +8,7 @@ import CustomBox from "react-native-customized-box";
 import Home from "./home";
 
 const SignUp: React.FC =() =>{
-    const {loading, userInfo, error} = useSelector((state:RootState)=> state.auth)
+    const {loading, userInfo, error, success} = useSelector((state:RootState)=> state.auth)
     const [errorMessage, setErrorMessage] = useState("")
     const [userDetails, setUserDetails] = useState(userInfo)
     const [geterror, setError] = useState(error)
@@ -20,11 +20,8 @@ const SignUp: React.FC =() =>{
         if (userDetails.email != '' &&
             userDetails.password != '' && userDetails.firstName != '' &&
             userDetails.lastName != '') {
-            await dispatch(registerUser(userDetails)).then(()=>{
-                <Home/>
-            }).catch((err)=>{
-                setError(err)
-            })
+            await dispatch(registerUser(userDetails))
+
 
         }
         if (userDetails.email === "") setErrorMessage("This is required")
@@ -34,7 +31,8 @@ const SignUp: React.FC =() =>{
 
 
     }
-    return (<View style={{ backgroundColor: "white" }}>
+    return (
+        <View style={{ backgroundColor: "white" }}>
             <StatusBar barStyle="light-content" />
             <ScrollView style={{ paddingTop: 20 }}>
                 <View style={styles.container}>
@@ -260,9 +258,9 @@ const SignUp: React.FC =() =>{
                         onPress={registerFunction}
                     >
                         <Text style={styles.registerBtnText}>Sign up</Text>
-                        {loading && loading ? (
+                        {loading && (
                             <ActivityIndicator color={"white"} />
-                        ) : null}
+                        )}
                     </TouchableOpacity>
                 </View>
             </ScrollView>

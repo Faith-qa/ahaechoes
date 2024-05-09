@@ -1,11 +1,7 @@
 
-/* what happens in the load page*/
-
-// load daily default habits/challenges
-//new habit creation
-// states goal
 import {createSlice} from "@reduxjs/toolkit";
 import {registerChallenge} from "./challenges.action";
+import {getCurrentTime} from "../../../utils/date";
 
 const initialState = {
     loading: false,
@@ -14,8 +10,8 @@ const initialState = {
         goal: "read 10 pages of a book",
         habitKind: "daily",
         tracker:{
-            daily: {
-                time: Date,
+            habitKind: {
+                time: getCurrentTime(new Date()),
                 reminderDay: ["Mon", "Tue", "Wed", "Thur", "Fri",]
             }
         },
@@ -25,8 +21,8 @@ const initialState = {
             goal: "exercise for 10 minutes",
             habitKind: "daily",
             tracker:{
-                daily: {
-                    time: Date,
+                habitKind: {
+                    time: getCurrentTime(new Date()),
                     reminderDay: ["Mon", "Tue", "Wed", "Thur", "Fri",]
                 }
             }
@@ -35,8 +31,8 @@ const initialState = {
             goal: "drink 2 glasses of water",
             habitKind: "daily",
             tracker:{
-                daily: {
-                    time: Date,
+                habitKind: {
+                    time: getCurrentTime(new Date()),
                     reminderDay: ["Mon", "Tue", "Wed", "Thur", "Fri",]
                 }
             },
