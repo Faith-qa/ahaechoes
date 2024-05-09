@@ -17,17 +17,17 @@ const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const NavBar: React.FC = () => {
-    const {userInfo, userToken, loading} = useSelector((state: RootState)=> state.auth);
+    const {userInfo, userToken, loading,userId, success} = useSelector((state: RootState)=> state.auth);
     const dispatch = useDispatch<AppDispatch>()
+    console.log(userToken)
 
-    if(userToken == null){
-         return(<>
-           <SignUp/>
-        </>)
-     }
+    if (success === false){
+        return(
+        <SignUp/>)
+    }
 
     return (
-<Tab.Navigator
+        <Tab.Navigator
                     barStyle={styles.container}
                     initialRouteName={'Home'}
                 >
