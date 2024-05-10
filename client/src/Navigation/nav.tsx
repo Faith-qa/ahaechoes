@@ -21,15 +21,15 @@ const NavBar: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>()
     console.log(userToken)
 
-    if (success === false){
-        return(
-        <SignUp/>)
-    }
+    // if (success === false){
+    //     return(
+    //     <SignUp/>)
+    // }
 
     return (
         <Tab.Navigator
                     barStyle={styles.container}
-                    initialRouteName={'Home'}
+                    initialRouteName={'more'}
                 >
                     <Tab.Screen
                         name="home"
