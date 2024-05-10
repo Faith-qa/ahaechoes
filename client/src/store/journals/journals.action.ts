@@ -19,6 +19,7 @@ export const updateAlbum = createAsyncThunk(
         //create asset uri
         const asset = await MedaLibrary.createAssetAsync(journUri)
         //get album library if it exists
+            console.log("video saved", asset)
 
 
         let journals = await MedaLibrary.getAlbumAsync('Journals')
@@ -28,8 +29,7 @@ export const updateAlbum = createAsyncThunk(
             return journals
         }
         //add asset to album
-        await MedaLibrary.addAssetsToAlbumAsync(asset, journals, false)
-        return await MedaLibrary.getAlbumAsync('Journal')
+        return await MedaLibrary.addAssetsToAlbumAsync(asset, journals, false)
         }catch(err){
             rejectWithValue(err);
         }
