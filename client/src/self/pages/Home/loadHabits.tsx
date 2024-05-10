@@ -24,25 +24,25 @@ const LoadHabits: React.FC = ()=>{
     }
 
 
-
-    useEffect(()=>{
-        const fetchData = async () =>{
-            try{
-                const value = await AsyncStorage.getItem(today);
-                if (value != null) {
-                    const jsonVal = JSON.parse(value);
-                    setHabit([...habits, jsonVal.Task])
-                    /*TO DO, Send data to database */
-                }
-
-            }catch (e) {
-                console.error(e)
-            }
-        };
-        fetchData();
-        
-    }, [today]);
-
+//
+//     useEffect(()=>{
+//         const fetchData = async () =>{
+//             try{
+//                 const value = await AsyncStorage.getItem(today);
+//                 if (value != null) {
+//                     const jsonVal = JSON.parse(value);
+//                     setHabit([...habits, jsonVal.Task])
+//                     /*TO DO, Send data to database */
+//                 }
+//
+//             }catch (e) {
+//                 console.error(e)
+//             }
+//         };
+//         fetchData();
+//
+//     }, [today]);
+// today
 
 
 
