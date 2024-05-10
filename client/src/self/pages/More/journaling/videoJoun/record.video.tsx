@@ -1,27 +1,61 @@
 import {View, Text, Pressable, StyleSheet, ActivityIndicator, Modal} from "react-native";
 import {Camera, CameraType} from "expo-camera";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {RootState, AppDispatch} from "../../../../../store/store";
 import {useDispatch, useSelector} from "react-redux";
 import {updateAlbum} from "../../../../../store/journals/journals.action";
 import { Feather } from '@expo/vector-icons';
+import * as MedaLibrary from "expo-media-library";
 
 
 //import openCamera State
 interface NewProps{
-    vidVisible: boolean
+    vidVisible: boolean,
+    onClose: ()=> void
 }
 
 
-const RecordVideo: React.FC<NewProps> = ({vidVisible}) =>{
+const RecordVideo: React.FC<NewProps> = ({vidVisible, onClose}) =>{
     const {journUri, loading} = useSelector((state: RootState)=>state.journal)
     const [recording, setIsrecording] = useState(false)
-    const cameraRef = useRef<Camera>()
+    const cameraRef = useRef<Camera>(null)
     const [video, setVideo] = useState(journUri)
     const [camType, setCamType] = useState(CameraType.front)
-    const [visible, setVisible] = useState(vidVisible)
+    const [hasCameraPermission, setHasCameraPermission] = useState<boolean>();
+    const [hasAudioPermission, setHasAudioPermission] = useState<boolean>();
+    const [hasMediaLibraryPermissions, setHasMediaLibraryPermissions] = useState<boolean>();
+
+    const [isvisible, setVisible] = useState(false)
+
+
 
     const dispatch = useDispatch<AppDispatch>()
+
+    useEffect(()=>{
+        (async() => {
+            const camerPermissions = await Camera.requestCameraPermissionsAsync();
+            const microprohonePermissions = await Camera.requestMicrophonePermissionsAsync();
+            const mediaLibraryPermissions = await MedaLibrary.requestPermissionsAsync();
+            setHasCameraPermission(camerPermissions.status === "granted");
+            setHasAudioPermission(microprohonePermissions.status === "granted");
+            setHasMediaLibraryPermissions(mediaLibraryPermissions.status === "granted")
+            setVisible(vidVisible);
+
+
+
+
+
+        })();
+    }, [isvisible]);
+
+    //confirm has camera permissions
+    if (hasAudioPermission === undefined || hasCameraPermission === undefined){
+        return(<Text>Requesting Permissions</Text>)
+    } else if (!hasAudioPermission) {
+        return(<Text>Permissions for microphone not granted</Text>)
+    } else if (!hasCameraPermission) {
+        return(<Text>Permissions for audio not granted</Text>)
+    }
 
     const startRecording = async() =>{
         //update recording state
@@ -35,7 +69,7 @@ const RecordVideo: React.FC<NewProps> = ({vidVisible}) =>{
                     .then((recordedVideo)=>{
                         setVideo(recordedVideo.uri)
                         setIsrecording(false)
-                        setVisible(false)
+                        //setVisible(false)
 
                     })
             }catch(err){
@@ -46,14 +80,17 @@ const RecordVideo: React.FC<NewProps> = ({vidVisible}) =>{
     //stop recording
 
     }
+    console.log(video)
     const stopRecording = async()=>{
         setIsrecording(false)
-        setVisible(false)
+        cameraRef.current?.stopRecording();
+        onClose();
     }
 
     //save video
     const saveVideo = async() => {
-        await dispatch(updateAlbum(video))
+        await dispatch(updateAlbum(video)) ? console.log("successfull") : console.log("not successful")
+        onClose()
     }
 
 
@@ -62,59 +99,84 @@ const RecordVideo: React.FC<NewProps> = ({vidVisible}) =>{
     return(
         <Modal
             animationType="slide"
-            visible={visible}
+            visible={vidVisible}
             transparent={true}>
-            <Camera type={camType} style={styles.container}>
-                <View>
-                    <Pressable onPress={stopRecording}>
-                        <Feather name="x" size={24} color="black" />
-                    </Pressable>
-                    <Pressable onPress={recording ? saveVideo : startRecording} style={styles.startStopCont}>
-                        <View style={recording ? styles.stopButton: styles.startButton}>
-                        </View>
-                        {loading && (
-                            <ActivityIndicator color={"red"} />
-                        )}
-                    </Pressable>
 
-                </View>
+            <Camera style={styles.container} ref={cameraRef} type={camType}>
+                <Pressable onPress={stopRecording}>
+                    <Feather name="x" size={24} color="white" style={styles.end} />
+                </Pressable>
 
 
-            </Camera>
-        </Modal>
+                <Pressable onPress={recording ? saveVideo : startRecording} >
+                    <View style={[styles.startButton, {backgroundColor: !recording ? "#fff": "clear"}]}>
+                        <View style={recording ? styles.stopinButton : styles.inButton}></View>
+                    </View>
+                    {loading && <ActivityIndicator/>}
+                </Pressable>
+
+
+
+            </Camera></Modal>
 
 
     )
 
 }
 
-const styles = StyleSheet.create({
-    container:{
-        flex: 1,
-        justifyContent: "space-between",
+const styles= StyleSheet.create({
+    container :{
+        //flex: 1,
+        height: "100%",
         width: "100%",
-
-
-    },
-    startButton:{
-        height: 50,
-        width: 50,
-        borderRadius: 50,
-
-    },
-    stopButton:{
-        height: 50,
-        width: 50,
-        borderRadius: 20
-
-    },
-    startStopCont:{
-        position: "absolute",
-        bottom: 0,
+        flexDirection: "row",
+        alignItems:"flex-end",
         justifyContent: "center",
-        alignItems: "center"
+        padding: 10,
+    },
+    buttonContainer:{
+        width: 80,
+        height:50,
+        borderRadius: 40,
+        //backgroundColor: "#fff",
+        alignSelf:"flex-end",
+        padding: 10
+
+    },
+    video: {
+        flex: 1,
+        alignSelf: "stretch",
+    },
+    startButton: {
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        borderColor: '#fff',
+        //backgroundColor: "#fff",
+        alignItems: "center",
+        borderWidth: 2,
+        padding:10,
+
+    },
+    inButton: {
+        width: 10,
+        height: 10,
+        backgroundColor: "#fff",
+
+    },
+    stopinButton: {
+        width: 20,
+        height: 20,
+        borderRadius: 20,
+        backgroundColor: "red",
+        margin: 3
+    },
+    end:{
+        alignSelf: "flex-end",
+
     }
 
 
-
 })
+
+export default RecordVideo

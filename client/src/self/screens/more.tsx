@@ -9,7 +9,16 @@ import { closeJournalSection, openJournalSection } from "../../store/jounalActio
 
 const More: React.FC = () => {
     //const [visible, setVisible] = useState(false);
-    const isJournalSectionVisible = useSelector((state: RootState) => state.journalData.isJournalSection)
+    //const isJournalSectionVisible = useSelector((state: RootState) => state.journalData.isJournalSection)
+    const [openJournals, setOpenJournal] = useState(false)
+
+    const openJournalSection = () =>{
+        setOpenJournal(true)
+    }
+    const closeJournalSection = () =>{
+        setOpenJournal(false)
+    }
+
     
     const dispatch = useDispatch();
     
@@ -20,11 +29,11 @@ const More: React.FC = () => {
            
             <View style={styles.jContainer}>
                 <Text style={[styles.jText, {fontSize: 30, fontWeight: "normal"}]}>Your journals</Text>
-                <Pressable style={styles.mcont} onPress={()=> dispatch(openJournalSection())}>
+                <Pressable style={styles.mcont} onPress={()=> openJournalSection()}>
                     <Text style={[styles.jText, {alignSelf: "center"}]} >New Entry</Text>
                 </Pressable>
             </View>
-            <MyJournals visible={isJournalSectionVisible} onClose={()=>dispatch(closeJournalSection())}/>
+            <MyJournals visible={openJournals} onClose={()=>closeJournalSection()}/>
             <View style={styles.jContainer}>
             <Text style={[styles.jText, {fontSize: 30, fontWeight:"normal"}]}>Get inspired...</Text>
             </View>

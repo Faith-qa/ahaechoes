@@ -6,7 +6,7 @@ import journalsReducer from "./journals/journals.slice"
 
 
 const rootReducer = combineReducers({
-    journalData: journalReducer,
+    //journalData: journalReducer,
     auth: authReducer,
     challenge: challengeReducer,
     journal: journalsReducer
