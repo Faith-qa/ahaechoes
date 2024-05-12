@@ -54,6 +54,7 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action)=>{
                 state.loading = false;
                 state.userInfo = action.payload.user
+                state.success = true
                 state.userToken = action.payload.access_token
 
             })
