@@ -12,6 +12,7 @@ import {RootState, AppDispatch} from "../store/store";
 import {useDispatch, useSelector} from "react-redux";
 import {createStackNavigator} from "@react-navigation/stack";
 import SignUp from "../self/screens/register";
+import PlayList from "../self/screens/spotifyPlaylist";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -19,14 +20,15 @@ const Stack = createStackNavigator();
 const NavBar: React.FC = () => {
     const {userInfo, userToken, loading,userId, success} = useSelector((state: RootState)=> state.auth);
     const dispatch = useDispatch<AppDispatch>()
+
     console.log(userToken)
 
-    // if (success === false){
-    //     return(
-    //     <SignUp/>)
-    // }
+    if (success === false){
+         return(
+         <LogIn/>)
+     }
 
-    return (
+    return <>
         <Tab.Navigator
                     barStyle={styles.container}
                     initialRouteName={'more'}
@@ -35,40 +37,31 @@ const NavBar: React.FC = () => {
                         name="home"
                         component={Home}
                         options={{
-                            tabBarIcon: ({color}) => (
-                                <Fontisto name="home" size={24} color="#444444" />
-                            )
+                            tabBarIcon: ({color}) => <Fontisto name="home" size={24} color="#444444" />
                         }}
                     />
                     <Tab.Screen
                         name="calendar"
                         component={Calendar}
                         options={{
-                            tabBarIcon: ({color}) => (
-                                <Feather name="calendar" size={24} color="#444444" />
-                            )
+                            tabBarIcon: ({color}) => <Feather name="calendar" size={24} color="#444444" />
                         }}
                     />
                     <Tab.Screen
                         name="notification"
                         component={Notification}
                         options={{
-                            tabBarIcon: ({color}) => (
-                                <FontAwesome5 name="bell" size={24} color="#444444" />
-                            )
+                            tabBarIcon: ({color}) => <FontAwesome5 name="bell" size={24} color="#444444" />
                         }}
                     />
                     <Tab.Screen
                         name="more"
                         component={More}
                         options={{
-                            tabBarIcon: ({color}) => (
-                                <MaterialCommunityIcons name="dots-grid" size={24} color="#444444" />
-                            ),
+                            tabBarIcon: ({color}) => <MaterialCommunityIcons name="dots-grid" size={24} color="#444444" />,
                         }}
                     />
-                </Tab.Navigator>
-    )
+                </Tab.Navigator></>
     
 
 };

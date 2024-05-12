@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {loginUser} from "../../store/auth/auth.actions";
 import {AppDispatch, RootState} from "../../store/store";
 import Home from "./home";
+import SignUp from "./register";
 
 const LogIn: React.FC = () =>{
     const {loading, error} = useSelector((state: RootState)=> state.auth);
@@ -14,6 +15,7 @@ const LogIn: React.FC = () =>{
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [Error, setError] = useState(error)
+    const [registered, setRegistered] = useState(true)
     //login Validation
 
     const loginFunction = async () => {
@@ -33,9 +35,16 @@ const LogIn: React.FC = () =>{
         if (password === "") setPasswordError("this is required");
 
     }
-    const submitForm = (email: any, password: any) =>{
-        dispatch(loginUser({email, password}));
-    };
+
+    //navigate to sign up page
+
+    const register = () => {
+        setRegistered(false)
+    }
+
+    if (!registered){
+        return(<SignUp/>)
+    }
 
     return (
         <View style={styles.container}>
@@ -164,9 +173,7 @@ const LogIn: React.FC = () =>{
                 </Text>
                 <TouchableOpacity
                     style={styles.registerBtn}
-                    onPress={() => {
-                        // Navigate to Register screen if needed
-                    }}
+                    onPress={() => register()}
                 >
                     <Text style={styles.registerBtnText}>Register for Free!</Text>
                 </TouchableOpacity>
