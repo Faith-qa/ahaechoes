@@ -15,7 +15,7 @@ interface NewProps {
 }
 
 const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
-    //const recordVideo = useSelector((state:RootState)=> state.journalData.recordVideo)
+    const {userInfo} = useSelector((state:RootState)=> state.auth)
     
     const dispatch = useDispatch()
     const [newAudio, isNewAudio] = useState(false);
@@ -91,7 +91,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
                 </Pressable>
             <Image source={{uri: 'https://images.pexels.com/photos/18340828/pexels-photo-18340828/free-photo-of-man-in-traditional-north-american-indigenous-clothing.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'}}
              style={styles.image} />
-        <Text style={styles.gtext}>{greeting()}</Text>
+        <Text style={styles.gtext}>{`${greeting()} ${userInfo.firstName}`}</Text>
         <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch"}}/>
         
         <Pressable onPress={openMode} >
