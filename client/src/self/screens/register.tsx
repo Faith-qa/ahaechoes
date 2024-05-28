@@ -6,15 +6,25 @@ import {registerUser} from "../../store/auth/auth.actions";
 import {ScrollView, StatusBar, View, Image, Text, TouchableOpacity, ActivityIndicator, StyleSheet} from "react-native";
 import CustomBox from "react-native-customized-box";
 import Home from "./home";
+import LogIn from "./logIn";
 
 const SignUp: React.FC =() =>{
     const {loading, userInfo, error, success} = useSelector((state:RootState)=> state.auth)
     const [errorMessage, setErrorMessage] = useState("")
     const [userDetails, setUserDetails] = useState(userInfo)
     const [geterror, setError] = useState(error)
+    const [registered, setRegistered] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
 
 
+    //login page
+    const hasAccount = () =>{
+        setRegistered(true)
+    }
+
+    if(registered){
+        return (<LogIn/>)
+    }
     const registerFunction = async () => {
         //handle registration
         if (userDetails.email != '' &&
@@ -139,44 +149,7 @@ const SignUp: React.FC =() =>{
                         }}
                     />
                     {/*preferred name */}
-                    <CustomBox
-                        placeholder={"First Name"}
-                        boxColor={"#8AA6B5"}
-                        focusColor={"#e07964"}
-                        boxStyle={{ borderRadius: 40, borderWidth: 2 }}
-                        inputStyle={{
-                            fontWeight: "bold",
-                            color: "#365B6D",
-                            paddingLeft: 20,
-                            borderRadius: 40,
-                        }}
-                        labelConfig={{
-                            text: "Preferred Name",
-                            style: {
-                                color: "#365B6D",
-                                fontWeight: "bold",
-                                fontFamily: "Raleway_400Regular"
-                            },
-                        }}
-                        requiredConfig={
-                            {
-                                text: errorMessage,
-                                style: {
-                                    marginBottom: 10,
-                                }
 
-                            }
-                        }
-                        values={userDetails.preferredName}
-                        onChangeText={(value:string) => {
-                            setUserDetails(prevState =>({
-                                ...prevState,
-                                preferredName: value
-                            }));
-                            setError(null);
-                            setErrorMessage("");
-                        }}
-                    />
                     {/* Email Id */}
                     <CustomBox
                         placeholder={"Email"}
@@ -262,6 +235,17 @@ const SignUp: React.FC =() =>{
                             <ActivityIndicator color={"white"} />
                         )}
                     </TouchableOpacity>
+                    <View style={styles.createAccount}>
+                        <Text style={styles.createAccountText}>
+                            {`Have an Account? `}
+                        </Text>
+                        <TouchableOpacity
+                            style={styles.registerBtn}
+                            onPress={() => hasAccount()}
+                        >
+                            <Text style={styles.registerBtnText2}>Log in</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </View>
@@ -330,6 +314,23 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 22,
     },
+    createAccount: {
+    marginTop: 0,
+        width: 280,
+        height: 20,
+        flexDirection: "row",
+},
+    createAccountText: {
+        color: "#365B6D",
+        fontFamily: "Raleway_600SemiBold"
+    },
+    registerBtn: {},
+    registerBtnText2: {
+        color: "#e65c40",
+        textDecorationLine: "underline",
+        fontFamily: "Raleway_600SemiBold"
+
+    }
 });
 
 export default SignUp;
