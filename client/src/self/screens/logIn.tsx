@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {StatusBar, TouchableOpacity, View, Text, Image, StyleSheet, ActivityIndicator} from "react-native";
 import CustomBox from 'react-native-customized-box';
 import {useDispatch, useSelector} from "react-redux";
@@ -6,9 +6,11 @@ import {loginUser} from "../../store/auth/auth.actions";
 import {AppDispatch, RootState} from "../../store/store";
 import Home from "./home";
 import SignUp from "./register";
+import ForgetPassword from "./forgotPassword";
+import {resetError, setForgotPassword} from "../../store/auth/auth.slice";
 
 const LogIn: React.FC = () =>{
-    const {loading, error} = useSelector((state: RootState)=> state.auth);
+    let {loading, error, forgotPassword} = useSelector((state: RootState)=> state.auth);
     const dispatch = useDispatch<AppDispatch>();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState('');
@@ -18,6 +20,9 @@ const LogIn: React.FC = () =>{
     const [registered, setRegistered] = useState(true)
     //login Validation
 
+    useEffect(() => {
+        dispatch(resetError())
+    }, [dispatch]);
     const loginFunction = async () => {
         if (email !== "" && password !== "") {
 
@@ -44,6 +49,9 @@ const LogIn: React.FC = () =>{
 
     if (!registered){
         return(<SignUp/>)
+    }
+    if (forgotPassword){
+       return(<ForgetPassword/>)
     }
 
     return (
@@ -150,7 +158,7 @@ const LogIn: React.FC = () =>{
             <TouchableOpacity
                 style={styles.forgotBtn}
                 onPress={() => {
-                    // Navigate to ForgotPassword screen if needed
+                    dispatch(setForgotPassword(true))
                 }}
             >
                 <Text style={styles.forgotBtnText}>Forgot Password?</Text>
