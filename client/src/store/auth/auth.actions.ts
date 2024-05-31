@@ -18,6 +18,10 @@ interface userLoginData{
     email: string;
     password: string;
 }
+interface userUpdatePassword{
+    email: string;
+    newPassword: string;
+}
 export const registerUser = createAsyncThunk(
     'auth/register',
     async(userData: userRegistrationData, {rejectWithValue})=>{
@@ -57,12 +61,15 @@ export const loginUser = createAsyncThunk(
 
             await AsyncStorage.setItem('userToken', data.access_token);
 
+            const profConfig = {
+                headers: {
+                    Authorization: `Bearer ${data.access_token}`,
+                },}
+            const profileResponse = await axios.get(
+                `${api_URL}/auth/profile`, profConfig
+            );
 
-
-            console.log(data)
-            return data;
-
-
+            return profileResponse.data;
         }catch(err){
             return rejectWithValue(err);
         }
@@ -70,5 +77,45 @@ export const loginUser = createAsyncThunk(
 
 )
 
+export const validateExistingUser = createAsyncThunk(
+    'auth/userExists',
+    async(email: string, {rejectWithValue})=>{
+        try {
+            const config = {
+                headers:{
+                    'Content-Type': 'application/json'
+                },
 
+            }
+
+            const {data} = await axios.get(
+                `${api_URL}/users/${email}`,config
+
+            )
+            return data.email
+
+        }catch(err){
+            return rejectWithValue(err)
+        }
+    }
+)
+
+export const updatePassword = createAsyncThunk(
+    'auth/updatePass',
+    async(passdata: userUpdatePassword, {rejectWithValue})=>{
+        try{
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            const {data} = await axios.patch(
+                `${api_URL}/forgotpassword`, passdata, config
+            )
+            return data;
+        }catch(err){
+            return rejectWithValue(err)
+        }
+    }
+)
 

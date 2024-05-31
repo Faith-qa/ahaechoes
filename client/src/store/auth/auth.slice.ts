@@ -1,12 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {loginUser, registerUser} from "./auth.actions";
+import {loginUser, registerUser, updatePassword, validateExistingUser} from "./auth.actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import forgotPassword from "../../self/screens/forgotPassword";
 
 
 //const userToken =  AsyncStorage.getItem('userToken') ? AsyncStorage.getItem('userToken'): null
 
 const initialState = {
     loading: false,
+    forgotPassword: false,
+    userExist: false,
     userInfo:{
         firstName: "",
         lastName: "",
@@ -24,7 +27,18 @@ const initialState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers:{},
+    reducers:{
+        setForgotPassword: (state,action)=>{
+            state.forgotPassword = action.payload
+        },
+        resetError:(state)=>{
+            state.error = null
+        },
+        setUserExist: (state, action)=>{
+            state.userExist = action.payload
+        }
+
+    },
     extraReducers:(builder)=>{
         builder
             .addCase(registerUser.pending,(state)=>{
@@ -63,10 +77,39 @@ const authSlice = createSlice({
                 // @ts-ignore
                 state.error = action.payload.message
             })
+            //handle forgot password
+            .addCase(validateExistingUser.pending, (state)=>{
+                state.loading = true
+                state.error = null
+            })
+            .addCase(validateExistingUser.fulfilled, (state, action)=>{
+                state.loading = false
+                state.userExist = true
+            })
+            .addCase(validateExistingUser.rejected, (state, action)=>{
+                state.loading = false
+                //@ts-ignore
+                state.error = action.payload.message
+            })
+            .addCase(updatePassword.pending, (state)=>{
+                state.loading = true
+                state.error = null
+            })
+            .addCase(updatePassword.fulfilled, (state, action)=>{
+                state.loading = false
+                state.error = null
+                state.userExist = false
+                state.forgotPassword = false
+            })
+            .addCase(updatePassword.rejected, (state, action)=>{
+                state.loading = false
+                //@ts-ignore
+                state.error = action.payload.message
+            })
 
 
 
     }
 })
-
+export const {setForgotPassword, resetError, setUserExist} = authSlice.actions
 export default  authSlice.reducer;
