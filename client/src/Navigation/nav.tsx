@@ -23,10 +23,11 @@ const NavBar: React.FC = () => {
 
     console.log(userToken)
 
-    if (success === false){
-         return(
-         <LogIn/>)
-     }
+    // if (success === false){
+    //     return(
+    //       <LogIn/>)
+    //   }
+
 
     return <>
         <Tab.Navigator

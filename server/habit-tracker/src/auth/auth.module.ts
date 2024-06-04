@@ -13,7 +13,7 @@ dotenv.config()
     imports:[UsersModule, JwtModule.register({
         global: true,
         secret: process.env.TOKEN_SECRET,
-        signOptions: {expiresIn: '60s'}
+        signOptions: {expiresIn: '7200'}
     }),],
     providers:[AuthService],
     controllers: [AuthController],
