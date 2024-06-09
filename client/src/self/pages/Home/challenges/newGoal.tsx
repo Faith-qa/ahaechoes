@@ -8,23 +8,30 @@ import {setColor, setOpenGoalModal} from "../../../../store/goals/newGoal.slice"
 const NewGoal = () => {
     const {openGoalModal, color} = useSelector((state: RootState)=> state.goal)
     const dispatch = useDispatch<AppDispatch>();
-    let [selectedColor, setSelectedColor] = useState("")
+    const [selectedIndex, setSelectedIndex] = useState(1)
+    const [text, setText] = useState('');
 
+
+
+    //set index and color
+    const handlePress = (bcolor: string, index: number)=>{
+        setSelectedIndex(index);
+        dispatch(setColor(bcolor));
+
+    }
     const renderColorButton = () =>{
         const bcolors = ['#FFDDC1', '#FFE4C4', '#FFFACD', '#D4F1F4', '#E0FFFF', '#FFDDC1']
         return bcolors.map((bcolor, index)=>{
-            const isSelected = selectedColor = bcolor
 
             return(
 
                 <><TouchableOpacity key={index} onPress={() => {
-                    dispatch(setColor(bcolor));
+                    handlePress(bcolor, index);
                 }}>
-                    <View style={[styles.colorCircle, {backgroundColor: bcolor}]}>
+                    <View style={[styles.colorCircle, styles.selectedColor,{backgroundColor: bcolor}]}>
+                        {selectedIndex === index && <FontAwesome name="check" size={14} color="black"/>}
                     </View>
-                </TouchableOpacity>{/*<View style={[styles.colorCircle, styles.selectedColor, {backgroundColor: color}]}>
-                    <FontAwesome name="check" size={14} color="black"/>
-                </View>*/}</>
+                </TouchableOpacity></>
 
             )
 
@@ -48,11 +55,13 @@ const NewGoal = () => {
             />
             <TextInput
                 style={styles.taskInput}
-                placeholder="New Task"
+                placeholder="Challenge yourself"
                 placeholderTextColor="#C0C0C0"
                 maxLength={50}
+                onChangeText={setText}
+                value={text}
             />
-            <Text style={styles.charCount}>0/50</Text>
+            <Text style={styles.charCount}>{text.length}/50</Text>
             <View style={styles.colorOptions}>
                 {renderColorButton()}
 
@@ -60,11 +69,11 @@ const NewGoal = () => {
             </View>
             <View style={styles.optionCont}>
             <TouchableOpacity style={styles.option}>
-                <Text style={styles.optionText}>Today</Text>
+                <Text style={styles.optionText}>Track this challenge</Text>
                 <MaterialIcons name="event" size={24} color="black" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.option}>
-                <Text style={styles.optionText}>Time: All-Day</Text>
+                <Text style={styles.optionText}>set challenge goal</Text>
                 <MaterialIcons name="access-time" size={24} color="black" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.option}>
@@ -120,6 +129,8 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         borderRadius: 15,
+        borderWidth: 4,
+        borderColor: "white"
     },
     selectedColor: {
         justifyContent: 'center',
