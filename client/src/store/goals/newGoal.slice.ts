@@ -7,6 +7,8 @@ const initialState = {
     openGoalModal: false,
     loading:false,
     error: null,
+    setDay: false,
+    setTime: false,
 
 }
 
