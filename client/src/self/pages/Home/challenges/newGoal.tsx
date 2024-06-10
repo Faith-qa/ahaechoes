@@ -3,7 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal } fro
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import {AppDispatch, RootState} from "../../../../store/store";
 import {useDispatch, useSelector} from "react-redux";
-import {setColor, setOpenGoalModal} from "../../../../store/goals/newGoal.slice";
+import {setColor, setOpenGoalModal, setOpenTracker} from "../../../../store/goals/newGoal.slice";
+import Tracker from "./tracker.goal";
 
 const NewGoal = () => {
     const {openGoalModal, color} = useSelector((state: RootState)=> state.goal)
@@ -18,6 +19,11 @@ const NewGoal = () => {
         setSelectedIndex(index);
         dispatch(setColor(bcolor));
 
+    }
+
+    //handle tracker
+    const handleTracker = () =>{
+        dispatch(setOpenTracker(true));
     }
     const renderColorButton = () =>{
         const bcolors = ['#FFDDC1', '#FFE4C4', '#FFFACD', '#D4F1F4', '#E0FFFF', '#FFDDC1']
@@ -68,7 +74,9 @@ const NewGoal = () => {
 
             </View>
             <View style={styles.optionCont}>
-            <TouchableOpacity style={styles.option}>
+                <Tracker/>
+            <TouchableOpacity style={styles.option}
+            onPress={handleTracker}>
                 <Text style={styles.optionText}>Track this challenge</Text>
                 <MaterialIcons name="event" size={24} color="black" />
             </TouchableOpacity>
