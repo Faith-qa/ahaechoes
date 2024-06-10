@@ -16,7 +16,7 @@ const DaysOfWeekButtons: React.FC = () =>  {
     }, []);
 
     const getButtonStyle = (day: number) =>({
-        backgroundColor: currentDay === day ?'#DFBD43' :  '#4D4117'
+        backgroundColor: currentDay === day ?'#DFBD43' :  '#8AA6B5'
     });
     const profilepic = ()=>{
         /**TO DO load implement profile pic */
@@ -107,13 +107,13 @@ const styles = StyleSheet.create({
         
     },
     dayButton: {
-        width: 25,
-        height: 25,
+        width: 30,
+        height: 30,
         flexShrink: 0,
-        borderRadius: 20,
-        backgroundColor: '#4D4117',
+        borderRadius: 30,
+        backgroundColor: '#8AA6B5s',
         alignItems: 'center',
-        
+
 
     },
     dtext:{
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: '400',
         alignSelf: "center",
+        fontFamily: " Raleway_400Regular",
     
         lineHeight: 25,
                 
@@ -132,7 +133,8 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: '400',
         lineHeight: 25,
-        paddingLeft: 4
+        paddingLeft: 4,
+        fontFamily: " Raleway_400Regular"
     },
     gtext:{
         flexDirection: 'row', // inline-flex equivalent
@@ -143,6 +145,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
+        fontFamily: " Raleway_400Regular"
        
     },
     image:{
