@@ -8,30 +8,30 @@ import {
   Delete,
   UseGuards,
   HttpCode,
+  Request,
 } from '@nestjs/common';
 import { GoalsServices } from '../services/goals.services';
 import { CreateGoalDto } from '../dto/goals/create-goal.dto';
 import { UpdateGoalDto } from '../dto/goals/update-goat.dto';
 import { Goal } from '../interfaces/goal.interface';
 import { AuthGuard } from '../auth/auth.guard';
-import { HabitServices } from '../services/habits.services';
-import { CreateHabitDto } from '../dto/goals/create-habit.dto';
 
 @Controller('goals')
 export class GoalsControllers {
-  constructor(
-    private readonly goalsServices: GoalsServices,
-    private readonly habitsService: HabitServices,
-  ) {}
+  constructor(private readonly goalsServices: GoalsServices) {}
 
-  @UseGuards(AuthGuard)
   @HttpCode(201)
+  @UseGuards(AuthGuard)
   @Post(':userId')
   async createGoal(
     @Body() createGoalDto: CreateGoalDto,
     @Param('userId') userId: string,
+    @Request() req: any,
   ): Promise<Goal> {
-    //const userid =  mongoose.Types.ObjectId(userId
+    if (req.user._id !== userId) {
+      throw Error('nope');
+    }
+    // const userid =  mongoose.Types.ObjectId(userId)
     console.log(userId);
     const newGoalDto = { ...createGoalDto, user: userId };
     return await this.goalsServices.create(newGoalDto);
@@ -61,7 +61,7 @@ export class GoalsControllers {
   }
 
   //create habits and update to goal
-  @HttpCode(200)
+  /*@HttpCode(200)
   @Post(':userId/:goalId')
   async addHabits(
     @Body() createHabitDto: CreateHabitDto,
@@ -71,5 +71,5 @@ export class GoalsControllers {
     const newHabitDTO = { ...createHabitDto, user: userId, goal: goalId };
     await this.habitsService.createHabitAndUpdateGoal(newHabitDTO);
     return await this.goalsServices.findOneGoal(goalId);
-  }
+  }*/
 }
