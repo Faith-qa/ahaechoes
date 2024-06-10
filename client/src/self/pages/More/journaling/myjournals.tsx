@@ -7,18 +7,21 @@ import { Video } from "expo-av";
 import {useSelector, useDispatch} from 'react-redux'
 import { RootState } from "../../../../store/store";
 import {startVideoRecording, stopVideoRecording} from "../../../../store/jounalActions"
+import RecordVideo from "./videoJoun/record.video";
+import ListVideos from "./videoJoun/list.videos";
 interface NewProps {
     visible: boolean,
     onClose: () => void
 }
 
 const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
-    const recordVideo = useSelector((state:RootState)=> state.journalData.recordVideo)
+    const {userInfo} = useSelector((state:RootState)=> state.auth)
     
     const dispatch = useDispatch()
     const [newAudio, isNewAudio] = useState(false);
     const [newDoc, isNewDoc] = useState(false);
     const [jmode, isJmodeOpen] = useState(false);
+    const [newVideo, isNewVideo] = useState(false)
     //update video state
     const [videoList, setVideoList] = useState<Array<{videoUri: any}>>([]);
     
@@ -34,7 +37,13 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     // }, [visible]);
     
     // handle video modal
+    const openCam = () => {
+        isNewVideo(true)
+    }
 
+    const closeCam = () =>{
+        isNewVideo(false)
+    }
     
     const openMode = () =>{
         isJmodeOpen(true);
@@ -50,12 +59,12 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
                 <Feather name="x-circle" size={24} color="black"/>
                 </Pressable>
                 <Text>How are you doing today</Text>
-                <Pressable onPress={()=> dispatch(startVideoRecording())} style={styles.video}>
+                <Pressable onPress={()=> openCam()} style={styles.video}>
                         <Text>Take a video</Text>
             <Entypo name="video-camera" size={24} color="black" />
             </Pressable>
-            <Takevideo newVideo={recordVideo} closeVideo={()=>{dispatch(stopVideoRecording())}} onVideoUpload={handleVideoJournal}/>
-            <Pressable style={styles.video}>
+                <RecordVideo vidVisible={newVideo} onClose={closeCam}/>
+                <Pressable style={styles.video}>
                 <Text>Record</Text>
             <MaterialIcons name="audiotrack" size={24} color="black" />
             </Pressable>
@@ -63,7 +72,6 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
                 <Text>Write it down</Text>
             <FontAwesome name="pencil-square-o" size={24} color="black" />
             </Pressable>
-
 
             </View></Modal>)
         
@@ -83,7 +91,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
                 </Pressable>
             <Image source={{uri: 'https://images.pexels.com/photos/18340828/pexels-photo-18340828/free-photo-of-man-in-traditional-north-american-indigenous-clothing.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'}}
              style={styles.image} />
-        <Text style={styles.gtext}>{greeting()}</Text>
+        <Text style={styles.gtext}>{`${greeting()} ${userInfo.firstName}`}</Text>
         <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch"}}/>
         
         <Pressable onPress={openMode} >
@@ -91,17 +99,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
 
             </Pressable>
             {launchJournalmode(jmode)}
-            <FlatList
-            data = {videoList}
-            keyExtractor={(item, index)=>index.toString()}
-            renderItem={({item})=>(
-                <Video
-                style={styles.videoCont}
-                source={{uri: item.videoUri}}
-                useNativeControls
-                //resizeMode="contain"
-                />
-            )}/>
+            <ListVideos/>
             
     </View></Modal>);
 
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
 container:{
     //position: "relative",
         flex: 1,
-        backgroundColor: 'rgba(255, 253, 244, 0.96)',
+        backgroundColor: '#FFFFFF',
         alignItems: 'flex-start',
         justifyContent: 'center',
         margin: 20,

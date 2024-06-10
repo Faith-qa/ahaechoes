@@ -6,18 +6,19 @@ import DaysOfWeekButtons from "../pages/Home/thisWeek";
 import { AntDesign } from '@expo/vector-icons';
 import New from "../pages/Home/modal-new";
 import { useNavigation } from "@react-navigation/native";
-
+import {AppDispatch, RootState} from "../../store/store";
+import {useDispatch, useSelector} from "react-redux";
+import {setOpenGoalModal} from "../../store/goals/newGoal.slice";
+import NewGoal from "../pages/Home/challenges/newGoal";
 
 const Home: React.FC = () =>{
-    const [visible, setVisible] = useState(false);
+    const {openGoalModal} = useSelector((state: RootState)=> state.goal);
+    const dispatch = useDispatch<AppDispatch>()
     const openModal = () => {
-        setVisible(true)
+        dispatch(setOpenGoalModal(true))
     }
 
-    const closeModal = ()=> {
-        setVisible(false);
 
-    }
 
 
     return(
@@ -25,7 +26,8 @@ const Home: React.FC = () =>{
             <DaysOfWeekButtons/>
             <Search/>
             <LoadHabits/>
-            <New visible={visible} onClose={closeModal}/>
+            {/*<New visible={visible} onClose={closeModal}/>*/}
+            <NewGoal/>
             <View style={styles.plusbutton}>
             
             <Pressable onPress={openModal} >
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     container: {
         position: "relative",
         flex: 1,
-        backgroundColor: 'rgba(255, 253, 244, 0.96)',
+        backgroundColor: '#FFFFFF',
         alignItems: 'center',
         justifyContent: 'center',
         

@@ -39,12 +39,12 @@ export function greeting(){
 
       if (currentHour >= morningStart && currentHour < afternoonStart) {
           /*TO DO: Sync username */
-          return "Good morning, Faith";
+          return "Good morning, ";
       
       } else if (currentHour >= afternoonStart && currentHour < eveningStart){
-          return "Good afternoon, Faith";
+          return "Good afternoon, ";
       } else {
-          return "Good evening, Faith";
+          return "Good evening, ";
       }
 
 
