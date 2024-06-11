@@ -1,5 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {creatChallenge} from "./newChallenge.action";
 
+type CustomError = {
+    message: string;
+    code: number;
+};
 const initialState = {
     color: "#FFE4C4",
     repeat: false,
@@ -51,7 +56,25 @@ const goalSlice = createSlice({
         }
 
     },
-    extraReducers:()=>{}
+    extraReducers:(builder)=>{
+        builder
+            .addCase(creatChallenge.pending, (state)=>{
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(creatChallenge.rejected,(state, action)=>{
+                state.loading = false;
+                // @ts-ignore
+                state.error = action.payload;
+
+        })
+            .addCase(creatChallenge.fulfilled, (state, action)=>{
+                state.loading = false;
+                state.error = null;
+                state.challenges.push(action.payload)
+            })
+
+    }
 
 })
 
