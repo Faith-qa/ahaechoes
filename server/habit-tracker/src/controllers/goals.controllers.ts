@@ -8,7 +8,7 @@ import {
   Delete,
   UseGuards,
   HttpCode,
-  Request,
+  Request, UnauthorizedException,
 } from '@nestjs/common';
 import { GoalsServices } from '../services/goals.services';
 import { CreateGoalDto } from '../dto/goals/create-goal.dto';
@@ -24,12 +24,12 @@ export class GoalsControllers {
   @UseGuards(AuthGuard)
   @Post(':userId')
   async createGoal(
+    @Request() req: any,
     @Body() createGoalDto: CreateGoalDto,
     @Param('userId') userId: string,
-    @Request() req: any,
   ): Promise<Goal> {
-    if (req.user._id !== userId) {
-      throw Error('nope');
+    if (req.user.user._id !== userId) {
+      throw new UnauthorizedException();
     }
     // const userid =  mongoose.Types.ObjectId(userId)
     console.log(userId);
