@@ -7,11 +7,30 @@ import WheelPicker from "./testwheelpicker";
 import {AntDesign, Ionicons} from '@expo/vector-icons';
 import {useDispatch} from "react-redux";
 import {setOpenTracker} from "../../../../store/goals/newGoal.slice";
+import {
+    DailyChallenge,
+    monthlyChallenge,
+    newChallengeRegistration,
+    weeklyChallenge
+} from "../../../../store/goals/newChallenge.action";
 
 
-const Tracker = () => {
+//define props
+interface NewProps {
+    onDataCollected: (data: newChallengeRegistration) => void
+}
+
+interface Data {
+    track: string,
+    frequencyDays?: number,
+    frequencyWeeks?: number,
+    frequencyMonths?: number;
+    endDate: Date;
+
+
+}
+const Tracker:React.FC<NewProps> = ({onDataCollected}) => {
     const {openTracker,}= useSelector((state: RootState)=> state.goal);
-    const [isEnabled, setIsEnabled] = useState(false);
     const [endDateEnabled, setEndDateEnabled] = useState(false);
     const [selectedTab, setSelectedTab] = useState('Daily');
     const [selectedDay, setSelectedDay] = useState('Su');
@@ -19,7 +38,6 @@ const Tracker = () => {
     const [frequency, setFrequency] = useState('1');
     const [wheel, openWheel] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     const toggleEndDateSwitch = () => setEndDateEnabled(previousState => !previousState);
 
     const ditems = Array.from({length:100}, (_, i)=> i + 1);
@@ -30,6 +48,32 @@ const Tracker = () => {
 
     let wheelItems = ditems
 
+    // handling collected Data
+     const handleCollectedData = () => {
+        const collectedData = {
+            track: selectedTab,
+        }
+     }
+
+    //send data back to bckend
+     const handleColllectedData = () => {
+        let collectedData:{[key:string]: any} = {};
+        collectedData['track'] = selectedTab;
+        if (selectedTab === 'Daily'){
+            collectedData['frequencyDays'] = frequency;
+        } else if(selectedTab === 'Weekly'){
+            collectedData['frequencyWeeks'] = frequency;
+            collectedData['dayofWeek'] = selectedDay
+        }else {
+            collectedData['frequencyMonths'] = frequency;
+            collectedData['dayofMonth'] = selectedDate;
+        }
+
+        // send back
+        onDataCollected(collectedData as DailyChallenge | weeklyChallenge | monthlyChallenge);
+        console.log(collectedData)
+         dispatch(setOpenTracker(false));
+    }
     const handleWheel = () =>{
         openWheel(!wheel)
     }
@@ -70,7 +114,7 @@ const Tracker = () => {
         <Modal
         visible={openTracker}>
         <View style={styles.container}>
-            <TouchableOpacity style={{alignSelf: "flex-start"}} onPress={()=> dispatch(setOpenTracker(false))}>
+            <TouchableOpacity style={{alignSelf: "flex-start"}} onPress={()=> handleColllectedData()}>
                 <Ionicons name="return-up-back-outline" size={24} color="black" />
             </TouchableOpacity>
             <View>

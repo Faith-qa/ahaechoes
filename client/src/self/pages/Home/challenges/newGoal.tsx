@@ -1,64 +1,97 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import {AppDispatch, RootState} from "../../../../store/store";
-import {useDispatch, useSelector} from "react-redux";
-import {setColor, setOpenGoalModal, setOpenTracker} from "../../../../store/goals/newGoal.slice";
-import Tracker from "./tracker.goal";
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../../store/store';
+import { setColor, setOpenGoalModal, setOpenTracker } from '../../../../store/goals/newGoal.slice';
+import Tracker from './tracker.goal';
+import {creatChallenge, newChallengeRegistration} from '../../../../store/goals/newChallenge.action';
 
-const NewGoal = () => {
-    const {openGoalModal, color} = useSelector((state: RootState)=> state.goal)
+const NewGoal: React.FC = () => {
+    const { openGoalModal, color } = useSelector((state: RootState) => state.goal);
+    const { userId } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch<AppDispatch>();
-    const [selectedIndex, setSelectedIndex] = useState(1)
-    const [text, setText] = useState('');
+    const [selectedIndex, setSelectedIndex] = useState<number>(1);
+    const [text, setText] = useState<string>('');
+    const [data, setData] = useState<newChallengeRegistration>();
 
+    // Handle state in child components
+    const handleData = (newData: newChallengeRegistration) => {
+        setData(newData);
+    };
 
+    // Validate data
+    const validateData = (data: Record<string, any>) => {
+        const baseKeys = ['challenge', 'track', 'endDate'];
+        const dailyKeys = [...baseKeys, 'frequencyDays'];
+        const weeklyKeys = [...baseKeys, 'frequencyWeeks', 'dayofWeek'];
+        const monthlyKeys = [...baseKeys, 'frequencyMonths', 'daysofMonth'];
 
-    //set index and color
-    const handlePress = (bcolor: string, index: number)=>{
+        const requiredKeys = Object.keys(data);
+        console.log(data);
+
+        const isValid = [dailyKeys, weeklyKeys, monthlyKeys].some(keys =>
+            requiredKeys.every(key => keys.includes(key))
+        );
+
+        return isValid;
+    };
+
+    // Handle create and update global state
+    const handleCreate = async (data: newChallengeRegistration) => {
+        console.log(userId)
+        if (!userId) {
+            throw new Error('unauthorized');
+        }
+        if (!validateData(data)) {
+            throw new Error('invalid inputs');
+        }
+        if (text === '') {
+            throw new Error('challenge cannot be blank');
+        }
+
+        data['challenge'] = text;
+        data['user'] = userId;
+        const completedChallenge: newChallengeRegistration = {...data}
+
+        await dispatch(creatChallenge({challengeData:completedChallenge, userId}));
+        dispatch(setOpenGoalModal(false));
+    };
+
+    // Set index and color
+    const handlePress = (bcolor: string, index: number) => {
         setSelectedIndex(index);
         dispatch(setColor(bcolor));
+    };
 
-    }
-
-    //handle tracker
-    const handleTracker = () =>{
+    // Handle tracker
+    const handleTracker = () => {
         dispatch(setOpenTracker(true));
-    }
-    const renderColorButton = () =>{
-        const bcolors = ['#FFDDC1', '#FFE4C4', '#FFFACD', '#D4F1F4', '#E0FFFF', '#FFDDC1']
-        return bcolors.map((bcolor, index)=>{
+    };
 
-            return(
-
-                <><TouchableOpacity key={index} onPress={() => {
-                    handlePress(bcolor, index);
-                }}>
-                    <View style={[styles.colorCircle, styles.selectedColor,{backgroundColor: bcolor}]}>
-                        {selectedIndex === index && <FontAwesome name="check" size={14} color="black"/>}
-                    </View>
-                </TouchableOpacity></>
-
-            )
-
-        })
-    }
-
-
-
-
-    return (
-        <Modal
-            visible={openGoalModal}
-        ><View style={[styles.container, {backgroundColor: color}]}>
-            <TouchableOpacity style={styles.closeButton} onPress={()=> dispatch(setOpenGoalModal(false))}>
-                <MaterialIcons name="close" size={24} color="black" />
+    // Render color buttons
+    const renderColorButton = () => {
+        const bcolors = ['#FFDDC1', '#FFE4C4', '#FFFACD', '#D4F1F4', '#E0FFFF', '#FFDDC1'];
+        return bcolors.map((bcolor, index) => (
+            <TouchableOpacity key={index} onPress={() => handlePress(bcolor, index)}>
+                <View style={[styles.colorCircle, selectedIndex === index && styles.selectedColor, { backgroundColor: bcolor }]}>
+                    {selectedIndex === index && <FontAwesome name="check" size={14} color="black" />}
+                </View>
             </TouchableOpacity>
-            <Text style={styles.createText}>Create</Text>
-            <Image
-                source={{uri: 'path-to-your-sun-image'}}
-                style={styles.image}
-            />
+        ));
+    };
+
+    return <Modal visible={openGoalModal}>
+        <View style={[styles.container, { backgroundColor: color }]}>
+            <View style={styles.header}>
+                <TouchableOpacity style={styles.closeButton} onPress={() => dispatch(setOpenGoalModal(false))}>
+                    <MaterialIcons name="close" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.createButton} onPress={() => handleCreate(data as newChallengeRegistration)}>
+                    <Text style={styles.createButtonText}>Create</Text>
+                </TouchableOpacity>
+            </View>
+            <Image source={{ uri: 'path-to-your-sun-image' }} style={styles.image} />
             <TextInput
                 style={styles.taskInput}
                 placeholder="Challenge yourself"
@@ -70,31 +103,31 @@ const NewGoal = () => {
             <Text style={styles.charCount}>{text.length}/50</Text>
             <View style={styles.colorOptions}>
                 {renderColorButton()}
-
-
             </View>
             <View style={styles.optionCont}>
-                <Tracker/>
-            <TouchableOpacity style={styles.option}
-            onPress={handleTracker}>
-                <Text style={styles.optionText}>Track this challenge</Text>
-                <MaterialIcons name="event" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.option}>
-                <Text style={styles.optionText}>set challenge goal</Text>
-                <MaterialIcons name="access-time" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.option}>
-                <Text style={styles.optionText}>No Reminder</Text>
-                <MaterialIcons name="notifications-none" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.option}>
-                <Text style={styles.optionText}>No tag</Text>
-                <MaterialIcons name="label-outline" size={24} color="black" />
-            </TouchableOpacity></View>
-        </View></Modal>
-    );
+                <Tracker onDataCollected={handleData} />
+                <TouchableOpacity style={styles.option} onPress={handleTracker}>
+                    <Text style={styles.optionText}>Track this challenge</Text>
+                    <MaterialIcons name="event" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.option}>
+                    <Text style={styles.optionText}>Set challenge goal</Text>
+                    <MaterialIcons name="access-time" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.option}>
+                    <Text style={styles.optionText}>No Reminder</Text>
+                    <MaterialIcons name="notifications-none" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.option}>
+                    <Text style={styles.optionText}>No tag</Text>
+                    <MaterialIcons name="label-outline" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
+        </View>
+    </Modal>;
 };
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -102,6 +135,19 @@ const styles = StyleSheet.create({
         //backgroundColor: '#E0F7FA',
         padding: 20,
         alignItems: 'center',
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+    },
+    createButton: {
+        padding: 10,
+    },
+    createButtonText: {
+        fontSize: 18,
+        fontWeight: 'bold',
     },
     closeButton: {
         alignSelf: 'flex-start',
