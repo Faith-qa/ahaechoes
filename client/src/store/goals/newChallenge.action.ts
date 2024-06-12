@@ -6,26 +6,27 @@ const api_URL = process.env.EXPO_PUBLIC_API_URI;
 interface BaseChallenge{
     user: string;
     challenge: string;
-    completed: [number];
+    completed?: [number];
     track: 'Daily'|'Weekly' | 'Monthly';
-    frequency: number;
     endDate: Date;
 
 }
-interface DailyChallenge extends BaseChallenge{
+export interface DailyChallenge extends BaseChallenge{
     track: 'Daily';
-    frequencyDays: number;
+    frequencyDays?: number;
 }
-interface  weeklyChallenge extends BaseChallenge{
+export interface  weeklyChallenge extends BaseChallenge{
     track: "Weekly";
-    frequencyWeeks: number;
+    frequencyWeeks?: number;
+    dayofWeek?: string;
 }
-interface monthlyChallenge extends BaseChallenge{
+export interface monthlyChallenge extends BaseChallenge{
     track: "Monthly";
-    frequencyMonths: number;
+    frequencyMonths?: number;
+    daysofMonth?: number;
 }
 
-type newChallengeRegistration = DailyChallenge | weeklyChallenge | monthlyChallenge;
+export type newChallengeRegistration = DailyChallenge | weeklyChallenge | monthlyChallenge ;
 interface ThunkArg {
     challengeData: newChallengeRegistration;
     userId: string;
@@ -52,7 +53,7 @@ export const creatChallenge = createAsyncThunk(
             }
 
             const { data } = await axios.post(
-                `${api_URL}/goals/${userId}`, challengeData,config
+                `${api_URL}/goals/${userId}`, challengeData, config
             )
 
             return data;
