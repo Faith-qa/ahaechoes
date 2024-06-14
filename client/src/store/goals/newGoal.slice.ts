@@ -1,10 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {creatChallenge} from "./newChallenge.action";
+//import {useDispatch} from "react-redux";
+import {setError, resetError, setOpenErrorCard} from "../global/global.slice";
 
-type CustomError = {
-    message: string;
-    code: number;
-};
+
+
 const initialState = {
     color: "#FFE4C4",
     repeat: false,
@@ -35,7 +35,6 @@ const initialState = {
     ],
     openGoalModal: false,
     loading:false,
-    error: null,
     openTracker: false
 
 
@@ -53,24 +52,23 @@ const goalSlice = createSlice({
         },
         setOpenTracker: (state, action)=>{
             state.openTracker = action.payload
-        }
+        },
+
 
     },
     extraReducers:(builder)=>{
         builder
             .addCase(creatChallenge.pending, (state)=>{
                 state.loading = true;
-                state.error = null;
+
             })
             .addCase(creatChallenge.rejected,(state, action)=>{
                 state.loading = false;
                 // @ts-ignore
-                state.error = action.payload;
-
+                dispatch(setError(action.payload))
         })
             .addCase(creatChallenge.fulfilled, (state, action)=>{
                 state.loading = false;
-                state.error = null;
                 state.challenges.push(action.payload)
             })
 
@@ -78,6 +76,6 @@ const goalSlice = createSlice({
 
 })
 
-export const {setColor,setOpenGoalModal,setOpenTracker} = goalSlice.actions
+export const {setColor,setOpenGoalModal,setOpenTracker,} = goalSlice.actions
 
 export default goalSlice.reducer;

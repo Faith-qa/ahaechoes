@@ -1,8 +1,11 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {retrieveToken} from "../auth/Authorization";
 import axios from "axios";
-
+import {useDispatch} from "react-redux";
+import {setError, setOpenErrorCard} from "../global/global.slice";
+import {resetError} from "../auth/auth.slice";
 const api_URL = process.env.EXPO_PUBLIC_API_URI;
+
 interface BaseChallenge{
     user: string;
     challenge: string;
@@ -37,9 +40,14 @@ interface ThunkArg {
 //create challenge
 export const creatChallenge = createAsyncThunk(
     'goal/new',
-    async ({challengeData, userId}: ThunkArg, {rejectWithValue})=> {
+    async ({challengeData, userId}: ThunkArg, {dispatch, rejectWithValue})=> {
 
         try{
+            console.log("i'm here")
+            dispatch(resetError())
+            console.log("i'm made it here")
+
+
             //get token from async storage
             const token = retrieveToken();
 
@@ -58,8 +66,14 @@ export const creatChallenge = createAsyncThunk(
 
             return data;
 
-        }catch(err){
-            return rejectWithValue(err);
+        }catch(err: any){
+            console.log("i'm made it here")
+
+            dispatch(setError(err.message));
+            dispatch(setOpenErrorCard(true))
+
+
+            return rejectWithValue("server returned" + err.message);
         }
 
     }

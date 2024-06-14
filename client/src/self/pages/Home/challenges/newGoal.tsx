@@ -3,22 +3,25 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal } fro
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../store/store';
-import { setColor, setOpenGoalModal, setOpenTracker } from '../../../../store/goals/newGoal.slice';
+import { setColor, setOpenGoalModal, setOpenTracker} from '../../../../store/goals/newGoal.slice';
 import Tracker from './tracker.goal';
 import {creatChallenge, newChallengeRegistration} from '../../../../store/goals/newChallenge.action';
+import ErrorCard from "../../../../components/errorCard";
 
 const NewGoal: React.FC = () => {
-    const { openGoalModal, color } = useSelector((state: RootState) => state.goal);
+    const { openGoalModal, color,  } = useSelector((state: RootState) => state.goal);
+    const {error, openErrorCard} = useSelector((state:RootState)=>state.globalState)
     const { userId } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch<AppDispatch>();
     const [selectedIndex, setSelectedIndex] = useState<number>(1);
     const [text, setText] = useState<string>('');
     const [data, setData] = useState<newChallengeRegistration>();
-
     // Handle state in child components
     const handleData = (newData: newChallengeRegistration) => {
         setData(newData);
     };
+
+    //handle server error
 
     // Validate data
     const validateData = (data: Record<string, any>) => {
@@ -54,8 +57,15 @@ const NewGoal: React.FC = () => {
         data['user'] = userId;
         const completedChallenge: newChallengeRegistration = {...data}
 
+        // @ts-ignore
         await dispatch(creatChallenge({challengeData:completedChallenge, userId}));
-        dispatch(setOpenGoalModal(false));
+
+        // if (creatChallenge.fulfilled.match(actionResults)){
+        //     console.log("challenge created successfully")
+        //     dispatch(setOpenGoalModal(false));
+        // }
+        // console.log(error)
+
     };
 
     // Set index and color
@@ -91,6 +101,7 @@ const NewGoal: React.FC = () => {
                     <Text style={styles.createButtonText}>Create</Text>
                 </TouchableOpacity>
             </View>
+            {error != null ? <ErrorCard message={error}/>:null}
             <Image source={{ uri: 'path-to-your-sun-image' }} style={styles.image} />
             <TextInput
                 style={styles.taskInput}
