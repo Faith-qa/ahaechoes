@@ -75,7 +75,7 @@ export const loginUser = createAsyncThunk(
             );
 
             return profileResponse.data;
-        }catch(err){
+        }catch(err: any){
             return rejectWithValue(err);
         }
     }
