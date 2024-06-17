@@ -10,6 +10,16 @@ export const GoalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  endDate: {
+    type: Date,
+    required: true,
+    default: new Date().setDate(new Date().getDate() + 7),
+  },
+  commitDays: {
+    type: Number,
+    required: true,
+    default: 7,
+  },
   track: {
     type: String,
     required: true,

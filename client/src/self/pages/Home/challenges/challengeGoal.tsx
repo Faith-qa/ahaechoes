@@ -13,9 +13,10 @@ import {
 
 interface NewProps {
     onDataCollected: (data: newChallengeRegistration) => void
+    existingData?: newChallengeRegistration
 }
 
-const CommitToChallenge: React.FC<NewProps> = ({onDataCollected}) => {
+const CommitToChallenge: React.FC<NewProps> = ({onDataCollected, existingData}) => {
     const {openCommitment, color} = useSelector((state: RootState)=> state.goal)
     const [selectGoal, setSelectGoal] = useState(7);
     const dispatch = useDispatch<AppDispatch>()
@@ -26,7 +27,7 @@ const CommitToChallenge: React.FC<NewProps> = ({onDataCollected}) => {
     )
 
     const handleCollectedData = ()=>{
-        let collectedData:{[key:string]: any} = {};
+        let collectedData:{[key:string]: any} = {... existingData};
         collectedData['commitForDays'] = selectGoal;
 
         onDataCollected(collectedData as DailyChallenge | weeklyChallenge | monthlyChallenge)
