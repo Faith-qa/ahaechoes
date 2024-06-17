@@ -3,11 +3,11 @@ import { Modal, View, StyleSheet, Pressable, Text, } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import NewTask from "./newTask";
-import NewGoal from "./newGoal";
+import NewGoal from "./challenges/newGoal";
 
 interface NewProps {
     visible: boolean,
-    onClose: () => void
+    onClose: (data:{}) => void
 }
 
 const New: React.FC<NewProps> = ({visible, onClose}) => {

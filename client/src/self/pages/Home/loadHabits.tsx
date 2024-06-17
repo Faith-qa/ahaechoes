@@ -8,41 +8,30 @@ import {RootState} from "../../../store/store";
 import {useSelector} from "react-redux";
 
 const LoadHabits: React.FC = ()=>{
-    const {challenges, loading} = useSelector((state: RootState)=> state.challenge)
+    const {challenges, loading} = useSelector((state: RootState)=> state.goal)
     const today = getFormattedDate();
     const [habits, setHabit] = useState(challenges);
-    const [completed, setCompleted] = useState(false);
+    const [completed, setCompleted] = useState<boolean[]>(Array(challenges.length).fill(false));
+    const [selectedIndex, setSelectedIndex] = useState<number>(1);
 
-    const checkbox = (): any => {
+    const handlePress = (index: number) => {
+        setSelectedIndex(index);
+        setCompleted(completed.map((item, idx) => idx === index ? !item : item));
+
+
+    }
+    const checkbox = (index: number): any => {
+
+
 
         return (
-            <Pressable onPress={()=>setCompleted(!completed)} >
-             {completed ? <Ionicons name="checkbox" size={20} style={styles.Checkbox}/> :<Feather name="square" size={20}  style={styles.Checkbox}/>
-             } 
+            <Pressable onPress={()=> handlePress(index)} >
+                {completed[index] ? <Ionicons name="checkbox" size={20} style={styles.Checkbox}/> :<Feather name="square" size={20}  style={styles.Checkbox}/>
+                }
             </Pressable>
         )
     }
 
-
-//
-//     useEffect(()=>{
-//         const fetchData = async () =>{
-//             try{
-//                 const value = await AsyncStorage.getItem(today);
-//                 if (value != null) {
-//                     const jsonVal = JSON.parse(value);
-//                     setHabit([...habits, jsonVal.Task])
-//                     /*TO DO, Send data to database */
-//                 }
-//
-//             }catch (e) {
-//                 console.error(e)
-//             }
-//         };
-//         fetchData();
-//
-//     }, [today]);
-// today
 
 
 
@@ -51,11 +40,11 @@ const LoadHabits: React.FC = ()=>{
         <View>
             <Text style={styles.todayText}>Challenge yourself Today</Text>
             <View style={styles.container}>
-                {habits.length > 0 &&  (
+                {challenges.length > 0 &&  (
                     habits.map((habit, index: number) => (
                         <View key={index} style={styles.itemHold}>
-                            {checkbox()}
-                            <Text style={completed ? styles.strikethrough : styles.text}>{habit.goal}</Text>
+                            {checkbox(index)}
+                            <Text style={completed[index] ? styles.strikethrough : styles.text}>{habit.newChallenge}</Text>
 
                         </View>
                     ))

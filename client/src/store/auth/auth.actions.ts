@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import AsyncStorage, {useAsyncStorage} from "@react-native-async-storage/async-storage";
+import {retrieveToken} from "./Authorization";
 
 const api_URL = process.env.EXPO_PUBLIC_API_URI;
 if (api_URL === undefined) throw new Error('api url unreachable')
@@ -48,6 +49,7 @@ export const loginUser = createAsyncThunk(
     'auth/login',
     async(userData: userLoginData, {rejectWithValue})=>{
         try{
+
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,6 +60,9 @@ export const loginUser = createAsyncThunk(
                 `${api_URL}/auth/login`, userData, config
             )
             //console.log(data)
+            const token = retrieveToken();
+            if (token !== null)
+                await AsyncStorage.removeItem('userToken')
 
             await AsyncStorage.setItem('userToken', data.access_token);
 
@@ -70,7 +75,7 @@ export const loginUser = createAsyncThunk(
             );
 
             return profileResponse.data;
-        }catch(err){
+        }catch(err: any){
             return rejectWithValue(err);
         }
     }

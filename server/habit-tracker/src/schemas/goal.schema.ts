@@ -1,54 +1,46 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 export const GoalSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-        required: true
+  user: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
+  challenge: {
+    type: String,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+    default: new Date().setDate(new Date().getDate() + 7),
+  },
+  commitDays: {
+    type: Number,
+    required: true,
+    default: 7,
+  },
+  track: {
+    type: String,
+    required: true,
+    enum: ['Daily', 'Weekly', 'Monthly'],
+  },
+  frequencyDays: {
+    type: Number,
+    required: function () {
+      return this.track === 'Daily';
     },
-    status:{
-        type: Boolean,
-        default: false,
-        required: true,
+  },
+  frequencyWeeks: {
+    type: Number,
+    required: function () {
+      return this.track === 'Weekly';
     },
-    goal: {
-        type: String,
+  },
+  frequencyMonths: {
+    type: Number,
+    required: function () {
+      return this.track === 'Monthly';
     },
-    habitKind: {
-        type: String,
-        enum: ['daily', 'weekly', 'monthly'],
-        required: true
-    },
-
-    tracker: {
-        type: {
-            daily: {
-                time: Date,
-                reminderDays: [String]
-            },
-            weekly: {
-                reminderDay: String,
-                time: Date
-            },
-            monthly: {
-                week: Number,
-                day: String,
-                time: Date
-            }
-        },
-        required: function() {
-            return this.habitKind === 'daily' || this.habitKind === 'weekly' || this.habitKind === 'monthly';
-        },
-        habits: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Habit'
-        }],
-        motivation: {
-            type: [String],
-        }
-
-
-},
-
-
-})
+  },
+});
