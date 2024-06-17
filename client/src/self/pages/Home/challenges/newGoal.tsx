@@ -85,7 +85,7 @@ const NewGoal: React.FC = () => {
         const completedChallenge: newChallengeRegistration = {...data}
         console.log(completedChallenge)
 
-        //await dispatch(creatChallenge({challengeData:completedChallenge, userId}));
+        await dispatch(creatChallenge({challengeData:completedChallenge, userId}));
         //
         // if (creatChallenge.fulfilled.match(actionResults)){
         //     console.log("challenge created successfully")
