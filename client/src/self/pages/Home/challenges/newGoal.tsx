@@ -3,11 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal } fro
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../store/store';
-import {setColor, setOpenCommitment, setOpenGoalModal, setOpenTracker} from '../../../../store/goals/newGoal.slice';
+import {setColor, setOpenCommitment, setOpenGoalModal, setOpenTracker,} from '../../../../store/goals/newGoal.slice';
 import Tracker from './tracker.goal';
 import {creatChallenge, newChallengeRegistration} from '../../../../store/goals/newChallenge.action';
 import ErrorCard from "../../../../components/errorCard";
 import CommitToChallenge from "./challengeGoal";
+import {setError, setOpenErrorCard} from "../../../../store/global/global.slice";
 
 const NewGoal: React.FC = () => {
     const { openGoalModal, color,  } = useSelector((state: RootState) => state.goal);
@@ -17,8 +18,10 @@ const NewGoal: React.FC = () => {
     const [selectedIndex, setSelectedIndex] = useState<number>(1);
     const [text, setText] = useState<string>('');
     const [data, setData] = useState<newChallengeRegistration>();
+
     // Handle state in child components
     const handleData = (newData: newChallengeRegistration) => {
+
         setData(newData);
     };
 
@@ -26,40 +29,63 @@ const NewGoal: React.FC = () => {
 
     // Validate data
     const validateData = (data: Record<string, any>) => {
-        const baseKeys = ['challenge', 'track', 'endDate'];
-        const dailyKeys = [...baseKeys, 'frequencyDays'];
-        const weeklyKeys = [...baseKeys, 'frequencyWeeks', 'dayofWeek'];
-        const monthlyKeys = [...baseKeys, 'frequencyMonths', 'daysofMonth'];
+        try{
+            const baseKeys = ['challenge', 'track', 'endDate'];
+            const dailyKeys = [...baseKeys, 'frequencyDays'];
+            const weeklyKeys = [...baseKeys, 'frequencyWeeks', 'dayofWeek'];
+            const monthlyKeys = [...baseKeys, 'frequencyMonths', 'daysofMonth'];
+            const requiredKeys = Object.keys(data);
+            console.log('I made it here')
 
-        const requiredKeys = Object.keys(data);
-        console.log(data);
 
-        const isValid = [dailyKeys, weeklyKeys, monthlyKeys].some(keys =>
-            requiredKeys.every(key => keys.includes(key))
-        );
 
-        return isValid;
+            const isValid = [dailyKeys, weeklyKeys, monthlyKeys].some(keys =>
+                requiredKeys.every(key => keys.includes(key))
+            );
+            return isValid;
+        }catch(err: any){
+            dispatch(setError(err.message))
+            dispatch(setOpenErrorCard(true))
+            return
+        }
+
     };
 
     // Handle create and update global state
     const handleCreate = async (data: newChallengeRegistration) => {
+        //complete data requirements and validate inputs
+
         console.log(userId)
         if (!userId) {
-            throw new Error('unauthorized');
+            dispatch(setError("userId is cannot be null"))
+            dispatch(setOpenErrorCard(true))
+            return
+
         }
-        if (!validateData(data)) {
-            throw new Error('invalid inputs');
-        }
+        data['challenge'] = text;
+        data['user'] = userId;
         if (text === '') {
-            throw new Error('challenge cannot be blank');
+            dispatch(setError("challenge cannot be blank"))
+            dispatch(setOpenErrorCard(true))
+            return
         }
 
-        data['challenge'] = text;
-        //data['user'] = userId;
+        if (!validateData(data)) {
+            dispatch(setError("missing required inputs in 'track this challenge' "))
+            dispatch(setOpenErrorCard(true))
+            return
+
+        }
+
+
+
+
+
+
         const completedChallenge: newChallengeRegistration = {...data}
         console.log(completedChallenge)
 
-        await dispatch(creatChallenge({challengeData:completedChallenge, userId}));
+        //await dispatch(creatChallenge({challengeData:completedChallenge, userId}));
         //
         // if (creatChallenge.fulfilled.match(actionResults)){
         //     console.log("challenge created successfully")
@@ -98,8 +124,8 @@ const NewGoal: React.FC = () => {
                 <TouchableOpacity style={styles.closeButton} onPress={() => dispatch(setOpenGoalModal(false))}>
                     <MaterialIcons name="close" size={24} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.createButton} onPress={() => handleCreate(data as newChallengeRegistration)}>
-                    <Text style={styles.createButtonText}>Create</Text>
+                <TouchableOpacity /*style={styles.createButton}*/ onPress={() => handleCreate(data as newChallengeRegistration)}>
+                    <Text style={[styles.createButtonText,]}>Create</Text>
                 </TouchableOpacity>
             </View>
             {error != null ? <ErrorCard message={error}/>:null}
