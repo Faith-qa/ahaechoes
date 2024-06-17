@@ -18,10 +18,11 @@ import {
 //define props
 interface NewProps {
     onDataCollected: (data: newChallengeRegistration) => void
+    existingData?: newChallengeRegistration
 }
 
 
-const Tracker:React.FC<NewProps> = ({onDataCollected}) => {
+const Tracker:React.FC<NewProps> = ({onDataCollected, existingData}) => {
     const {openTracker,}= useSelector((state: RootState)=> state.goal);
     const [endDateEnabled, setEndDateEnabled] = useState(false);
     const [selectedTab, setSelectedTab] = useState('Daily');
@@ -49,7 +50,7 @@ const Tracker:React.FC<NewProps> = ({onDataCollected}) => {
 
     //send data back to bckend
      const handleColllectedData = () => {
-        let collectedData:{[key:string]: any} = {};
+        let collectedData:{[key:string]: any} = {... existingData};
         collectedData['track'] = selectedTab;
         if (selectedTab === 'Daily'){
             collectedData['frequencyDays'] = frequency;
@@ -62,7 +63,7 @@ const Tracker:React.FC<NewProps> = ({onDataCollected}) => {
         }
 
         // send back
-        onDataCollected(collectedData as DailyChallenge | weeklyChallenge | monthlyChallenge);
+        onDataCollected( collectedData as DailyChallenge | weeklyChallenge | monthlyChallenge);
         console.log(collectedData)
          dispatch(setOpenTracker(false));
     }
