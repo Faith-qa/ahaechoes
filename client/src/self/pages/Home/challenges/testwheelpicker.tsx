@@ -19,7 +19,7 @@ interface WheelPickerProps {
 }
 
 const WheelPicker: React.FC<WheelPickerProps> = ({ items, onValueChange }) => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(0/*items.length /2*/);
     const scrollViewRef = useRef<ScrollView>(null);
 
 

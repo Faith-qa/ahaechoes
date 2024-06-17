@@ -4,9 +4,18 @@ import WheelPicker from "./testwheelpicker";
 import {setOpenCommitment} from "../../../../store/goals/newGoal.slice";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../../../store/store";
+import {
+    DailyChallenge,
+    monthlyChallenge,
+    newChallengeRegistration,
+    weeklyChallenge
+} from "../../../../store/goals/newChallenge.action";
 
+interface NewProps {
+    onDataCollected: (data: newChallengeRegistration) => void
+}
 
-const CommitToChallenge: React.FC = () => {
+const CommitToChallenge: React.FC<NewProps> = ({onDataCollected}) => {
     const {openCommitment, color} = useSelector((state: RootState)=> state.goal)
     const [selectGoal, setSelectGoal] = useState(7);
     const dispatch = useDispatch<AppDispatch>()
@@ -16,10 +25,19 @@ const CommitToChallenge: React.FC = () => {
         <WheelPicker items={wheelItems} onValueChange={value => setSelectGoal(value)}/>
     )
 
+    const handleCollectedData = ()=>{
+        let collectedData:{[key:string]: any} = {};
+        collectedData['commitForDays'] = selectGoal;
+
+        onDataCollected(collectedData as DailyChallenge | weeklyChallenge | monthlyChallenge)
+        console.log(collectedData)
+        dispatch(setOpenCommitment(false))
+    }
+
     return(<Modal transparent={true} animationType={"slide"} visible={openCommitment}>
         <View style={styles.mainCont}>
             <View  style={styles.container}>
-                <TouchableOpacity style={styles.exit} onPress={()=> dispatch(setOpenCommitment(false))}><Text>X</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.exit} onPress={handleCollectedData}><Text>X</Text></TouchableOpacity>
             <Text style={styles.text}>I choose to commit to this goal for: <Text style={{fontWeight:"bold"}}>{selectGoal}</Text> Days</Text>
             <View style={styles.wheelCont}>
                 {renderWheel()}

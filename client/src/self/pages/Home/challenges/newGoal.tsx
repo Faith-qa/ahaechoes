@@ -55,12 +55,12 @@ const NewGoal: React.FC = () => {
         }
 
         data['challenge'] = text;
-        data['user'] = userId;
+        //data['user'] = userId;
         const completedChallenge: newChallengeRegistration = {...data}
+        console.log(completedChallenge)
 
-        // @ts-ignore
         await dispatch(creatChallenge({challengeData:completedChallenge, userId}));
-
+        //
         // if (creatChallenge.fulfilled.match(actionResults)){
         //     console.log("challenge created successfully")
         //     dispatch(setOpenGoalModal(false));
@@ -117,12 +117,12 @@ const NewGoal: React.FC = () => {
                 {renderColorButton()}
             </View>
             <View style={styles.optionCont}>
-                <Tracker onDataCollected={handleData} />
+                <Tracker onDataCollected={handleData} existingData={data} />
                 <TouchableOpacity style={styles.option} onPress={handleTracker}>
                     <Text style={styles.optionText}>Track this challenge</Text>
                     <MaterialIcons name="event" size={24} color="black" />
                 </TouchableOpacity>
-                <CommitToChallenge/>
+                <CommitToChallenge onDataCollected={handleData}/>
                 <TouchableOpacity style={styles.option} onPress={()=> dispatch(setOpenCommitment(true))}>
                     <Text style={styles.optionText}>Commit to this challenge for {} days</Text>
                     <MaterialIcons name="access-time" size={24} color="black" />
