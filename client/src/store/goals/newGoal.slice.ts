@@ -1,14 +1,46 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {creatChallenge} from "./newChallenge.action";
+//import {useDispatch} from "react-redux";
+import {setError, resetError, setOpenErrorCard} from "../global/global.slice";
+
+
 
 const initialState = {
     color: "#FFE4C4",
     repeat: false,
-    goal: "",
+    challenges: [{
+        newChallenge: "read 10 pages of a book",
+        tracker: 'Daily',
+        frequency: 1,
+        selectedDay: null,
+        selectedDate: null,
+        endDate: null,
+        commitForDays: 7
+    },
+        {
+            newChallenge: "exercise for 10 minutes",
+            tracker: 'Daily',
+            frequency: 1,
+            selectedDay: null,
+            selectedDate: null,
+            endDate: null,
+            commitForDays: 7
+        },
+        {
+            newChallenge: "drink 2l of water",
+            tracker: 'Daily',
+            frequency: 1,
+            selectedDay: null,
+            selectedDate: null,
+            endDate: null,
+            commitForDays: 7
+        },
+    ],
     openGoalModal: false,
     loading:false,
-    error: null,
-    setDay: false,
-    setTime: false,
+    openTracker: false,
+    openCommitment: false,
+
 
 }
 
@@ -21,13 +53,37 @@ const goalSlice = createSlice({
         },
         setOpenGoalModal:(state, action)=>{
             state.openGoalModal = action.payload
+        },
+        setOpenTracker: (state, action)=>{
+            state.openTracker = action.payload
+        },
+        setOpenCommitment: (state, action)=>{
+            state.openCommitment = action.payload
         }
 
+
     },
-    extraReducers:()=>{}
+    extraReducers:(builder)=>{
+        builder
+            .addCase(creatChallenge.pending, (state)=>{
+                state.loading = true;
+
+            })
+            .addCase(creatChallenge.rejected,(state, action)=>{
+                state.loading = false;
+                // @ts-ignore
+                dispatch(setError(action.payload))
+        })
+            .addCase(creatChallenge.fulfilled, (state, action)=>{
+                state.loading = false;
+                state.challenges.push(action.payload)
+            })
+
+    }
 
 })
 
-export const {setColor,setOpenGoalModal} = goalSlice.actions
+export const {setColor,setOpenGoalModal,
+    setOpenTracker, setOpenCommitment,} = goalSlice.actions
 
 export default goalSlice.reducer;

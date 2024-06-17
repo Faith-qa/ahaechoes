@@ -70,6 +70,7 @@ const authSlice = createSlice({
                 state.userInfo = action.payload.user
                 state.success = true
                 state.userToken = action.payload.access_token
+                state.userId = action.payload.user._id
 
             })
             .addCase(loginUser.rejected, (state, action)=>{

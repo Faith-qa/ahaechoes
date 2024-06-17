@@ -1,33 +1,28 @@
-import {Schema} from "mongoose";
-import {UNKNOWN_EXPORT_MESSAGE} from "@nestjs/core/errors/messages";
+import { Types } from 'mongoose';
 
-export class UpdateGoalDto{
-    readonly user: string;
-    readonly goal: string;
-    readonly habitKind?: 'daily' | 'weekly' | 'monthly';
-    readonly tracker?: TrackerDto;
-    readonly habits?:[any]
+export class GoalBaseDTO {
+  user: Types.ObjectId;
+  challenge?: string;
+  track?: 'Daily' | 'Weekly' | 'Monthly';
+  endDate?: Date;
+  commitDays?: number;
 }
 
-export class TrackerDto{
-    daily?: DailyTrackerDto;
-    weekly?: WeeklyTrackerDto;
-    monthly?: MonthlyTrackerDto;
-
+export class DailyGoalDTO extends GoalBaseDTO {
+  track?: 'Daily';
+  frequencyDays?: number;
 }
 
-export class DailyTrackerDto {
-    readonly time: Date;
-    readonly reminderDays: string[];
+export class WeeklyGoalDTO extends GoalBaseDTO {
+  track?: 'Weekly';
+  dayofWeek?: string;
+  frequencyWeeks?: number;
 }
 
-export class WeeklyTrackerDto{
-    readonly reminderDay: string;
-    readonly time: Date;
+export class MonthlyGoalDTO extends GoalBaseDTO {
+  track?: 'Monthly';
+  daysofMonth?: number;
+  frequencyMonths?: number;
 }
 
-export class MonthlyTrackerDto{
-    readonly week: number;
-    readonly day: string;
-    readonly time: Date
-}
+export type UpdateGoalDto = DailyGoalDTO | WeeklyGoalDTO | MonthlyGoalDTO;
