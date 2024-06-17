@@ -14,7 +14,8 @@ const initialState = {
         frequency: 1,
         selectedDay: null,
         selectedDate: null,
-        endDate: null
+        endDate: null,
+        commitForDays: 7
     },
         {
             newChallenge: "exercise for 10 minutes",
@@ -22,7 +23,8 @@ const initialState = {
             frequency: 1,
             selectedDay: null,
             selectedDate: null,
-            endDate: null
+            endDate: null,
+            commitForDays: 7
         },
         {
             newChallenge: "drink 2l of water",
@@ -30,12 +32,14 @@ const initialState = {
             frequency: 1,
             selectedDay: null,
             selectedDate: null,
-            endDate: null
+            endDate: null,
+            commitForDays: 7
         },
     ],
     openGoalModal: false,
     loading:false,
-    openTracker: false
+    openTracker: false,
+    openCommitment: false,
 
 
 }
@@ -53,6 +57,9 @@ const goalSlice = createSlice({
         setOpenTracker: (state, action)=>{
             state.openTracker = action.payload
         },
+        setOpenCommitment: (state, action)=>{
+            state.openCommitment = action.payload
+        }
 
 
     },
@@ -76,6 +83,7 @@ const goalSlice = createSlice({
 
 })
 
-export const {setColor,setOpenGoalModal,setOpenTracker,} = goalSlice.actions
+export const {setColor,setOpenGoalModal,
+    setOpenTracker, setOpenCommitment,} = goalSlice.actions
 
 export default goalSlice.reducer;
