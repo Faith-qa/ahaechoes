@@ -3,10 +3,11 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal } fro
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../store/store';
-import { setColor, setOpenGoalModal, setOpenTracker} from '../../../../store/goals/newGoal.slice';
+import {setColor, setOpenCommitment, setOpenGoalModal, setOpenTracker} from '../../../../store/goals/newGoal.slice';
 import Tracker from './tracker.goal';
 import {creatChallenge, newChallengeRegistration} from '../../../../store/goals/newChallenge.action';
 import ErrorCard from "../../../../components/errorCard";
+import CommitToChallenge from "./challengeGoal";
 
 const NewGoal: React.FC = () => {
     const { openGoalModal, color,  } = useSelector((state: RootState) => state.goal);
@@ -121,14 +122,15 @@ const NewGoal: React.FC = () => {
                     <Text style={styles.optionText}>Track this challenge</Text>
                     <MaterialIcons name="event" size={24} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.option}>
-                    <Text style={styles.optionText}>Set challenge goal</Text>
+                <CommitToChallenge/>
+                <TouchableOpacity style={styles.option} onPress={()=> dispatch(setOpenCommitment(true))}>
+                    <Text style={styles.optionText}>Commit to this challenge for {} days</Text>
                     <MaterialIcons name="access-time" size={24} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.option}>
+                {/*<TouchableOpacity style={styles.option}>
                     <Text style={styles.optionText}>No Reminder</Text>
                     <MaterialIcons name="notifications-none" size={24} color="black" />
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
                 <TouchableOpacity style={styles.option}>
                     <Text style={styles.optionText}>No tag</Text>
                     <MaterialIcons name="label-outline" size={24} color="black" />

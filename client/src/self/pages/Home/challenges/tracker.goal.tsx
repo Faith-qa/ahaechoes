@@ -20,15 +20,7 @@ interface NewProps {
     onDataCollected: (data: newChallengeRegistration) => void
 }
 
-interface Data {
-    track: string,
-    frequencyDays?: number,
-    frequencyWeeks?: number,
-    frequencyMonths?: number;
-    endDate: Date;
 
-
-}
 const Tracker:React.FC<NewProps> = ({onDataCollected}) => {
     const {openTracker,}= useSelector((state: RootState)=> state.goal);
     const [endDateEnabled, setEndDateEnabled] = useState(false);

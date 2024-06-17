@@ -1,5 +1,14 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, Dimensions, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {
+    View,
+    Text,
+    ScrollView,
+    StyleSheet,
+    Dimensions,
+    NativeSyntheticEvent,
+    NativeScrollEvent,
+    TouchableOpacity
+} from 'react-native';
 
 const { height } = Dimensions.get('window');
 const ITEM_HEIGHT = 40;
@@ -10,9 +19,14 @@ interface WheelPickerProps {
 }
 
 const WheelPicker: React.FC<WheelPickerProps> = ({ items, onValueChange }) => {
-    const [selectedIndex, setSelectedIndex] = useState(Math.floor(items.length / 2));
+    const [selectedIndex, setSelectedIndex] = useState(0);
     const scrollViewRef = useRef<ScrollView>(null);
 
+
+    // useEffect(() => {
+    //     // Scroll to the initial item on mount
+    //     scrollViewRef.current?.scrollTo({ y: selectedIndex * ITEM_HEIGHT, animated: false });
+    // }, []);
     const onScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const index = Math.round(event.nativeEvent.contentOffset.y / ITEM_HEIGHT);
         setSelectedIndex(index);
@@ -75,6 +89,7 @@ const styles = StyleSheet.create({
     },
     itemText: {
         fontSize: 18,
+        fontFamily: "Raleway_400Regular"
     },
     overlay: {
         position: 'absolute',

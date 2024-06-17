@@ -22,12 +22,12 @@ const NavBar: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>()
 
     console.log(userToken)
-
-    if (success === false){
-        return(
-          <LogIn/>)
-      }
-
+    //
+    // if (success === false){
+    //     return(
+    //       <LogIn/>)
+    //   }
+    //
 
     return <>
         <Tab.Navigator
