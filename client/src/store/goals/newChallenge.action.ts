@@ -9,8 +9,10 @@ const api_URL = process.env.EXPO_PUBLIC_API_URI;
 interface BaseChallenge{
     user: string;
     challenge: string;
-    completed?: [number];
+    //completed?: [number];
     track: 'Daily'|'Weekly' | 'Monthly';
+    commitForDays: number;
+
     endDate: Date;
 
 }
@@ -49,7 +51,7 @@ export const creatChallenge = createAsyncThunk(
 
 
             //get token from async storage
-            const token = retrieveToken();
+            const token = await retrieveToken();
 
             //set headers
 
@@ -67,9 +69,9 @@ export const creatChallenge = createAsyncThunk(
             return data;
 
         }catch(err: any){
-            console.log("i'm made it here")
+            console.log("")
 
-            dispatch(setError(err.message));
+            dispatch(setError("server returned" + err.message));
             dispatch(setOpenErrorCard(true))
 
 

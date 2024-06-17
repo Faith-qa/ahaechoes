@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal, Alert } from 'react-native';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../store/store';
@@ -30,12 +30,13 @@ const NewGoal: React.FC = () => {
     // Validate data
     const validateData = (data: Record<string, any>) => {
         try{
-            const baseKeys = ['challenge', 'track', 'endDate'];
+            const baseKeys = ['challenge', 'track', 'commitForDays', 'user',"endDate"];
             const dailyKeys = [...baseKeys, 'frequencyDays'];
             const weeklyKeys = [...baseKeys, 'frequencyWeeks', 'dayofWeek'];
             const monthlyKeys = [...baseKeys, 'frequencyMonths', 'daysofMonth'];
             const requiredKeys = Object.keys(data);
-            console.log('I made it here')
+            console.log(requiredKeys)
+
 
 
 
@@ -44,12 +45,19 @@ const NewGoal: React.FC = () => {
             );
             return isValid;
         }catch(err: any){
+            //console.log('I made it here', data)
             dispatch(setError(err.message))
             dispatch(setOpenErrorCard(true))
             return
         }
 
     };
+
+    const calculate_end_Date = async(commitDays: number) => {
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + commitDays)
+        return currentDate
+    }
 
     // Handle create and update global state
     const handleCreate = async (data: newChallengeRegistration) => {
@@ -64,13 +72,20 @@ const NewGoal: React.FC = () => {
         }
         data['challenge'] = text;
         data['user'] = userId;
+
         if (text === '') {
             dispatch(setError("challenge cannot be blank"))
             dispatch(setOpenErrorCard(true))
             return
         }
+        if (data.commitForDays){
+            // call the add enddate function
+            data["endDate"] = await calculate_end_Date(data.commitForDays)
+        }
+
 
         if (!validateData(data)) {
+            console.log(error, data)
             dispatch(setError("missing required inputs in 'track this challenge' "))
             dispatch(setOpenErrorCard(true))
             return
@@ -78,20 +93,17 @@ const NewGoal: React.FC = () => {
         }
 
 
-
-
-
-
         const completedChallenge: newChallengeRegistration = {...data}
         console.log(completedChallenge)
 
-        await dispatch(creatChallenge({challengeData:completedChallenge, userId}));
-        //
-        // if (creatChallenge.fulfilled.match(actionResults)){
-        //     console.log("challenge created successfully")
-        //     dispatch(setOpenGoalModal(false));
-        // }
-        // console.log(error)
+        const actionResults = await dispatch(creatChallenge({challengeData:completedChallenge, userId}));
+        //dispatch(setOpenGoalModal(false));
+
+        if (creatChallenge.fulfilled.match(actionResults)){
+            console.log("challenge created successfully")
+            dispatch(setOpenGoalModal(false));
+            Alert.alert("successful:", "challenge created successfully",)
+        }
 
     };
 
@@ -148,7 +160,7 @@ const NewGoal: React.FC = () => {
                     <Text style={styles.optionText}>Track this challenge</Text>
                     <MaterialIcons name="event" size={24} color="black" />
                 </TouchableOpacity>
-                <CommitToChallenge onDataCollected={handleData}/>
+                <CommitToChallenge onDataCollected={handleData} existingData={data} />
                 <TouchableOpacity style={styles.option} onPress={()=> dispatch(setOpenCommitment(true))}>
                     <Text style={styles.optionText}>Commit to this challenge for {} days</Text>
                     <MaterialIcons name="access-time" size={24} color="black" />

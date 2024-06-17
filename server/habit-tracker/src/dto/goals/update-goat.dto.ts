@@ -5,6 +5,7 @@ export class GoalBaseDTO {
   challenge?: string;
   track?: 'Daily' | 'Weekly' | 'Monthly';
   endDate?: Date;
+  commitDays?: number;
 }
 
 export class DailyGoalDTO extends GoalBaseDTO {
