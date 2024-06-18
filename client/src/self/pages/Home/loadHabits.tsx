@@ -10,9 +10,13 @@ import {useSelector} from "react-redux";
 const LoadHabits: React.FC = ()=>{
     const {challenges, loading} = useSelector((state: RootState)=> state.goal)
     const today = getFormattedDate();
-    const [habits, setHabit] = useState(challenges);
+    //const [habits, setHabit] = useState(challenges);
     const [completed, setCompleted] = useState<boolean[]>(Array(challenges.length).fill(false));
     const [selectedIndex, setSelectedIndex] = useState<number>(1);
+
+    useEffect(() => {
+        setCompleted(Array(challenges.length).fill(false));
+    }, [challenges]);
 
     const handlePress = (index: number) => {
         setSelectedIndex(index);
@@ -41,10 +45,10 @@ const LoadHabits: React.FC = ()=>{
             <Text style={styles.todayText}>Challenge yourself Today</Text>
             <View style={styles.container}>
                 {challenges.length > 0 &&  (
-                    habits.map((habit, index: number) => (
+                    challenges.map((challenge, index: number) => (
                         <View key={index} style={styles.itemHold}>
                             {checkbox(index)}
-                            <Text style={completed[index] ? styles.strikethrough : styles.text}>{habit.newChallenge}</Text>
+                            <Text style={completed[index] ? styles.strikethrough : styles.text}>{challenge.challenge}</Text>
 
                         </View>
                     ))
