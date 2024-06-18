@@ -47,6 +47,24 @@ export class GoalsServices {
       throw new NotFoundError(error);
     }
   }
+//query by date
+
+  async listGoalsbyDate(user_id: string, date: string): Promise<Goal[]> {
+    try{
+      // configure date data
+      const reqDate = new Date(date)
+      const startOfDay = new Date(reqDate.setHours(0,0,0,0))
+      const endOfDay  = new Date(reqDate.setHours(23,59,59,999))
+      const goals = await this.goalModel.find({user: user_id,
+      createdAt: {
+        $gte: startOfDay,
+        $lte:endOfDay
+      }})
+      return goals;
+    }catch(err){
+      throw new NotFoundError(err);
+    }
+  }
 
   async deleteGoal(goal_id: string): Promise<void> {
     await this.goalModel.findByIdAndDelete(goal_id);
