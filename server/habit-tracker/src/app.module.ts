@@ -6,10 +6,17 @@ import { AuthModule } from './auth/auth.module';
 import { GoalsModule } from './Modules/goals.module';
 import { TasksModule } from './Modules/tasks.module';
 import { JournalsModule } from './Modules/journals.module';
+import {CacheModule,CacheInterceptor} from "@nestjs/cache-manager";
+import {APP_INTERCEPTOR} from "@nestjs/core";
 
 @Module({
-  imports: [AuthModule, UsersModule, GoalsModule, TasksModule, JournalsModule],
+  imports: [CacheModule.register({
+    isGlobal: true,
+  }),AuthModule, UsersModule, GoalsModule, TasksModule, JournalsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,{
+    provide: APP_INTERCEPTOR,
+    useClass: CacheInterceptor
+  }],
 })
 export class AppModule {}

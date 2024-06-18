@@ -16,6 +16,7 @@ import { CreateGoalDto } from '../dto/goals/create-goal.dto';
 import { UpdateGoalDto } from '../dto/goals/update-goat.dto';
 import { Goal } from '../interfaces/goal.interface';
 import { AuthGuard } from '../auth/auth.guard';
+import { CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('goals')
 export class GoalsControllers {
@@ -33,15 +34,29 @@ export class GoalsControllers {
       throw new UnauthorizedException();
     }
     // const userid =  mongoose.Types.ObjectId(userId)
-    console.log(userId);
+    //console.log(userId);
     const newGoalDto = { ...createGoalDto, user: userId };
     return await this.goalsServices.create(newGoalDto);
   }
   @UseGuards(AuthGuard)
+  //@CacheKey(`goals-${req.params.userId}`)
+  @CacheTTL(3600)
   @HttpCode(200)
-  @Get()
+  @Get(':userId')
   async getGoals(@Param('userId') userId: string): Promise<Goal[]> {
     return await this.goalsServices.listmyGoals(userId);
+  }
+
+  // get all goals by date
+
+  @UseGuards(AuthGuard)
+  @HttpCode(200)
+  @Get(':userId/:date')
+  async getGoalsbyDate(
+    @Param('userId') userId: string,
+    @Param('date') date: string,
+  ): Promise<Goal[]> {
+    return await this.goalsServices.listGoalsbyDate(userId, date);
   }
 
   @UseGuards(AuthGuard)

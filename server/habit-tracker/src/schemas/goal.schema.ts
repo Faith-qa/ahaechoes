@@ -43,4 +43,4 @@ export const GoalSchema = new mongoose.Schema({
       return this.track === 'Monthly';
     },
   },
-});
+}, { timestamps: true });
