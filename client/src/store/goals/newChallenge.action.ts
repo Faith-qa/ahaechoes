@@ -65,7 +65,7 @@ export const creatChallenge = createAsyncThunk(
             const { data } = await axios.post(
                 `${api_URL}/goals/${userId}`, challengeData, config
             )
-
+            console.log("this is the data:", data)
             return data;
 
         }catch(err: any){

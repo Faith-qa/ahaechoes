@@ -9,7 +9,7 @@ const initialState = {
     color: "#FFE4C4",
     repeat: false,
     challenges: [{
-        newChallenge: "read 10 pages of a book",
+        challenge: "read 10 pages of a book",
         tracker: 'Daily',
         frequency: 1,
         selectedDay: null,
@@ -18,7 +18,7 @@ const initialState = {
         commitForDays: 7
     },
         {
-            newChallenge: "exercise for 10 minutes",
+            challenge: "exercise for 10 minutes",
             tracker: 'Daily',
             frequency: 1,
             selectedDay: null,
@@ -27,7 +27,7 @@ const initialState = {
             commitForDays: 7
         },
         {
-            newChallenge: "drink 2l of water",
+            challenge: "drink 2l of water",
             tracker: 'Daily',
             frequency: 1,
             selectedDay: null,
@@ -76,7 +76,9 @@ const goalSlice = createSlice({
         })
             .addCase(creatChallenge.fulfilled, (state, action)=>{
                 state.loading = false;
+                console.log('action payload:', action.payload)
                 state.challenges.push(action.payload)
+                console.log("updated challenges,", state.challenges)
             })
 
     }
