@@ -1,18 +1,34 @@
-import React, {useEffect, useState} from "react";
-import { StyleSheet, View, Text, FlatList, Pressable, } from "react-native";
+import React, {useEffect, useRef, useState} from "react";
+import {StyleSheet, View, Text, FlatList, Pressable, ScrollView,} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import getFormattedDate from "../../../../utils/date";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons, Feather } from '@expo/vector-icons';
-import {RootState} from "../../../store/store";
-import {useSelector} from "react-redux";
+import {RootState, AppDispatch} from "../../../store/store";
+import {useDispatch, useSelector} from "react-redux";
+import {loadChallenges} from "../../../store/goals/newChallenge.action";
 
 const LoadHabits: React.FC = ()=>{
-    const {challenges, loading} = useSelector((state: RootState)=> state.goal)
+    const {userId} = useSelector((state: RootState)=> state.auth);
+    const {challenges, loading, search_date} = useSelector((state: RootState)=> state.goal)
     const today = getFormattedDate();
     //const [habits, setHabit] = useState(challenges);
     const [completed, setCompleted] = useState<boolean[]>(Array(challenges.length).fill(false));
     const [selectedIndex, setSelectedIndex] = useState<number>(1);
+    const scrollViewRef = useRef<ScrollView>(null);
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        const fetchChallenges = async()=>{
+            const date = search_date
+            if (userId)
+                await dispatch(loadChallenges({userId,date}))
+        }
+        fetchChallenges();
+
+
+    }, []);
 
     useEffect(() => {
         setCompleted(Array(challenges.length).fill(false));

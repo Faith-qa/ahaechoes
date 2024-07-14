@@ -33,9 +33,11 @@ export interface monthlyChallenge extends BaseChallenge{
 
 export type newChallengeRegistration = DailyChallenge | weeklyChallenge | monthlyChallenge ;
 interface ThunkArg {
-    challengeData: newChallengeRegistration;
-    userId: string;
+    challengeData?: newChallengeRegistration;
+    userId?: string;
+    date?: string;
 }
+
 
 
 
@@ -81,5 +83,37 @@ export const creatChallenge = createAsyncThunk(
     }
 )
 //view challenges(read)
+
+export const loadChallenges = createAsyncThunk(
+    'goals',
+    async({userId, date}: ThunkArg, {dispatch, rejectWithValue})=>{
+        try{
+            dispatch(resetError())
+            console.log("i'm made it here")
+
+
+            //get token from async storage
+            const token = await retrieveToken();
+
+            //set headers
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            // pull data from the api
+
+            const {data} = await axios.get(`${api_URL}/goals/${userId}/${date}`, config)
+            return data;
+
+
+        }catch(err: any){
+            return rejectWithValue("server returned" + err.message)
+        }
+    }
+)
 //update challenges
 //delete challenge

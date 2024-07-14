@@ -1,7 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {creatChallenge} from "./newChallenge.action";
+import {creatChallenge, loadChallenges} from "./newChallenge.action";
 //import {useDispatch} from "react-redux";
 import {setError, resetError, setOpenErrorCard} from "../global/global.slice";
+//import Date from "../../../utils/date";
 
 
 
@@ -40,6 +41,7 @@ const initialState = {
     loading:false,
     openTracker: false,
     openCommitment: false,
+    search_date: new Date().toISOString().split('T')[0]
 
 
 }
@@ -59,6 +61,9 @@ const goalSlice = createSlice({
         },
         setOpenCommitment: (state, action)=>{
             state.openCommitment = action.payload
+        },
+        setSearch_Date: (state, action)=>{
+            state.search_date = action.payload
         }
 
 
@@ -80,12 +85,32 @@ const goalSlice = createSlice({
                 state.challenges.push(action.payload)
                 console.log("updated challenges,", state.challenges)
             })
+            .addCase(loadChallenges.pending, (state)=>{
+                resetError()
+                state.loading = true;
+            })
+            .addCase(loadChallenges.fulfilled, (state, action)=>{
+
+                if (action.payload.length > 0){
+                    for (var i = 0; i < action.payload.length; i++){
+                        state.challenges.push(action.payload[i]);
+                    }
+                }
+                state.loading = false;
+            })
+            .addCase(loadChallenges.rejected, (state, action)=> {
+                state.loading = false;
+                setError(action.payload);
+                setOpenErrorCard(true);
+            })
+
+
 
     }
 
 })
 
 export const {setColor,setOpenGoalModal,
-    setOpenTracker, setOpenCommitment,} = goalSlice.actions
+    setOpenTracker, setOpenCommitment, setSearch_Date} = goalSlice.actions
 
 export default goalSlice.reducer;
