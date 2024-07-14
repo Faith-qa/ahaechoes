@@ -13,7 +13,7 @@ const initialState = {
     userInfo:{
         firstName: "",
         lastName: "",
-        preferredName: "",
+        //preferredName: "",
         avatar: "",
         email: "",
         password: ""

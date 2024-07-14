@@ -1,19 +1,25 @@
 import React, {useEffect, useState} from "react";
 import { TouchableOpacity, Text, View, StyleSheet, Image } from "react-native";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState, AppDispatch} from "../../../store/store";
+import {setSearch_Date} from "../../../store/goals/newGoal.slice";
 
 
 const DaysOfWeekButtons: React.FC = () =>  {
+    const {userInfo} = useSelector((state: RootState)=> state.auth);
+    const {search_date}  = useSelector((state:RootState)=> state.goal)
     const [currentDay, setCurrentDay] = useState(new Date().getDay()); 
     const [currentDate, setCurrentDate] = useState(new Date().getDate());
 
-//{currentDate == index ? currentDate : ''}
-    useEffect(()=>{
-        const intervalId = setInterval(()=>{
-            setCurrentDay(new Date().getDay());
-            setCurrentDate(new Date().getDate());
-        }, 60000);
-        return () => clearInterval(intervalId)
-    }, []);
+    const dispatch = useDispatch<AppDispatch>();
+// //{currentDate == index ? currentDate : ''}
+//     useEffect(()=>{
+//         const intervalId = setInterval(()=>{
+//             setCurrentDay(new Date().getDay());
+//             setCurrentDate(new Date().getDate());
+//         }, 60000);
+//         return () => clearInterval(intervalId)
+//     }, []);
 
     const getButtonStyle = (day: number) =>({
         backgroundColor: currentDay === day ?'#DFBD43' :  '#8AA6B5'
@@ -35,12 +41,12 @@ const DaysOfWeekButtons: React.FC = () =>  {
 
         if (currentHour >= morningStart && currentHour < afternoonStart) {
             /*TO DO: Sync username */
-            return "Good morning, Faith";
+            return `Good morning, ${userInfo.firstName}`;
         
         } else if (currentHour >= afternoonStart && currentHour < eveningStart){
-            return "Good afternoon, Faith";
+            return `Good afternoon, ${userInfo.firstName}`;
         } else {
-            return "Good evening, Faith";
+            return `Good evening, ${userInfo.firstName}`;
         }
 
 
@@ -62,7 +68,7 @@ const DaysOfWeekButtons: React.FC = () =>  {
             //console.log(date)
             
             return (<TouchableOpacity
-            key={index}>
+            key={index} onPress={()=> dispatch(setSearch_Date(fdate))}>
                <View style={[styles.dayButton, getButtonStyle(index)]}>
                 <Text style={styles.btext}>{fdate.split('-')[2]} </Text>
                </View>
