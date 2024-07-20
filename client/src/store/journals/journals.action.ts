@@ -1,5 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import * as MedaLibrary from 'expo-media-library'
+import {MediaType} from "expo-media-library";
 
 interface journMediaData {
     journUri: string; //can be audio or video
@@ -47,7 +48,10 @@ export const getMediaJournals = createAsyncThunk(
             if(!journals){
                 throw Error('journal does not exists')
             }
-            return await MedaLibrary.getAssetsAsync({album: journals});
+            const {assets} = await MedaLibrary.getAssetsAsync({
+                album: journals.id,
+            });
+            return assets;
 
         }catch(err){
             throw err
