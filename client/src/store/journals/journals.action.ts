@@ -3,27 +3,31 @@ import * as MedaLibrary from 'expo-media-library'
 import {MediaType} from "expo-media-library";
 
 interface journMediaData {
-    journUri: string; //can be audio or video
+    journUri: string;
+    newName: string;
+    //can be audio or video
 }
 
 //create or update album if it exists
 
 export const updateAlbum = createAsyncThunk(
     'updateAlb',
-    async(journUri: string, {rejectWithValue})=>{
+    async({journUri, newName}: journMediaData, {rejectWithValue})=>{
 
         try{
         if (journUri ==="" || journUri === undefined){
             throw new Error('URI cannot be an empty string')
         }
 
-        //create asset uri
+            let journals = await MedaLibrary.getAlbumAsync('Journals')
+
+            //create asset uri
         const asset = await MedaLibrary.createAssetAsync(journUri)
         //get album library if it exists
+
             console.log("video saved", asset)
 
 
-        let journals = await MedaLibrary.getAlbumAsync('Journals')
 
         if (!journals) {
             journals = await  MedaLibrary.createAlbumAsync('Journals', asset)
@@ -31,8 +35,8 @@ export const updateAlbum = createAsyncThunk(
         }
         //add asset to album
         return await MedaLibrary.addAssetsToAlbumAsync(asset, journals, false)
-        }catch(err){
-            rejectWithValue(err);
+        }catch(err: any){
+            rejectWithValue(err.message);
         }
 
     }
@@ -42,7 +46,7 @@ export const updateAlbum = createAsyncThunk(
 
 export const getMediaJournals = createAsyncThunk(
     'journals',
-    async()=>{
+    async(_,{rejectWithValue})=>{
         try{
             const journals = await MedaLibrary.getAlbumAsync('Journal')
             if(!journals){
@@ -53,8 +57,8 @@ export const getMediaJournals = createAsyncThunk(
             });
             return assets;
 
-        }catch(err){
-            throw err
+        }catch(err: any){
+            return rejectWithValue(err.message)
         }
 
     }

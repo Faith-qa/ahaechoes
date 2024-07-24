@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import {  View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "react-native";
 import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
-import Takevideo from "./videoJoun/videojournaling";
+//import Takevideo from "./videoJoun/videojournaling";
 import { greeting } from "../../../../../utils/date";
 import { Video } from "expo-av";
 import {useSelector, useDispatch} from 'react-redux'
 import { RootState } from "../../../../store/store";
-import {startVideoRecording, stopVideoRecording} from "../../../../store/jounalActions"
-import RecordVideo from "./videoJoun/record.video";
-import ListVideos from "./videoJoun/list.videos";
+//import {startVideoRecording, stopVideoRecording} from "../../../../store/jounalActions"
+//import RecordVideo from "./videoJoun/record.video";
+//import ListVideos from "./videoJoun/list.videos";
+import RecordVideoScreenContainer from "./videoJoun/video_tests_ui/record_vid_cont";
 interface NewProps {
     visible: boolean,
     onClose: () => void
@@ -63,7 +64,8 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
                         <Text>Take a video</Text>
             <Entypo name="video-camera" size={24} color="black" />
             </Pressable>
-                <RecordVideo vidVisible={newVideo} onClose={closeCam}/>
+                {/*<RecordVideo vidVisible={newVideo} onClose={closeCam}/>*/}
+                <RecordVideoScreenContainer vidVisible={newVideo} onClose={closeCam}/>
                 <Pressable style={styles.video}>
                 <Text>Record</Text>
             <MaterialIcons name="audiotrack" size={24} color="black" />
@@ -96,11 +98,9 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
         
         <Pressable onPress={openMode} >
             <AntDesign name="pluscircle" size={45} color="#DFBD43" />
-
             </Pressable>
             {launchJournalmode(jmode)}
-            <ListVideos/>
-            
+
     </View></Modal>);
 
 }
