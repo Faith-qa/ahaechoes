@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Camera, CameraType } from 'expo-camera';
+import { Camera, CameraType } from 'expo-camera/legacy';
 import { Button, StyleSheet, Text, Pressable, View,Modal } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import {Video} from 'expo-av';
@@ -33,11 +33,6 @@ const Takevideo: React.FC<NewProps> = ({newVideo, closeVideo, onVideoUpload}) =>
             setHasAudioPermission(microprohonePermissions.status === "granted");
             setHasMediaLibraryPermissions(mediaLibraryPermissions.status === "granted")
             setVisible(newVideo);
-
-
-
-
-
         })();
     }, [newVideo]);
 

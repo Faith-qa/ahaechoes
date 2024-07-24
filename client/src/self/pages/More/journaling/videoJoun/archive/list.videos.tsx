@@ -1,6 +1,6 @@
 import {Video} from "expo-av";
-import {RootState, AppDispatch} from "../../../../../store/store";
-import {getMediaJournals} from "../../../../../store/journals/journals.action";
+import {RootState, AppDispatch} from '../../../../../../store/store';
+import {getMediaJournals} from "../../../../../../store/journals/journals.action";
 import {useSelector, useDispatch} from "react-redux";
 import {FlatList, StyleSheet, TouchableOpacity} from "react-native";
 import {useEffect, useState} from "react";
