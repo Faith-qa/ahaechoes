@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     container: {
       width: 410,
       height: 67.384,
-      postion: "relative",
+      position: "relative",
       flexShrink: 0,
       backgroundColor: "#B4D8E2",
       zIndex: -5,
