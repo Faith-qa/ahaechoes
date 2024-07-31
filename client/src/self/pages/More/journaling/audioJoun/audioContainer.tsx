@@ -58,6 +58,8 @@ const RecordAudioScreen:React.FC<NewProps> = ({
     }, []);
 
     const onStartRecording = useCallback(async () => {
+        console.log("on the onstart recording function")
+
         try {
             if(permissionResponse?.status !== 'granted'){
                 console.log('Requesting permissions')
@@ -156,12 +158,12 @@ const RecordAudioScreen:React.FC<NewProps> = ({
         setFileUrl(null);
     }, []);
 
-    useEffect(() => {
+    /*useEffect(() => {
         return () => {
             onCancelRecording();
             setRecording(null);
         };
-    }, [onCancelRecording]);
+    }, [onCancelRecording]);*/
 
     return (
         <Modal

@@ -45,8 +45,8 @@ const RecordAudioScreenView:React.FC<NewProps> = ({
                     <Icon
                         size={36}
                         color={colors.red}
-                        IconSet={Ionicons}
-                        iconName="mid-close"
+                        IconSet={MaterialIcons}
+                        iconName="cancel"
                     />
                 </TouchableOpacity>
                 <TextInput
@@ -98,6 +98,7 @@ const RecordAudioScreenView:React.FC<NewProps> = ({
         <View style={s.container}>
             <TouchableOpacity
                 style={[s.recordButton, s.startRecordButton]}
+                onPress={onStartRecording}
             >
                 <Icon
                     size={50}
