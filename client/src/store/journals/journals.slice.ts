@@ -4,10 +4,11 @@ import {updateAlbum, getMediaJournals} from "./journals.action";
 
 
 interface JournalState {
-    journUri: string;
+    journUri: any;
     loading: boolean;
     mediaJournals: any[];
     error: any | null;
+
 
 }
 const initialState: JournalState = {
@@ -29,7 +30,6 @@ const journalsSlice = createSlice({
             })
             .addCase(updateAlbum.fulfilled, (state, action)=>{
                 state.loading = false
-                // @ts-ignore
                 state.journUri = action.payload
             })
             .addCase(updateAlbum.rejected, (state, action)=>{

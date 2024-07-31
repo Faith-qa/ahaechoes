@@ -171,9 +171,10 @@ const onSubmit = async() =>{
         if (videoName && fileUri) {
 
             try {
-                await dispatch(updateAlbum({ journUri: fileUri, newName: videoName })).unwrap();
+                await dispatch(updateAlbum({ journUri: fileUri, newName: videoName }));
                 resetState();
-                alert("Update successful!");  // Alert indicating success
+                onClose();
+                alert("Update successful!");// Alert indicating success
             } catch (error) {
                 console.error("Error updating album:", error);
                 alert("Update failed. Please try again.");  // Alert indicating failure

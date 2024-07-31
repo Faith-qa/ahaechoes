@@ -5,9 +5,9 @@ import {useDispatch} from 'react-redux';
 import moment from 'moment';
 import {updateAlbum} from "../../../../../store/journals/journals.action";
 import {AppDispatch} from "../../../../../store/store";
+import RecordAudioScreenView from "./RecordAudioScreen";
 //import { audioOperations } from '../../modules/audio';
 //import screens from '../../navigation/screens';
-//import RecordAudioScreenView from './RecordAudioScreenView';
 
 
 interface RecordingStatus {
@@ -43,6 +43,7 @@ const RecordAudioScreen = (/*{ navigation }*/) => {
         }
     }, []);
 
+    // @ts-ignore
     const recordingCallback = useCallback(({ durationMillis, isRecording, isDoneRecording }) => {
         setDurationMillis(durationMillis);
         setIsRecording(isRecording);

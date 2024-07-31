@@ -12,49 +12,35 @@ interface journMediaData {
 
 export const updateAlbum = createAsyncThunk(
     'updateAlb',
-    async({journUri, newName}: journMediaData, {rejectWithValue})=>{
-
-        try{
-        if (journUri ==="" || journUri === undefined){
-            throw new Error('URI cannot be an empty string')
-        }
-            const asset = await MedaLibrary.createAssetAsync(journUri)
-            //get album library if it exists
-            console.log("asset created: ", asset);
-
-            let journals = await MedaLibrary.getAlbumAsync('Journals')
-
-            //create asset uri
-
-        if (!journals || journals === null) {
-            console.log("no journals, I am here")
-            await  MedaLibrary.createAlbumAsync('Journals', asset, false).then((data)=>{
-                console.log("jounals", data.assetCount)
-                return "successful"
-
-            }).catch((err)=>{
-                throw Error(err.message)
-            })
-
-        }else  {
-            console.log("journal exists adding asset to library")
-            const assetMoved = await MedaLibrary.addAssetsToAlbumAsync(asset, journals, false)
-            if(assetMoved){
-                console.log("asset added successfully")
-                return "successful"
-            } else {
-                throw Error("update unsuccessful")
+    async ({ journUri, newName }: { journUri: string, newName: string }, { rejectWithValue }) => {
+        try {
+            if (!journUri) {
+                throw new Error('URI cannot be an empty string or undefined');
             }
 
-        }
+            const asset = await MedaLibrary.createAssetAsync(journUri);
+            console.log("Asset created: ", asset);
 
-        }catch(err: any){
-            rejectWithValue(err.message);
-        }
+            let journals = await MedaLibrary.getAlbumAsync('Journals');
 
+            if (!journals) {
+                console.log("No Journals album found, creating one.");
+                journals = await MedaLibrary.createAlbumAsync('Journals', asset, false);
+                console.log("Journals album created: ", journals);
+            } else {
+                console.log("Journals album exists, adding asset to it.");
+                const assetMoved = await MedaLibrary.addAssetsToAlbumAsync([asset], journals.id, false);
+                if (!assetMoved) {
+                    throw new Error("Update unsuccessful");
+                }
+            }
+
+            return asset.uri;
+        } catch (err: any) {
+            return rejectWithValue(err.message);
+        }
     }
-)
-
+);
 //get assets from album
 
 export const getMediaJournals = createAsyncThunk(
