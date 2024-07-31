@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {createStackNavigator} from "@react-navigation/stack";
 import SignUp from "../self/screens/register";
 import PlayList from "../self/screens/spotifyPlaylist";
+import TypeTextScreen from "../self/pages/More/journaling/textJoun/TypeTextScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -43,7 +44,7 @@ const NavBar: React.FC = () => {
                     />
                     <Tab.Screen
                         name="calendar"
-                        component={Calendar}
+                        component={TypeTextScreen}
                         options={{
                             tabBarIcon: ({color}) => <Feather name="calendar" size={24} color="#444444" />
                         }}
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     container: {
       width: 410,
       height: 67.384,
-      postion: "relative",
+      position: "relative",
       flexShrink: 0,
       backgroundColor: "#B4D8E2",
       zIndex: -5,
