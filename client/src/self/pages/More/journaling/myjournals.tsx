@@ -12,6 +12,8 @@ import * as MediaLibrary from "expo-media-library";
 
 import RecordVideoScreenContainer from "./videoJoun/video_tests_ui/record_vid_cont";
 import ListVideos from "./videoJoun/archive/list.videos";
+import AudioContainer from "./audioJoun/audioContainer";
+import RecordAudioScreen from "./audioJoun/audioContainer";
 interface NewProps {
     visible: boolean,
     onClose: () => void
@@ -45,6 +47,12 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
         console.log("this is video data",videoData);
         setVideoList((prevList)=>[...prevList, videoData])
     }
+    const openAudio = () => {
+        isNewAudio(true)
+    }
+    const closeAudion= () => {
+        isNewAudio(false)
+    }
 
     const closeCam = () =>{
         isNewVideo(false)
@@ -70,11 +78,13 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
             </Pressable>
                 {/*<RecordVideo vidVisible={newVideo} onClose={closeCam}/>*/}
                 <RecordVideoScreenContainer vidVisible={newVideo} onClose={closeCam}/>
-                <Pressable style={styles.video}>
+
+                <Pressable style={styles.video}  onPress={()=> openAudio()}>
                 <Text>Record</Text>
-            <MaterialIcons name="audiotrack" size={24} color="black" />
+                 <MaterialIcons name="audiotrack" size={24} color="black" />
             </Pressable>
-            <Pressable style={styles.video}>
+                <RecordAudioScreen audVisible={newAudio} onClose={closeCam}/>
+                <Pressable style={styles.video}>
                 <Text>Write it down</Text>
             <FontAwesome name="pencil-square-o" size={24} color="black" />
             </Pressable>

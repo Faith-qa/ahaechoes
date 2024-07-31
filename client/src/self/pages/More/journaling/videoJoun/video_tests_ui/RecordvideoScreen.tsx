@@ -5,7 +5,7 @@ import {View, Text, TouchableOpacity, TextInput} from "react-native";
 import {Camera} from "expo-camera/legacy";
 import {Ionicons, FontAwesome} from "@expo/vector-icons";
 import { Button } from '@rneui/themed';
-import Icon from "./icon";
+import Icon from "../../icon";
 
 
 interface NewProps {
