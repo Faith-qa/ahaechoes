@@ -29,10 +29,15 @@ export const updateAlbum = createAsyncThunk(
                 console.log("Journals album created: ", journals);
             } else {
                 console.log("Journals album exists, adding asset to it.");
-                const assetMoved = await MedaLibrary.addAssetsToAlbumAsync([asset], journals.id, false);
-                if (!assetMoved) {
-                    throw new Error("Update unsuccessful");
-                }
+                await MedaLibrary.addAssetsToAlbumAsync([asset], journals.id, false).then((stat )=>{
+                    if(stat){
+                        console.log("this was successful")
+                    }else{
+                        console.log("unsuccessful")
+                    }
+
+                });
+
             }
 
             return asset.uri;
