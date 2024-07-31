@@ -1,11 +1,20 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {updateAlbum, getMediaJournals} from "./journals.action";
 
 
-const initialState = {
+
+interface JournalState {
+    journUri: any;
+    loading: boolean;
+    mediaJournals: any[];
+    error: any | null;
+
+
+}
+const initialState: JournalState = {
     journUri: "",
     loading: false,
-    journals:[],
+    mediaJournals: [],
     error: null,
 }
 
@@ -21,7 +30,6 @@ const journalsSlice = createSlice({
             })
             .addCase(updateAlbum.fulfilled, (state, action)=>{
                 state.loading = false
-                // @ts-ignore
                 state.journUri = action.payload
             })
             .addCase(updateAlbum.rejected, (state, action)=>{
@@ -29,6 +37,19 @@ const journalsSlice = createSlice({
                 // @ts-ignore
                 state.error = action.payload
 
+            })
+            .addCase(getMediaJournals.pending, (state)=>{
+                state.loading = true
+                state.error = null
+            })
+            .addCase(getMediaJournals.fulfilled, (state, action)=>{
+                state.loading = false
+                state.loading = false
+                state.mediaJournals = action.payload
+            })
+            .addCase(getMediaJournals.rejected, (state, action)=>{
+                state.loading = false
+                state.error = action.payload
             })
 
     }
