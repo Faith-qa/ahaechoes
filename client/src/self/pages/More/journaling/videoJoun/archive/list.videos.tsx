@@ -1,31 +1,33 @@
 import {Video} from "expo-av";
-import {RootState, AppDispatch} from "../../../../../store/store";
-import {getMediaJournals} from "../../../../../store/journals/journals.action";
+import {RootState, AppDispatch} from '../../../../../../store/store';
+import {getMediaJournals} from "../../../../../../store/journals/journals.action";
 import {useSelector, useDispatch} from "react-redux";
-import {FlatList, StyleSheet} from "react-native";
+import {FlatList, StyleSheet, TouchableOpacity} from "react-native";
 import {useEffect, useState} from "react";
 
 
 
 const ListVideos:React.FC = () =>{
-    const {journals} = useSelector((state: RootState)=> state.journal)
+    const {mediaJournals} = useSelector((state: RootState)=> state.journal)
     const [videoList, setVideoList] = useState<string[]>()
 
     const dispatch = useDispatch<AppDispatch>()
 
     useEffect(() => {
-        dispatch(getMediaJournals)
-    }, []);
+        (async () => {
+            await dispatch(getMediaJournals());
+        })()
+    }, [dispatch]);
 
-    useEffect(() => {
-        setVideoList(journals)
-    }, [journals]);
+    // renderItems
 
-
+    if (mediaJournals.length == 0){
+        return <></>
+    }
     return (
         <>
             <FlatList
-                data={videoList}
+                data={mediaJournals}
                 keyExtractor={(item, index) => index.toString()} // Provide a unique key
                 renderItem={({ item }) => (
                     <Video
