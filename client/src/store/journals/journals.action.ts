@@ -12,9 +12,9 @@ interface journMediaData {
 
 export const updateAlbum = createAsyncThunk(
     'updateAlb',
-    async ({ journUri, newName }: { journUri: string, newName: string }, { rejectWithValue }) => {
+    async (/*{ journUri, newName }: { journUri: string, newName: string }*/_, { rejectWithValue }) => {
         try {
-            if (!journUri) {
+            /*if (!journUri) {
                 throw new Error('URI cannot be an empty string or undefined');
             }
 
@@ -33,9 +33,9 @@ export const updateAlbum = createAsyncThunk(
                 if (!assetMoved) {
                     throw new Error("Update unsuccessful");
                 }
-            }
+            }*/
 
-            return asset.uri;
+            console.log("configuration coming");
         } catch (err: any) {
             return rejectWithValue(err.message);
         }

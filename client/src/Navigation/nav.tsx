@@ -13,6 +13,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {createStackNavigator} from "@react-navigation/stack";
 import SignUp from "../self/screens/register";
 import PlayList from "../self/screens/spotifyPlaylist";
+import TypeTextScreen from "../self/pages/More/journaling/textJoun/TypeTextScreen";
+import TextJournCont from "../self/pages/More/journaling/textJoun";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     container: {
       width: 410,
       height: 67.384,
-      postion: "relative",
+      position: "relative",
       flexShrink: 0,
       backgroundColor: "#B4D8E2",
       zIndex: -5,
