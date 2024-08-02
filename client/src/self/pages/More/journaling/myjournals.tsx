@@ -12,6 +12,7 @@ import * as MediaLibrary from "expo-media-library";
 
 import RecordVideoScreenContainer from "./videoJoun/video_tests_ui/record_vid_cont";
 import ListVideos from "./videoJoun/archive/list.videos";
+import TextJournCont from "./textJoun";
 interface NewProps {
     visible: boolean,
     onClose: () => void
@@ -46,6 +47,13 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
         setVideoList((prevList)=>[...prevList, videoData])
     }
 
+    const openText = () => {
+        isNewDoc(true)
+    }
+
+    const closeDoc = () => {
+        isNewDoc(false)
+    }
     const closeCam = () =>{
         isNewVideo(false)
     }
@@ -74,11 +82,11 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
                 <Text>Record</Text>
             <MaterialIcons name="audiotrack" size={24} color="black" />
             </Pressable>
-            <Pressable style={styles.video}>
+            <Pressable style={styles.video} onPress={()=> openText()}>
                 <Text>Write it down</Text>
             <FontAwesome name="pencil-square-o" size={24} color="black" />
             </Pressable>
-
+                <TextJournCont onTextVisible={newDoc} onTextClose={closeDoc}/>
             </View></Modal>)
         
 

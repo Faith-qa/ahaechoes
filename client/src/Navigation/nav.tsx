@@ -45,7 +45,7 @@ const NavBar: React.FC = () => {
                     />
                     <Tab.Screen
                         name="calendar"
-                        component={TextJournCont}
+                        component={Calendar}
                         options={{
                             tabBarIcon: ({color}) => <Feather name="calendar" size={24} color="#444444" />
                         }}

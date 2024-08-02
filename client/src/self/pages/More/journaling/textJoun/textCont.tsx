@@ -1,25 +1,35 @@
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../../../../store/store";
 import {Modal, TouchableOpacity, View, Text} from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
 import s from './styles';
 import TypeTextScreen from "./TypeTextScreen";
 import React from "react";
+import {updateAlbum} from "../../../../../store/journals/journals.action";
 interface NewProps {
     onTextVisible: boolean,
     onTextClose: () => void
 }
-const TextJournCont: React.FC=()=>{
+const TextJournCont: React.FC<NewProps>=({
+    onTextVisible,
+    onTextClose
+                                         })=>{
     const [text, setText] = useState("")
     const [exit, setExit]= useState(false)
     const [title, setTitle] = useState('')
     //handle cancel
+
+    const dispatch = useDispatch<AppDispatch>();
     const onCancelSave = () => {
         reset()
-       // onTextClose()
+        onTextClose()
     }
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         try {
-            console.log("ui working call it a wrap")
+
+            await dispatch(updateAlbum());
+            reset();
            // onTextClose();
         }catch(err){
             console.error(err)
@@ -50,7 +60,12 @@ const TextJournCont: React.FC=()=>{
     //handle file name
 
     
-    return (<TypeTextScreen onSubmit={handleSubmit}
+    return (
+        <Modal
+            visible={onTextVisible}
+            animationType={"fade"}
+        >
+        <TypeTextScreen onSubmit={handleSubmit}
                             title={title}
                             setTitle={setTitle}
                             text={text}
@@ -58,7 +73,7 @@ const TextJournCont: React.FC=()=>{
                             onCancelSave={onCancelSave}
                             exit={exit}
                             setExit={setExit}
-                            exitDelete={exitDelete(exit)}/>
+                            exitDelete={exitDelete(exit)}/></Modal>
 )
 }
 
