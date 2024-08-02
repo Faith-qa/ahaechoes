@@ -4,46 +4,63 @@ import {
     View,
     Image,
     TextInput,
-    Animated,
+    Animated,TouchableOpacity,
     NativeSyntheticEvent,
     TextInputSelectionChangeEventData,
     LayoutChangeEvent
 } from "react-native";
+import { Button } from '@rneui/themed';
+
 import {Ionicons, MaterialIcons, Entypo} from "@expo/vector-icons";
+import Icon from 'react-native-vector-icons/FontAwesome';
+interface NewProps {
+    onSubmit: ()=> void,
+    title: string,
+    setTitle: (title: string)=> void
+    text: string,
+    setText: (text:string)=> void,
+    onCancelSave : ()=> void,
+    exit: boolean,
+    setExit: (exit:boolean)=> void
+    exitDelete: any
 
-const TypeTextScreen:React.FC = () => {
-    const [text, setText] = useState('');
-    const featherPosition = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+}
+const TypeTextScreen:React.FC<NewProps> = ({
+    onSubmit,
+    text,
+    title,
+    setText,
+    setTitle, onCancelSave, setExit, exit, exitDelete}) => {
 
-
-    /*const handleSelectionChange = (event: NativeSyntheticEvent<TextInputSelectionChangeEventData>) => {
-        const { selection } = event.nativeEvent;
-        if (selection.start === selection.end) {
-            const lines = text.slice(0, selection.start).split('\n');
-            const lineHeight = 24; // Adjust based on your line height
-            const charWidth = 7; // Adjust based on your font size
-            const xOffset = 10; // Adjust based on padding/margin
-            const yOffset = 5; // Adjust based on padding/margin
-
-            const lastLine = lines[lines.length - 1];
-            const x = lastLine.length * charWidth + xOffset; // Horizontal position
-            const y = (lines.length - 1) * lineHeight + yOffset; // Vertical position
-
-            Animated.timing(featherPosition, {
-                toValue: { x, y },
-                duration: 100,
-                useNativeDriver: false,
-            }).start();
-        }
-    };*/
     return(<View style={s.container}>
         <View style={s.header}>
             <Image source={require('../../../../../../assets/logo.png')} style={s.icon}/>
-
         </View>
         <View style={s.notebook}>
+            <View style={s.titleCont}>
+                <TextInput
+                    style={s.input}
+                    onChangeText={setTitle}
+                    value={title}
+                    placeholder="Title.."
+                    placeholderTextColor="#ccc"
+                />
+                <View style={s.iconRow}>
+                    <TouchableOpacity onPress={() => console.log('Add Pressed')}>
+                        <Icon name="plus" size={24} color="#000" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        setExit(true);
+                    }}>
+                        <Icon name="ellipsis-v" size={24} color="#000" />
+                    </TouchableOpacity>
+                </View>
+                {exitDelete}
+            </View>
+            <View style={{borderBottomColor: "#dddddd", borderBottomWidth: 1}}/>
+
             <TextInput
-                style={s.input}
+                style={[s.input, {paddingVertical: 12, paddingHorizontal: 10}]}
                 multiline
                 value={text}
                 onChangeText={setText}

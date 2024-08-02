@@ -14,6 +14,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import SignUp from "../self/screens/register";
 import PlayList from "../self/screens/spotifyPlaylist";
 import TypeTextScreen from "../self/pages/More/journaling/textJoun/TypeTextScreen";
+import TextJournCont from "../self/pages/More/journaling/textJoun";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -44,7 +45,7 @@ const NavBar: React.FC = () => {
                     />
                     <Tab.Screen
                         name="calendar"
-                        component={TypeTextScreen}
+                        component={TextJournCont}
                         options={{
                             tabBarIcon: ({color}) => <Feather name="calendar" size={24} color="#444444" />
                         }}
