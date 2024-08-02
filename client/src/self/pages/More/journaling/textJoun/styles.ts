@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         paddingHorizontal: 20,
         backgroundColor: '#f8f8f8',
+        paddingVertical: 20,
     },
     titleCont: {
         flexDirection: "row",
