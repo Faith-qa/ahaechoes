@@ -6,6 +6,7 @@ import moment from 'moment';
 import {updateAlbum} from "../../../../../store/journals/journals.action";
 import {AppDispatch} from "../../../../../store/store";
 import RecordAudioScreenView from "./RecordAudioScreen";
+import {Modal} from "react-native";
 //import { audioOperations } from '../../modules/audio';
 //import screens from '../../navigation/screens';
 
@@ -15,7 +16,14 @@ interface RecordingStatus {
     isRecording: boolean;
     isDoneRecording: boolean;
 }
-const RecordAudioScreen = (/*{ navigation }*/) => {
+interface NewProps {
+    audVisible: boolean;
+    onClose: () => void;
+}
+const RecordAudioScreen:React.FC<NewProps> = ({
+    audVisible,
+    onClose
+                                              }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [recording, setRecording] = useState<any>(null);
     const [isRecording, setIsRecording] = useState(false);
@@ -24,7 +32,6 @@ const RecordAudioScreen = (/*{ navigation }*/) => {
     const [fileUrl, setFileUrl] = useState(null);
     const [audioName, setAudioName] = useState('');
     const [permissionResponse, requestPermission] = Audio.usePermissions();
-
 
 
 
@@ -51,6 +58,8 @@ const RecordAudioScreen = (/*{ navigation }*/) => {
     }, []);
 
     const onStartRecording = useCallback(async () => {
+        console.log("on the onstart recording function")
+
         try {
             if(permissionResponse?.status !== 'granted'){
                 console.log('Requesting permissions')
@@ -135,7 +144,7 @@ const RecordAudioScreen = (/*{ navigation }*/) => {
                 await dispatch(updateAlbum({ journUri: fileUrl, newName: audioName })).unwrap();
                 setAudioName('');
                 setIsDoneRecording(false);
-
+                onClose();
 
             }catch(err){console.error(err)}
 
@@ -149,14 +158,18 @@ const RecordAudioScreen = (/*{ navigation }*/) => {
         setFileUrl(null);
     }, []);
 
-    useEffect(() => {
+    /*useEffect(() => {
         return () => {
             onCancelRecording();
             setRecording(null);
         };
-    }, [onCancelRecording]);
+    }, [onCancelRecording]);*/
 
     return (
+        <Modal
+            visible={audVisible}
+            animationType={"slide"}
+        >
         <RecordAudioScreenView
             onStartRecording={onStartRecording}
             onEndRecording={onEndRecording}
@@ -169,7 +182,7 @@ const RecordAudioScreen = (/*{ navigation }*/) => {
             isDoneRecording={isDoneRecording}
             durationMillis={durationMillis}
             fileUrl={fileUrl}
-        />
+        /></Modal>
     );
 };
 
