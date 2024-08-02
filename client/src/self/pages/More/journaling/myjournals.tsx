@@ -92,9 +92,8 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
                 <Text>Record</Text>
                  <MaterialIcons name="audiotrack" size={24} color="black" />
             </Pressable>
-            <Pressable style={styles.video} onPress={()=> openText()}>
-                <RecordAudioScreen audVisible={newAudio} onClose={closeCam}/></Pressable>
-                <Pressable style={styles.video}>
+                <RecordAudioScreen audVisible={newAudio} onClose={closeCam}/>
+                <Pressable style={styles.video} onPress={()=> openText()}>
                 <Text>Write it down</Text>
             <FontAwesome name="pencil-square-o" size={24} color="black" />
             </Pressable>
