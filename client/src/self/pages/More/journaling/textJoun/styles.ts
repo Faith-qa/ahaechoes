@@ -8,6 +8,23 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: '#f8f8f8',
     },
+    titleCont: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 10,
+        paddingVertical: 12
+    },
+    mainTextCont: {
+        paddingHorizontal: 10,
+        paddingVertical: 12
+
+    },
+    iconRow: {
+        flexDirection: 'row',
+        width: 50,
+        justifyContent: 'space-between',
+        marginLeft: 10,
+    },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -39,6 +56,24 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         right: 10,
+    },
+    exitModal:{
+        margin: 30,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        marginLeft: 97,
+        width: "30%",
+        //height: 70,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
 });
 
