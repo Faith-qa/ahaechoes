@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontSizes, dimensions } from '../../styling';
+import { colors, fontSizes, dimensions } from '../styling';
 
 import { Platform } from 'react-native';
 export const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
