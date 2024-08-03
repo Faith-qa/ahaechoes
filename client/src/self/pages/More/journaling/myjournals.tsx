@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {  View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "react-native";
 import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
-//import Takevideo from "./videoJoun/videojournaling";
 import { greeting } from "../../../../../utils/date";
-import { Video } from "expo-av";
 import {useSelector, useDispatch} from 'react-redux'
 import { RootState } from "../../../../store/store";
-//import {startVideoRecording, stopVideoRecording} from "../../../../store/jounalActions"
-//import RecordVideo from "./videoJoun/record.video";
 import * as MediaLibrary from "expo-media-library";
 
-import RecordVideoScreenContainer from "./videoJoun/video_tests_ui/record_vid_cont";
-import ListVideos from "./videoJoun/archive/list.videos";
+import RecordVideoScreenContainer from "./videoJoun/record_vid_cont";
+import TextJournCont from "./textJoun";
+import RecordAudioScreen from "./audioJoun/audioContainer";
+
 interface NewProps {
     visible: boolean,
     onClose: () => void
@@ -45,7 +43,20 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
         console.log("this is video data",videoData);
         setVideoList((prevList)=>[...prevList, videoData])
     }
+    const openAudio = () => {
+        isNewAudio(true)
+    }
+    const closeAudion= () => {
+        isNewAudio(false)
+    }
 
+    const openText = () => {
+        isNewDoc(true)
+    }
+
+    const closeDoc = () => {
+        isNewDoc(false)
+    }
     const closeCam = () =>{
         isNewVideo(false)
     }
@@ -70,15 +81,17 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
             </Pressable>
                 {/*<RecordVideo vidVisible={newVideo} onClose={closeCam}/>*/}
                 <RecordVideoScreenContainer vidVisible={newVideo} onClose={closeCam}/>
-                <Pressable style={styles.video}>
+
+                <Pressable style={styles.video}  onPress={()=> openAudio()}>
                 <Text>Record</Text>
-            <MaterialIcons name="audiotrack" size={24} color="black" />
+                 <MaterialIcons name="audiotrack" size={24} color="black" />
             </Pressable>
-            <Pressable style={styles.video}>
+                <RecordAudioScreen audVisible={newAudio} onClose={closeCam}/>
+                <Pressable style={styles.video} onPress={()=> openText()}>
                 <Text>Write it down</Text>
             <FontAwesome name="pencil-square-o" size={24} color="black" />
             </Pressable>
-
+                <TextJournCont onTextVisible={newDoc} onTextClose={closeDoc}/>
             </View></Modal>)
         
 
@@ -99,7 +112,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
              style={styles.image} />
         <Text style={styles.gtext}>{`${greeting()} ${userInfo.firstName}`}</Text>
         <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch"}}/>
-        <ListVideos/>
+        {/*<ListVideos/>*/}
         <Pressable onPress={openMode} >
             <AntDesign name="pluscircle" size={45} color="#DFBD43" />
             </Pressable>

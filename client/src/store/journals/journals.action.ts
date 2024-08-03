@@ -1,10 +1,18 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import * as MedaLibrary from 'expo-media-library'
 import {MediaType} from "expo-media-library";
+import * as FileSystem from 'expo-file-system';
+import * as DocumentPicker from 'expo-document-picker';
+import {createDirectory} from "./utils";
+import mime from 'mime';
+import * as worker_threads from "worker_threads";
+import focusFieldBy from "react-hook-form/dist/logic/focusFieldBy";
 
 interface journMediaData {
-    journUri: string;
-    newName: string;
+    name: string;
+    filetype: 'video'| 'textFile' | 'audio',
+    content?:string,
+    vidAudUrl?:string
     //can be audio or video
 }
 
@@ -12,32 +20,47 @@ interface journMediaData {
 
 export const updateAlbum = createAsyncThunk(
     'updateAlb',
-    async ({ journUri, newName }: { journUri: string, newName: string }, { rejectWithValue }) => {
+    async ({ name, filetype, content, vidAudUrl }: journMediaData, { rejectWithValue }) => {
         try {
-            if (!journUri) {
-                throw new Error('URI cannot be an empty string or undefined');
-            }
+            const dirUri = await createDirectory();
+            let fileUri: string;
 
-            const asset = await MedaLibrary.createAssetAsync(journUri);
-            console.log("Asset created: ", asset);
+            if (filetype === 'textFile' && content) {
+                // Save text content to a file
+                fileUri = `${dirUri}/${name}.txt`;
+                const tmime = mime.getType(fileUri)
+                if (tmime === null)
+                    throw Error("invalid file")
 
-            let journals = await MedaLibrary.getAlbumAsync('Journals');
 
-            if (!journals) {
-                console.log("No Journals album found, creating one.");
-                journals = await MedaLibrary.createAlbumAsync('Journals', asset, false);
-                console.log("Journals album created: ", journals);
-            } else {
-                console.log("Journals album exists, adding asset to it.");
-                const assetMoved = await MedaLibrary.addAssetsToAlbumAsync([asset], journals.id, false);
-                if (!assetMoved) {
-                    throw new Error("Update unsuccessful");
+                const uri = await FileSystem.StorageAccessFramework.createFileAsync(
+                    dirUri,
+                    name,
+                    tmime
+                );
+                await FileSystem.writeAsStringAsync(uri, content)
+
+                console.log(uri, "hello mama i made it")
+                return uri;
+            } else  if(vidAudUrl){
+                const mimeT: string | null = mime.getType(vidAudUrl);
+                if(mimeT === null){
+                    throw Error("invalid")
                 }
+                const uri = await FileSystem.StorageAccessFramework.createFileAsync(
+                    dirUri,
+                    name,
+                    mimeT
+                );
+
+                await FileSystem.writeAsStringAsync(uri, vidAudUrl, { encoding: FileSystem.EncodingType.Base64 });
+                return uri; //
             }
 
-            return asset.uri;
+
         } catch (err: any) {
-            return rejectWithValue(err.message);
+            console.error('Error in updateAlbum:', err.message); // Log error message
+            return rejectWithValue(err.message); // Reject with the error message
         }
     }
 );

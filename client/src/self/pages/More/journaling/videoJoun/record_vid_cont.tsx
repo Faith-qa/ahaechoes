@@ -2,8 +2,8 @@ import {Camera, CameraType} from "expo-camera/legacy";
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch} from "react-redux";
 import {Video} from "expo-av";
-import {AppDispatch} from "../../../../../../store/store";
-import {updateAlbum} from "../../../../../../store/journals/journals.action";
+import {AppDispatch} from "../../../../../store/store";
+import {updateAlbum} from "../../../../../store/journals/journals.action";
 import RecordVideoScreen from "./RecordvideoScreen";
 import {Modal} from "react-native";
 import * as MediaLibrary from "expo-media-library";
@@ -171,7 +171,7 @@ const onSubmit = async() =>{
         if (videoName && fileUri) {
 
             try {
-                await dispatch(updateAlbum({ journUri: fileUri, newName: videoName }));
+                //await dispatch(updateAlbum());
                 resetState();
                 onClose();
                 alert("Update successful!");// Alert indicating success
