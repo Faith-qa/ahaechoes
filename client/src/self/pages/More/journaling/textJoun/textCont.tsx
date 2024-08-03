@@ -28,8 +28,9 @@ const TextJournCont: React.FC<NewProps>=({
     const handleSubmit = async() => {
         try {
 
-            await dispatch(updateAlbum());
+            await dispatch(updateAlbum({name: title, filetype: "textFile", content: text}));
             reset();
+            onTextClose();
            // onTextClose();
         }catch(err){
             console.error(err)

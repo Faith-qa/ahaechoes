@@ -46,7 +46,7 @@ const TypeTextScreen:React.FC<NewProps> = ({
                     placeholderTextColor="#ccc"
                 />
                 <View style={s.iconRow}>
-                    <TouchableOpacity onPress={() => console.log('Add Pressed')}>
+                    <TouchableOpacity onPress={() => onSubmit()}>
                         <Icon name="plus" size={24} color="#000" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {

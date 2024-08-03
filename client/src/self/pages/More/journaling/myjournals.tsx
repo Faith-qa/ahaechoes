@@ -1,19 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {  View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "react-native";
 import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
-//import Takevideo from "./videoJoun/videojournaling";
 import { greeting } from "../../../../../utils/date";
-import { Video } from "expo-av";
 import {useSelector, useDispatch} from 'react-redux'
 import { RootState } from "../../../../store/store";
-//import {startVideoRecording, stopVideoRecording} from "../../../../store/jounalActions"
-//import RecordVideo from "./videoJoun/record.video";
 import * as MediaLibrary from "expo-media-library";
 
-import RecordVideoScreenContainer from "./videoJoun/video_tests_ui/record_vid_cont";
-import ListVideos from "./videoJoun/archive/list.videos";
+import RecordVideoScreenContainer from "./videoJoun/record_vid_cont";
 import TextJournCont from "./textJoun";
-import AudioContainer from "./audioJoun/audioContainer";
 import RecordAudioScreen from "./audioJoun/audioContainer";
 
 interface NewProps {
@@ -118,7 +112,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
              style={styles.image} />
         <Text style={styles.gtext}>{`${greeting()} ${userInfo.firstName}`}</Text>
         <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch"}}/>
-        <ListVideos/>
+        {/*<ListVideos/>*/}
         <Pressable onPress={openMode} >
             <AntDesign name="pluscircle" size={45} color="#DFBD43" />
             </Pressable>

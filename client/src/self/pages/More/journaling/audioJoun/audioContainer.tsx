@@ -141,7 +141,7 @@ const RecordAudioScreen:React.FC<NewProps> = ({
                 duration: durationMillis,
             };*/
             try{
-                await dispatch(updateAlbum({ journUri: fileUrl, newName: audioName })).unwrap();
+                //await dispatch(updateAlbum({ journUri: fileUrl, newName: audioName })).unwrap();
                 setAudioName('');
                 setIsDoneRecording(false);
                 onClose();
