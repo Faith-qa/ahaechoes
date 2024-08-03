@@ -7,6 +7,7 @@ import {createDirectory} from "./utils";
 import mime from 'mime';
 import * as worker_threads from "worker_threads";
 import focusFieldBy from "react-hook-form/dist/logic/focusFieldBy";
+import * as assert from "assert";
 
 interface journMediaData {
     name: string;
@@ -22,27 +23,32 @@ export const updateAlbum = createAsyncThunk(
     'updateAlb',
     async ({ name, filetype, content, vidAudUrl }: journMediaData, { rejectWithValue }) => {
         try {
-            const dirUri = await createDirectory();
-            let fileUri: string;
+            //const dirUri = await createDirectory();
+            let asset: any;
 
             if (filetype === 'textFile' && content) {
+                let fileUri = FileSystem.documentDirectory+`${name}.txt`;
+                await FileSystem.writeAsStringAsync(fileUri, content,{encoding: FileSystem.EncodingType.UTF8 })
+                asset = await MedaLibrary.createAssetAsync(fileUri);
+
 
             } else{
                 if(!vidAudUrl)
                     throw Error("invalid file")
-                await MedaLibrary.getAlbumAsync("Journal")
-                    .then(async(album)=>{
-                        const asset = await MedaLibrary.createAssetAsync(vidAudUrl)
-                        if(album === null) {
-                            await MedaLibrary.createAlbumAsync('Journal', asset, false)
-                        } else {
-                            let assetAdded = await MedaLibrary.addAssetsToAlbumAsync(asset, album,false);
-                            if(!assetAdded)
-                                throw Error("asset Add failed")
-                        }
-                        return asset.uri
-                    })
+                asset = await MedaLibrary.createAssetAsync(vidAudUrl)
             }
+
+            await MedaLibrary.getAlbumAsync('Journal')
+                .then(async(album)=>{
+                    if (album === null){
+                        await MedaLibrary.createAlbumAsync('Journals', asset, false);
+                    }else {
+                        const assetAdded = await MedaLibrary.addAssetsToAlbumAsync(asset, 'Journal', false)
+                        if(!assetAdded)
+                            throw Error('adding asset failed')
+                        return asset.uri
+                    }
+                })
 
 
         } catch (err: any) {
