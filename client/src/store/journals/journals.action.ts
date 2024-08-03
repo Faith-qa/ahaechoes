@@ -7,6 +7,7 @@ import {createDirectory} from "./utils";
 import mime from 'mime';
 import * as worker_threads from "worker_threads";
 import focusFieldBy from "react-hook-form/dist/logic/focusFieldBy";
+import * as assert from "assert";
 
 interface journMediaData {
     name: string;
@@ -22,40 +23,32 @@ export const updateAlbum = createAsyncThunk(
     'updateAlb',
     async ({ name, filetype, content, vidAudUrl }: journMediaData, { rejectWithValue }) => {
         try {
-            const dirUri = await createDirectory();
-            let fileUri: string;
+            //const dirUri = await createDirectory();
+            let asset: any;
 
             if (filetype === 'textFile' && content) {
-                // Save text content to a file
-                fileUri = `${dirUri}/${name}.txt`;
-                const tmime = mime.getType(fileUri)
-                if (tmime === null)
+                let fileUri = FileSystem.documentDirectory+`${name}.txt`;
+                await FileSystem.writeAsStringAsync(fileUri, content,{encoding: FileSystem.EncodingType.UTF8 })
+                asset = await MedaLibrary.createAssetAsync(fileUri);
+
+
+            } else{
+                if(!vidAudUrl)
                     throw Error("invalid file")
-
-
-                const uri = await FileSystem.StorageAccessFramework.createFileAsync(
-                    dirUri,
-                    name,
-                    tmime
-                );
-                await FileSystem.writeAsStringAsync(uri, content)
-
-                console.log(uri, "hello mama i made it")
-                return uri;
-            } else  if(vidAudUrl){
-                const mimeT: string | null = mime.getType(vidAudUrl);
-                if(mimeT === null){
-                    throw Error("invalid")
-                }
-                const uri = await FileSystem.StorageAccessFramework.createFileAsync(
-                    dirUri,
-                    name,
-                    mimeT
-                );
-
-                await FileSystem.writeAsStringAsync(uri, vidAudUrl, { encoding: FileSystem.EncodingType.Base64 });
-                return uri; //
+                asset = await MedaLibrary.createAssetAsync(vidAudUrl)
             }
+
+            await MedaLibrary.getAlbumAsync('Journal')
+                .then(async(album)=>{
+                    if (album === null){
+                        await MedaLibrary.createAlbumAsync('Journals', asset, false);
+                    }else {
+                        const assetAdded = await MedaLibrary.addAssetsToAlbumAsync(asset, 'Journal', false)
+                        if(!assetAdded)
+                            throw Error('adding asset failed')
+                        return asset.uri
+                    }
+                })
 
 
         } catch (err: any) {
