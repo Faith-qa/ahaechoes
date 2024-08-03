@@ -1,11 +1,12 @@
 import { MutableRefObject, Dispatch, SetStateAction } from 'react';
 import s from './styles';
-import {colors} from "./styling";
+import {colors} from "../styling";
 import {View, Text, TouchableOpacity, TextInput} from "react-native";
 import {Camera} from "expo-camera/legacy";
 import {Ionicons, FontAwesome} from "@expo/vector-icons";
 import { Button } from '@rneui/themed';
-import Icon from "./icon";
+import Icon from "../icon";
+import {durationToStr} from "../utils/dateHepers";
 
 
 interface NewProps {
@@ -103,11 +104,11 @@ const RecordVideoScreen: React.FC<NewProps> = (
                     <View style={s.right}>
                         {isRecording ? (
                             <Text style={s.duration}>
-                                {duration}
+                                {durationToStr(duration)}
                             </Text>
                         ): (
                             <TouchableOpacity onPress={toggleCameraType}>
-                                <Icon size={62} IconSet={Ionicons} iconName={"ios-re"}/>
+                                <Icon size={62} IconSet={Ionicons} iconName={"camera-reverse-outline"}/>
                             </TouchableOpacity>
                         )}
                     </View>
