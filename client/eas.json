@@ -3,14 +3,15 @@
     "version": ">= 7.5.0"
   },
     "build": {
-      },
       "preview": {
+      "env": {
+        "EXPO_PUBLIC_API_URI": "https://habit-tracker-faiths-projects-8773cfe6.vercel.app"
+      },
         "android": {
           "buildType": "apk",
           "channel": "preview"
-
         },
-        "ios":{
+        "ios": {
           "simulator": true
         }
       },
@@ -20,13 +21,13 @@
         }
       },
       "preview3": {
-        "developmentClient": true,
-      "preview4": {
-        "distribution": "internal",
-        "channel": "preview"
-
+        "developmentClient": true
       },
-
+        "preview4": {
+          "distribution": "internal",
+          "channel": "preview"
+        }
+      ,
       "production": {},
         "test": {
           "env": {
