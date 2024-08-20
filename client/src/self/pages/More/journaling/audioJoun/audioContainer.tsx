@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Audio, InterruptionModeAndroid, InterruptionModeIOS} from 'expo-av';
-import {useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux'
 //import uuid from 'uuid';
 import moment from 'moment';
 import {updateAlbum} from "../../../../../store/journals/journals.action";
 import {AppDispatch} from "../../../../../store/store";
 import RecordAudioScreenView from "./RecordAudioScreen";
-import {Modal} from "react-native";
+import {Modal, PermissionsAndroid} from "react-native";
 //import { audioOperations } from '../../modules/audio';
 //import screens from '../../navigation/screens';
 
@@ -78,6 +78,7 @@ const RecordAudioScreen:React.FC<NewProps> = ({
             } else {
                 recording.setOnRecordingStatusUpdate(null);
                 setRecording(null)
+                onClose()
             }
             /*if (recording) {
 
@@ -123,6 +124,7 @@ const RecordAudioScreen:React.FC<NewProps> = ({
 
         try {
             await recording.stopAndUnloadAsync();
+            onClose();
         } catch (error) {
             // do nothing
         }
@@ -141,10 +143,14 @@ const RecordAudioScreen:React.FC<NewProps> = ({
                 duration: durationMillis,
             };*/
             try{
-                //await dispatch(updateAlbum({ journUri: fileUrl, newName: audioName })).unwrap();
+                console.log("this is the audio uri,", fileUrl)
+
+                await dispatch(updateAlbum({filetype: "audio", vidAudUrl: fileUrl, name: audioName}))
                 setAudioName('');
                 setIsDoneRecording(false);
                 onClose();
+                console.log("hrllo i am here")
+
 
             }catch(err){console.error(err)}
 
@@ -156,6 +162,7 @@ const RecordAudioScreen:React.FC<NewProps> = ({
         setAudioName('');
         setIsDoneRecording(false);
         setFileUrl(null);
+        onClose();
     }, []);
 
     /*useEffect(() => {
