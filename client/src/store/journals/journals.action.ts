@@ -23,13 +23,18 @@ export const updateAlbum = createAsyncThunk(
     'updateAlb',
     async ({ name, filetype, content, vidAudUrl }: journMediaData, { rejectWithValue }) => {
         try {
-            //const dirUri = await createDirectory();
+            const dirUri = await createDirectory();
             let asset: any;
 
             if (filetype === 'textFile' && content) {
-                let fileUri = FileSystem.documentDirectory+`${name}.txt`;
+                let fileUri = `${dirUri}journal_${Date.now()}.txt`;
                 await FileSystem.writeAsStringAsync(fileUri, content,{encoding: FileSystem.EncodingType.UTF8 })
-                asset = await MedaLibrary.createAssetAsync(fileUri);
+                    .then(async()=>{
+                        let fileInfo = await FileSystem.getInfoAsync(fileUri)
+                        return fileInfo.uri
+
+                    })
+                //asset = await MedaLibrary.createAssetAsync(fileUri);
 
 
             } else{
