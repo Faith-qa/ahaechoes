@@ -27,7 +27,7 @@ export const updateAlbum = createAsyncThunk(
             let asset: any;
 
             if (filetype === 'textFile' && content) {
-                let fileUri = `${dirUri}journal_${Date.now()}.txt`;
+                let fileUri = `${dirUri}/journal_${Date.now()}.txt`;
                 await FileSystem.writeAsStringAsync(fileUri, content,{encoding: FileSystem.EncodingType.UTF8 })
                     .then(async()=>{
                         let fileInfo = await FileSystem.getInfoAsync(fileUri)
@@ -40,10 +40,24 @@ export const updateAlbum = createAsyncThunk(
             } else{
                 if(!vidAudUrl)
                     throw Error("invalid file")
-                asset = await MedaLibrary.createAssetAsync(vidAudUrl)
-            }
+                //asset = await MedaLibrary.createAssetAsync(vidAudUrl)
+                const newfileName = `${dirUri}/recording-${Date.now()}.caf`
+                //move recording to document directory
+                await FileSystem.moveAsync({
+                    from: vidAudUrl,
+                    to: newfileName
+                }).then(async()=>{
+                    let fileInfo = await FileSystem.getInfoAsync(newfileName)
+                    console.log(fileInfo)
+                    return fileInfo.uri;
 
-            await MedaLibrary.getAlbumAsync('Journal')
+                })
+            }
+            // test audio file
+
+
+
+            /*await MedaLibrary.getAlbumAsync('Journal')
                 .then(async(album)=>{
                     if (album === null){
                         await MedaLibrary.createAlbumAsync('Journals', asset, false);
@@ -53,7 +67,7 @@ export const updateAlbum = createAsyncThunk(
                             throw Error('adding asset failed')
                         return asset.uri
                     }
-                })
+                })*/
 
 
         } catch (err: any) {
