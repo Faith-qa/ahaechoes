@@ -171,7 +171,7 @@ const onSubmit = async() =>{
         if (videoName && fileUri) {
 
             try {
-                //await dispatch(updateAlbum());
+                await dispatch(updateAlbum({vidAudUrl: fileUri, name: videoName, filetype: "video"}));
                 resetState();
                 onClose();
                 alert("Update successful!");// Alert indicating success
