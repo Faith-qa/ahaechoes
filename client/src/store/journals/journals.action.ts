@@ -4,10 +4,6 @@ import {MediaType} from "expo-media-library";
 import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
 import {createDirectory} from "./utils";
-import mime from 'mime';
-import * as worker_threads from "worker_threads";
-import focusFieldBy from "react-hook-form/dist/logic/focusFieldBy";
-import * as assert from "assert";
 
 interface journMediaData {
     name: string;
@@ -24,10 +20,9 @@ export const updateAlbum = createAsyncThunk(
     async ({ name, filetype, content, vidAudUrl }: journMediaData, { rejectWithValue }) => {
         try {
             const dirUri = await createDirectory();
-            let asset: any;
 
             if (filetype === 'textFile' && content) {
-                let fileUri = `${dirUri}/journal_${Date.now()}.txt`;
+                let fileUri = `${dirUri}/textjournal-${Date.now()}.txt`;
                 await FileSystem.writeAsStringAsync(fileUri, content,{encoding: FileSystem.EncodingType.UTF8 })
                     .then(async()=>{
                         let fileInfo = await FileSystem.getInfoAsync(fileUri)
@@ -41,20 +36,25 @@ export const updateAlbum = createAsyncThunk(
                 if(!vidAudUrl)
                     throw Error("invalid file")
                 //asset = await MedaLibrary.createAssetAsync(vidAudUrl)
-                const newfileName = `${dirUri}/recording-${Date.now()}.caf`
+                let asset: any;
+                if (filetype == 'audio'){
+                    asset = `${dirUri}/audiorecording-${Date.now()}.caf`
+                }else {
+                    asset = `${dirUri}/videorecording-${Date.now()}.mp4`
+
+                }
+
                 //move recording to document directory
                 await FileSystem.moveAsync({
                     from: vidAudUrl,
-                    to: newfileName
+                    to: asset
                 }).then(async()=>{
-                    let fileInfo = await FileSystem.getInfoAsync(newfileName)
+                    let fileInfo = await FileSystem.getInfoAsync(asset)
                     console.log(fileInfo)
                     return fileInfo.uri;
 
                 })
             }
-            // test audio file
-
 
 
             /*await MedaLibrary.getAlbumAsync('Journal')
@@ -82,14 +82,9 @@ export const getMediaJournals = createAsyncThunk(
     'journals',
     async(_,{rejectWithValue})=>{
         try{
-            const journals = await MedaLibrary.getAlbumAsync('Journal')
-            if(!journals){
-                throw Error('journal does not exists')
-            }
-            const {assets} = await MedaLibrary.getAssetsAsync({
-                album: journals.id,
-            });
-            return assets;
+            const journaling = await FileSystem.readDirectoryAsync(await createDirectory());
+
+            return journaling;
 
         }catch(err: any){
             return rejectWithValue(err.message)
@@ -98,6 +93,7 @@ export const getMediaJournals = createAsyncThunk(
     }
 
 )
+
 
 // create video
 

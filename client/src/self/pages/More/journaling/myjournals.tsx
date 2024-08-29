@@ -3,12 +3,13 @@ import {  View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "reac
 import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
 import { greeting } from "../../../../../utils/date";
 import {useSelector, useDispatch} from 'react-redux'
-import { RootState } from "../../../../store/store";
+import {AppDispatch, RootState} from "../../../../store/store";
 import * as MediaLibrary from "expo-media-library";
 
 import RecordVideoScreenContainer from "./videoJoun/record_vid_cont";
 import TextJournCont from "./textJoun";
 import RecordAudioScreen from "./audioJoun/audioContainer";
+import {getMediaJournals} from "../../../../store/journals/journals.action";
 
 interface NewProps {
     visible: boolean,
@@ -18,7 +19,7 @@ interface NewProps {
 const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     const {userInfo} = useSelector((state:RootState)=> state.auth)
     
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const [newAudio, isNewAudio] = useState(false);
     const [newDoc, isNewDoc] = useState(false);
     const [jmode, isJmodeOpen] = useState(false);
@@ -60,6 +61,9 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     const closeCam = () =>{
         isNewVideo(false)
     }
+
+
+
     
     const openMode = () =>{
         isJmodeOpen(true);
@@ -99,6 +103,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     }
 
 
+    // @ts-ignore
     return(
     <Modal
         animationType="slide"
@@ -112,7 +117,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
              style={styles.image} />
         <Text style={styles.gtext}>{`${greeting()} ${userInfo.firstName}`}</Text>
         <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch"}}/>
-        {/*<ListVideos/>*/}
+
         <Pressable onPress={openMode} >
             <AntDesign name="pluscircle" size={45} color="#DFBD43" />
             </Pressable>
