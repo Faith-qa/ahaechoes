@@ -22,7 +22,7 @@ export const updateAlbum = createAsyncThunk(
             const dirUri = await createDirectory();
 
             if (filetype === 'textFile' && content) {
-                let fileUri = `${dirUri}/journal_${Date.now()}.txt`;
+                let fileUri = `${dirUri}/textjournal-${Date.now()}.txt`;
                 await FileSystem.writeAsStringAsync(fileUri, content,{encoding: FileSystem.EncodingType.UTF8 })
                     .then(async()=>{
                         let fileInfo = await FileSystem.getInfoAsync(fileUri)
@@ -38,9 +38,9 @@ export const updateAlbum = createAsyncThunk(
                 //asset = await MedaLibrary.createAssetAsync(vidAudUrl)
                 let asset: any;
                 if (filetype == 'audio'){
-                    asset = `${dirUri}/recording-${Date.now()}.caf`
+                    asset = `${dirUri}/audiorecording-${Date.now()}.caf`
                 }else {
-                    asset = `${dirUri}/recording-${Date.now()}.mp4`
+                    asset = `${dirUri}/videorecording-${Date.now()}.mp4`
 
                 }
 
