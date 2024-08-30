@@ -67,9 +67,7 @@ const TypeTextScreen:React.FC<NewProps> = ({
                 //onSelectionChange={handleSelectionChange}
                 placeholder="How are you doing today..."
             />
-            {/*<Animated.View style={[s.feather, featherPosition.getLayout()]}>
-                <Entypo name="feather" size={24} color="black" />
-            </Animated.View>*/}
+
         </View>
     </View>)
 
