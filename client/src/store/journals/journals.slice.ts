@@ -30,7 +30,7 @@ const journalsSlice = createSlice({
             })
             .addCase(updateAlbum.fulfilled, (state, action)=>{
                 state.loading = false
-                state.journUri = action.payload
+                state.mediaJournals.push(action.payload)
             })
             .addCase(updateAlbum.rejected, (state, action)=>{
                 state.loading = false
