@@ -34,3 +34,4 @@ export const isTextFile = (fileUri: string)=>{
     }
     return true
 }
+
