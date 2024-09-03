@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {View, Text, StyleSheet, Image, Pressable, TouchableOpacity} from "react-native";
 import MyJournals from "../pages/More/journaling/myjournals";
-import Takevideo from "../pages/More/journaling/videoJoun/videojournaling";
 import { useNavigation } from "@react-navigation/native";
 import {useSelector, useDispatch} from 'react-redux'
 import { RootState } from "../../store/store";

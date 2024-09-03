@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {  View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "react-native";
+import {View, Text, Modal, Pressable, StyleSheet, Image, FlatList, TouchableOpacity} from "react-native";
 import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
 import { greeting } from "../../../../../utils/date";
 import {useSelector, useDispatch} from 'react-redux'
@@ -122,6 +122,9 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
             <AntDesign name="pluscircle" size={45} color="#DFBD43" />
             </Pressable>
             {launchJournalmode(jmode)}
+        <TouchableOpacity>
+            <Feather name="type" size={24} color="black" />
+        </TouchableOpacity>
 
 
     </View></Modal>);

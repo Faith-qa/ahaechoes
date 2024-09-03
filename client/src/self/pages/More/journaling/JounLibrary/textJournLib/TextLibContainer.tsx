@@ -1,9 +1,11 @@
 import {isTextFile} from "../../../../../../store/journals/utils";
 import * as FileSystem from 'expo-file-system';
 import TypeTextScreen from "../../textJoun/TypeTextScreen";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TextLibScreen from "./TextLibScreen";
-
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../../../../../store/store";
+import {getMediaJournals} from "../../../../../../store/journals/journals.action";
 interface Note {
     date: string;
     note: string;
@@ -13,7 +15,22 @@ const TextLibContainer:React.FC = () => {
     const[notes, setNotes] = useState<Note[]>()
     const [title, setTitle] = useState("")
     const [text, setText] = useState("")
+    const dispatch = useDispatch<AppDispatch>()
+    const [rawNotes, setRawNotes] = useState<string[]>()
 
+
+    useEffect(() => {
+        dispatch(getMediaJournals()).then((action) => {
+            // Check if the action is fulfilled and contains the data
+            if (getMediaJournals.fulfilled.match(action)) {
+                // Set the state with the actual data
+                setRawNotes(action.payload);
+            } else {
+                // Handle the rejected case or other statuses if necessary
+                console.error('Failed to fetch journals');
+            }
+        });
+    }, []);
     const exitCard = () => {
         setViewCard(false)
     }
@@ -39,6 +56,24 @@ const TextLibContainer:React.FC = () => {
         }
     }
 
+    const processRawnotes = async() => {
+
+        let Notes: any[] | ((prevState: Note[] | undefined) => Note[] | undefined) | undefined = []
+        if (rawNotes === undefined)
+            return
+        for(var i = 0; i < rawNotes.length; i++){
+            if (isTextFile(rawNotes[i])){
+                var note = await handleTextUri(rawNotes[i])
+                if (note){
+                    Notes.push()
+                }
+            }
+
+        }
+        setNotes(Notes)
+
+
+    }
 
     // handle text crude or update
     const updateText = () => {
@@ -46,6 +81,10 @@ const TextLibContainer:React.FC = () => {
     }
 
     // generate selected notes from file url
+    const generateNotes = () => {
+
+
+    }
 
 
 
@@ -64,3 +103,5 @@ const TextLibContainer:React.FC = () => {
     // @ts-ignore
     return(<TextLibScreen displaySelectedNote={displaySelectedNote} notes={notes}/>)
 }
+
+export default TextLibContainer;
