@@ -49,9 +49,7 @@ const TextLibContainer:React.FC = () => {
         const fileInfo = await FileSystem.getInfoAsync(asset)
         // read uri
         try {
-            console.log("mama i am here hello", fileInfo.uri)
            const note =  await FileSystem.readAsStringAsync(fileInfo.uri, {encoding: FileSystem.EncodingType.UTF8});
-            console.log("mama i made it",note)
            let Note = {
                date:"test",
                note: note
