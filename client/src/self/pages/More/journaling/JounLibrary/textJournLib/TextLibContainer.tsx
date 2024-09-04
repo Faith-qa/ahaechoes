@@ -1,4 +1,4 @@
-import {isTextFile} from "../../../../../../store/journals/utils";
+import {createDirectory, isTextFile} from "../../../../../../store/journals/utils";
 import * as FileSystem from 'expo-file-system';
 import TypeTextScreen from "../../textJoun/TypeTextScreen";
 import {useEffect, useState} from "react";
@@ -30,6 +30,11 @@ const TextLibContainer:React.FC = () => {
                 console.error('Failed to fetch journals');
             }
         });
+        const fetchNotes = async() => {
+            setNotes(await processRawnotes())
+        }
+        fetchNotes()
+
     }, []);
     const exitCard = () => {
         setViewCard(false)
@@ -42,10 +47,14 @@ const TextLibContainer:React.FC = () => {
         if (!isTextFile(fileUri)){
             return
         }
+        const dirUri = await createDirectory();
+        const asset = `${dirUri}/${fileUri}`
+        const fileInfo = await FileSystem.getInfoAsync(asset)
         // read uri
         try {
-           const note =  await FileSystem.readAsStringAsync(fileUri, {encoding: FileSystem.EncodingType.UTF8});
-
+            console.log("mama i am here hello", fileInfo.uri)
+           const note =  await FileSystem.readAsStringAsync(fileInfo.uri, {encoding: FileSystem.EncodingType.UTF8});
+            console.log("mama i made it",note)
            let Note = {
                date:"test",
                note: note
@@ -64,13 +73,16 @@ const TextLibContainer:React.FC = () => {
         for(var i = 0; i < rawNotes.length; i++){
             if (isTextFile(rawNotes[i])){
                 var note = await handleTextUri(rawNotes[i])
+                console.log("this is a note,", note)
                 if (note){
-                    Notes.push()
+                    Notes.push(note)
                 }
             }
 
         }
-        setNotes(Notes)
+        console.log("these are notes", Notes)
+        return Notes;
+
 
 
     }
@@ -99,9 +111,8 @@ const TextLibContainer:React.FC = () => {
 
 
 
-
     // @ts-ignore
-    return(<TextLibScreen displaySelectedNote={displaySelectedNote} notes={notes}/>)
+    return(<TextLibScreen displaySelectedNote={displaySelectedNote} Notes={notes}/>)
 }
 
 export default TextLibContainer;

@@ -10,13 +10,14 @@ import RecordVideoScreenContainer from "./videoJoun/record_vid_cont";
 import TextJournCont from "./textJoun";
 import RecordAudioScreen from "./audioJoun/audioContainer";
 import {getMediaJournals} from "../../../../store/journals/journals.action";
+import {useNavigation} from "@react-navigation/native";
 
 interface NewProps {
     visible: boolean,
-    onClose: () => void
+    onClose: () => void,
 }
 
-const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
+const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
     const {userInfo} = useSelector((state:RootState)=> state.auth)
     
     const dispatch = useDispatch<AppDispatch>()
@@ -27,8 +28,15 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     //update video state
     const [videoList, setVideoList] = useState<Array<{videoUri: any}>>([]);
 
+    const navigation = useNavigation()
     //handle video journal
 
+    const openJounNavigation = () => {
+
+        // @ts-ignore
+        navigation.navigate('Journals', {
+            screen: 'TextJouns',
+        });    }
 
     useEffect(() => {
         (async () => {
@@ -122,7 +130,7 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
             <AntDesign name="pluscircle" size={45} color="#DFBD43" />
             </Pressable>
             {launchJournalmode(jmode)}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=> openJounNavigation()}>
             <Feather name="type" size={24} color="black" />
         </TouchableOpacity>
 

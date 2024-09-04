@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {FlatList, ScrollView, Text, TouchableOpacity} from "react-native";
 import { Card } from "@rneui/base";
 import s from './styles';
@@ -9,7 +9,8 @@ interface Note {
 }
 
 interface NewProps {
-    notes: Note[];
+    Notes: Note[];
+
     displaySelectedNote: (note: Note)=> void;
 
 
@@ -17,21 +18,31 @@ interface NewProps {
 
 
 const TextLibScreen: React.FC<NewProps> = ({
-                                               notes,
+                                               Notes,
                                            displaySelectedNote}) => {
     const [selectedNote, setSelectedNote] = useState<Note | null>(null)
+    const [notes, setNotes] = useState<Note[]>(Notes)
+
+
+
     const truncateNote = (note: string) => {
         return note.length > 255 ? note.substring(0, 100) + '...': note;
     }
     const renderNoteItem = ({item}: {item: Note}) => (
+
         <TouchableOpacity onPress={()=> displaySelectedNote(item)}>
         <Card  containerStyle={s.card}>
-            <Text style={s.title}>Text note {item.date}</Text>
+            <Text style={s.title}>{item.date}</Text>
             <Text style={s.text}>{truncateNote(item.note)}</Text>
         </Card></TouchableOpacity>
 
 
     )
+    if (!notes || notes.length === 0) {
+        return <Text>No notes available</Text>;
+    }
+
+    console.log("hello ", notes)
     // handle selectedNote
     return (
         <FlatList
@@ -41,14 +52,7 @@ const TextLibScreen: React.FC<NewProps> = ({
             numColumns={2}
             contentContainerStyle={s.container}
         />
-        /*<ScrollView style={s.container}>
-            {notes.map((note, index) => (
-                <Card key={index} containerStyle={s.card}>
-                    <Text style={s.title}>Text note {note.date}</Text>
-                    <Text style={s.text}>{truncateNote(note.note)}</Text>
-                </Card>
-            ))}
-        </ScrollView>*/
+
     );
 };
 

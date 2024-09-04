@@ -83,6 +83,7 @@ export const getMediaJournals = createAsyncThunk(
     async(_,{rejectWithValue})=>{
         try{
             const journaling = await FileSystem.readDirectoryAsync(await createDirectory());
+            console.log("these are the journals",journaling)
 
             return journaling;
 
