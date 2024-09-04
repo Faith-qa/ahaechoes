@@ -4,7 +4,7 @@ const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: 'red',
         padding: 10,
     },
     card: {

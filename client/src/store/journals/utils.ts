@@ -13,7 +13,7 @@ export const createDirectory = async () => {
 export const isAudioFile = (fileUri: string) => {
 
     let audList = fileUri.split('.')
-    if (audList[-1] !== "caf"){
+    if (audList[audList.length-1] !== "caf"){
         return false
     }
     return true;
@@ -21,7 +21,7 @@ export const isAudioFile = (fileUri: string) => {
 
 export const isVideoFile = (fileUri:string) => {
     let vidList = fileUri.split('.')
-    if (vidList[-1] !== "mp4"){
+    if (vidList[vidList.length-1] !== "mp4"){
         return false
     }
     return true
@@ -29,7 +29,7 @@ export const isVideoFile = (fileUri:string) => {
 
 export const isTextFile = (fileUri: string)=>{
     let txtList = fileUri.split('.')
-    if (txtList[-1] !== "txt"){
+    if (txtList[txtList.length -1] !== "txt"){
         return false
     }
     return true

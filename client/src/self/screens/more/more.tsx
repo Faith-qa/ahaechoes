@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {View, Text, StyleSheet, Image, Pressable, TouchableOpacity} from "react-native";
-import MyJournals from "../pages/More/journaling/myjournals";
+import MyJournals from "../../pages/More/journaling/myjournals";
 import { useNavigation } from "@react-navigation/native";
 import {useSelector, useDispatch} from 'react-redux'
-import { RootState } from "../../store/store";
-import { closeJournalSection, openJournalSection } from "../../store/jounalActions";
-import PlayList from "../screens/spotifyPlaylist";
+//import { RootState } from "../../store/store";
+import { closeJournalSection, openJournalSection } from "../../../store/jounalActions";
+import PlayList from "../spotifyPlaylist";
 import {Link} from 'expo-router';
 
 const More: React.FC = () => {
@@ -48,7 +48,7 @@ const More: React.FC = () => {
                 <TouchableOpacity onPress={()=>{openListenIn()}}>
                 <View style={[styles.jContainer, {backgroundColor: "#BA4B41", borderRadius: 10, height: 125}]}>
                     <Text style={[styles.jText, {fontSize: 20, fontWeight:"normal", }]}>Listen in, your weekly pod</Text>
-                    <Image source={require('../../../assets/headphones.webp')} style={styles.image}/>
+                    <Image source={require('../../../../assets/headphones.webp')} style={styles.image}/>
                 </View></TouchableOpacity>
 
 
