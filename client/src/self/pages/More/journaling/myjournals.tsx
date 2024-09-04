@@ -11,6 +11,7 @@ import TextJournCont from "./textJoun";
 import RecordAudioScreen from "./audioJoun/audioContainer";
 import {getMediaJournals} from "../../../../store/journals/journals.action";
 import {useNavigation} from "@react-navigation/native";
+import TextLibContainer from "./JounLibrary/textJournLib";
 
 interface NewProps {
     visible: boolean,
@@ -130,9 +131,7 @@ const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
             <AntDesign name="pluscircle" size={45} color="#DFBD43" />
             </Pressable>
             {launchJournalmode(jmode)}
-        <TouchableOpacity onPress={()=> openJounNavigation()}>
-            <Feather name="type" size={24} color="black" />
-        </TouchableOpacity>
+            <TextLibContainer/>
 
 
     </View></Modal>);

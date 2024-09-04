@@ -15,8 +15,8 @@ import SignUp from "../self/screens/register";
 import PlayList from "../self/screens/spotifyPlaylist";
 import TypeTextScreen from "../self/pages/More/journaling/textJoun/TypeTextScreen";
 import TextJournCont from "../self/pages/More/journaling/textJoun";
-import MoreNavigation from "../self/screens/more/NavMore";
 import TextLibContainer from "../self/pages/More/journaling/JounLibrary/textJournLib";
+import More from "../self/screens/more";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -47,7 +47,7 @@ const NavBar: React.FC = () => {
                     />
                     <Tab.Screen
                         name="calendar"
-                        component={TextLibContainer}
+                        component={Calendar}
                         options={{
                             tabBarIcon: ({color}) => <Feather name="calendar" size={24} color="#444444" />
                         }}
@@ -61,7 +61,7 @@ const NavBar: React.FC = () => {
                     />
                     <Tab.Screen
                         name="more"
-                        component={MoreNavigation}
+                        component={More}
                         options={{
                             tabBarIcon: ({color}) => <MaterialCommunityIcons name="dots-grid" size={24} color="#444444" />,
                         }}
