@@ -30,10 +30,7 @@ const TextLibContainer:React.FC = () => {
                 console.error('Failed to fetch journals');
             }
         });
-        const fetchNotes = async() => {
-            setNotes(await processRawnotes())
-        }
-        fetchNotes()
+
 
     }, []);
     const exitCard = () => {
@@ -112,7 +109,7 @@ const TextLibContainer:React.FC = () => {
 
 
     // @ts-ignore
-    return(<TextLibScreen displaySelectedNote={displaySelectedNote} Notes={notes}/>)
+    return(<TextLibScreen displaySelectedNote={displaySelectedNote} processNotes={processRawnotes}/>)
 }
 
 export default TextLibContainer;

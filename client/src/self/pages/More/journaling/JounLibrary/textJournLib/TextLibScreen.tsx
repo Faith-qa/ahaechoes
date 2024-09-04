@@ -9,7 +9,7 @@ interface Note {
 }
 
 interface NewProps {
-    Notes: Note[];
+    processNotes: ()=>Note[];
 
     displaySelectedNote: (note: Note)=> void;
 
@@ -18,12 +18,19 @@ interface NewProps {
 
 
 const TextLibScreen: React.FC<NewProps> = ({
-                                               Notes,
+                                               processNotes,
                                            displaySelectedNote}) => {
     const [selectedNote, setSelectedNote] = useState<Note | null>(null)
-    const [notes, setNotes] = useState<Note[]>(Notes)
+    const [notes, setNotes] = useState<Note[]>()
 
+    useEffect(() => {
+        const fetchNotes = async () => {
+            const notes = await processNotes(); // Call the async function
+            setNotes(notes); // Set the notes state
+        };
 
+        fetchNotes(); // Invoke the async function
+    }, []);
 
     const truncateNote = (note: string) => {
         return note.length > 255 ? note.substring(0, 100) + '...': note;
