@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import {View, Text, StyleSheet, Image, Pressable, TouchableOpacity} from "react-native";
 import MyJournals from "../pages/More/journaling/myjournals";
-import Takevideo from "../pages/More/journaling/videoJoun/videojournaling";
 import { useNavigation } from "@react-navigation/native";
 import {useSelector, useDispatch} from 'react-redux'
-import { RootState } from "../../store/store";
-import { closeJournalSection, openJournalSection } from "../../store/jounalActions";
-import PlayList from "../screens/spotifyPlaylist";
+//import { RootState } from "../../store/store";
+import PlayList from "./spotifyPlaylist";
 import {Link} from 'expo-router';
 
 const More: React.FC = () => {
@@ -27,7 +25,6 @@ const More: React.FC = () => {
     
     const dispatch = useDispatch();
     
-    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.imageCont}>

@@ -5,7 +5,7 @@ import {FontAwesome5, Fontisto, Feather, MaterialCommunityIcons} from '@expo/vec
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 import Calendar from "../self/screens/calendar";
 import Notification from "../self/screens/notification";
-import More from "../self/screens/more";
+//import More from "../../self/screens/more";
 import LogIn from "../self/screens/logIn";
 import {loginUser} from "../store/auth/auth.actions";
 import {RootState, AppDispatch} from "../store/store";
@@ -15,6 +15,8 @@ import SignUp from "../self/screens/register";
 import PlayList from "../self/screens/spotifyPlaylist";
 import TypeTextScreen from "../self/pages/More/journaling/textJoun/TypeTextScreen";
 import TextJournCont from "../self/pages/More/journaling/textJoun";
+import TextLibContainer from "../self/pages/More/journaling/JounLibrary/textJournLib";
+import More from "../self/screens/more";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();

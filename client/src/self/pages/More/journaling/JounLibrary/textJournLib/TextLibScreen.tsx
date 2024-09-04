@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {FlatList, ScrollView, Text, TouchableOpacity} from "react-native";
+import React, { useState, useEffect } from "react";
+import { FlatList, Text, TouchableOpacity, ActivityIndicator, View } from "react-native";
 import { Card } from "@rneui/base";
 import s from './styles';
 
@@ -9,46 +9,65 @@ interface Note {
 }
 
 interface NewProps {
-    notes: Note[];
-    displaySelectedNote: (note: Note)=> void;
-
-
+    processNotes: () => Promise<Note[]>; // Ensure processNotes is async
+    displaySelectedNote: (note: Note) => void;
 }
 
+const TextLibScreen: React.FC<NewProps> = ({ processNotes, displaySelectedNote }) => {
+    const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+    const [notes, setNotes] = useState<Note[]>([]); // Initialize with an empty array
+    const [loading, setLoading] = useState<boolean>(true); // Loading state
 
-const TextLibScreen: React.FC<NewProps> = ({
-                                               notes,
-                                           displaySelectedNote}) => {
-    const [selectedNote, setSelectedNote] = useState<Note | null>(null)
+    useEffect(() => {
+        const fetchNotes = async () => {
+            try {
+                const fetchedNotes = await processNotes(); // Fetch notes asynchronously
+                setNotes(fetchedNotes); // Set notes state
+            } catch (error) {
+                console.error("Error fetching notes:", error);
+            } finally {
+                setLoading(false); // Stop loading when data is fetched
+            }
+        };
+
+        fetchNotes(); // Fetch the notes when the component mounts
+    }, [processNotes]);
+
     const truncateNote = (note: string) => {
-        return note.length > 255 ? note.substring(0, 100) + '...': note;
+        return note.length > 255 ? note.substring(0, 100) + '...' : note;
+    };
+
+    const renderNoteItem = ({ item }: { item: Note }) => (
+        <TouchableOpacity onPress={() => displaySelectedNote(item)}>
+            <Card containerStyle={s.card}>
+                <Text style={s.title}>{item.date}</Text>
+                <Text style={s.text}>{truncateNote(item.note)}</Text>
+            </Card>
+        </TouchableOpacity>
+    );
+
+    // Display a loading spinner while notes are being fetched
+    if (loading) {
+        return (
+            <View style={s.loadingContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text>Loading notes...</Text>
+            </View>
+        );
     }
-    const renderNoteItem = ({item}: {item: Note}) => (
-        <TouchableOpacity onPress={()=> displaySelectedNote(item)}>
-        <Card  containerStyle={s.card}>
-            <Text style={s.title}>Text note {item.date}</Text>
-            <Text style={s.text}>{truncateNote(item.note)}</Text>
-        </Card></TouchableOpacity>
 
+    // Display message when no notes are available
+    /*if (notes.length== 0) {
+        return <Text>No notes available</Text>;
+    }*/
 
-    )
-    // handle selectedNote
     return (
         <FlatList
             data={notes}
             renderItem={renderNoteItem}
-            keyExtractor={(item, index)=> index.toString()}
+            keyExtractor={(item, index) => index.toString()}
             numColumns={2}
-            contentContainerStyle={s.container}
         />
-        /*<ScrollView style={s.container}>
-            {notes.map((note, index) => (
-                <Card key={index} containerStyle={s.card}>
-                    <Text style={s.title}>Text note {note.date}</Text>
-                    <Text style={s.text}>{truncateNote(note.note)}</Text>
-                </Card>
-            ))}
-        </ScrollView>*/
     );
 };
 

@@ -7,12 +7,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         padding: 10,
     },
+    loadingContainer: {
+        flex: 1,                     // Takes up the full available space
+        justifyContent: 'center',     // Centers vertically
+        alignItems: 'center',         // Centers horizontally
+        padding: 20,                  // Optional padding for some space around the content
+    },
     card: {
         backgroundColor: '#333',
         padding: 15,
         marginBottom: 15,
+        margin: 10,
         borderRadius: 10,
-        width: width / 2 - 20
+        width: width / 2 - 20,
+        height: 150,  // Set a fixed height for the card
+        justifyContent: "space-between",
     },
     title: {
         color: '#fff',

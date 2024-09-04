@@ -1,9 +1,11 @@
-import {isTextFile} from "../../../../../../store/journals/utils";
+import {createDirectory, isTextFile} from "../../../../../../store/journals/utils";
 import * as FileSystem from 'expo-file-system';
 import TypeTextScreen from "../../textJoun/TypeTextScreen";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TextLibScreen from "./TextLibScreen";
-
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../../../../../store/store";
+import {getMediaJournals} from "../../../../../../store/journals/journals.action";
 interface Note {
     date: string;
     note: string;
@@ -13,7 +15,24 @@ const TextLibContainer:React.FC = () => {
     const[notes, setNotes] = useState<Note[]>()
     const [title, setTitle] = useState("")
     const [text, setText] = useState("")
+    const dispatch = useDispatch<AppDispatch>()
+    const [rawNotes, setRawNotes] = useState<string[]>()
 
+
+    useEffect(() => {
+        dispatch(getMediaJournals()).then((action) => {
+            // Check if the action is fulfilled and contains the data
+            if (getMediaJournals.fulfilled.match(action)) {
+                // Set the state with the actual data
+                setRawNotes(action.payload);
+            } else {
+                // Handle the rejected case or other statuses if necessary
+                console.error('Failed to fetch journals');
+            }
+        });
+
+
+    }, []);
     const exitCard = () => {
         setViewCard(false)
     }
@@ -25,10 +44,12 @@ const TextLibContainer:React.FC = () => {
         if (!isTextFile(fileUri)){
             return
         }
+        const dirUri = await createDirectory();
+        const asset = `${dirUri}/${fileUri}`
+        const fileInfo = await FileSystem.getInfoAsync(asset)
         // read uri
         try {
-           const note =  await FileSystem.readAsStringAsync(fileUri, {encoding: FileSystem.EncodingType.UTF8});
-
+           const note =  await FileSystem.readAsStringAsync(fileInfo.uri, {encoding: FileSystem.EncodingType.UTF8});
            let Note = {
                date:"test",
                note: note
@@ -39,6 +60,27 @@ const TextLibContainer:React.FC = () => {
         }
     }
 
+    const processRawnotes = async() => {
+
+        let Notes: any[] | ((prevState: Note[] | undefined) => Note[] | undefined) | undefined = []
+        if (rawNotes === undefined)
+            return
+        for(var i = 0; i < rawNotes.length; i++){
+            if (isTextFile(rawNotes[i])){
+                var note = await handleTextUri(rawNotes[i])
+                console.log("this is a note,", note)
+                if (note){
+                    Notes.push(note)
+                }
+            }
+
+        }
+        console.log("these are notes", Notes)
+        return Notes;
+
+
+
+    }
 
     // handle text crude or update
     const updateText = () => {
@@ -46,6 +88,10 @@ const TextLibContainer:React.FC = () => {
     }
 
     // generate selected notes from file url
+    const generateNotes = () => {
+
+
+    }
 
 
 
@@ -60,7 +106,8 @@ const TextLibContainer:React.FC = () => {
 
 
 
-
     // @ts-ignore
-    return(<TextLibScreen displaySelectedNote={displaySelectedNote} notes={notes}/>)
+    return(<TextLibScreen displaySelectedNote={displaySelectedNote} processNotes={processRawnotes}/>)
 }
+
+export default TextLibContainer;
