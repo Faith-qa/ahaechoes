@@ -7,6 +7,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         padding: 10,
     },
+    loadingContainer: {
+        flex: 1,                     // Takes up the full available space
+        justifyContent: 'center',     // Centers vertically
+        alignItems: 'center',         // Centers horizontally
+        padding: 20,                  // Optional padding for some space around the content
+    },
     card: {
         backgroundColor: '#333',
         padding: 15,
