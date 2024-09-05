@@ -4,6 +4,8 @@ import {getMediaJournals} from "../../../../../store/journals/journals.action";
 import {getMediaItemUri, handleTextUri} from "./jounLibUtils";
 import {isAudioFile, isTextFile} from "../../../../../store/journals/utils";
 import JounGalaryScreen from "./JounGalaryScreen";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../../../../store/store";
 
 interface MediaItem  {
     index: number,
@@ -16,6 +18,23 @@ const numColumns = 3
 const JournGalaryContainer:React.FC=()=>{
 
     const [rowJourns, setRawJourns] = useState<string[]>()
+    const dispatch = useDispatch<AppDispatch>()
+
+    useEffect(() => {
+        dispatch(getMediaJournals()).then((action) => {
+            // Check if the action is fulfilled and contains the data
+            if (getMediaJournals.fulfilled.match(action)) {
+                // Set the state with the actual data
+                setRawJourns(action.payload);
+            } else {
+                // Handle the rejected case or other statuses if necessary
+                console.error('Failed to fetch journals');
+            }
+        });
+
+
+    }, []);
+
 
     // process journals to retrieve uri
     const processJourns = async() =>{
