@@ -21,7 +21,8 @@ const initialState = {
     userToken: null,
     error: null,
     success: false,
-    userId: null
+    userId: null,
+    registered: true
 }
 
 const authSlice = createSlice({
@@ -36,6 +37,9 @@ const authSlice = createSlice({
         },
         setUserExist: (state, action)=>{
             state.userExist = action.payload
+        },
+        setRegistered: (state, action)=> {
+            state.registered = action.payload
         }
 
     },
@@ -112,5 +116,5 @@ const authSlice = createSlice({
 
     }
 })
-export const {setForgotPassword, resetError, setUserExist} = authSlice.actions
+export const {setForgotPassword, resetError, setUserExist, setRegistered} = authSlice.actions
 export default  authSlice.reducer;

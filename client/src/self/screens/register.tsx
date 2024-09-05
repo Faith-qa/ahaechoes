@@ -7,20 +7,18 @@ import {ScrollView, StatusBar, View, Image, Text, TouchableOpacity, ActivityIndi
 import CustomBox from "react-native-customized-box";
 import Home from "./home";
 import LogIn from "./logIn";
+import {setRegistered} from "../../store/auth/auth.slice";
 
 const SignUp: React.FC =() =>{
-    const {loading, userInfo, error, success} = useSelector((state:RootState)=> state.auth)
+    const {loading, userInfo, registered, error, success} = useSelector((state:RootState)=> state.auth)
     const [errorMessage, setErrorMessage] = useState("")
     const [userDetails, setUserDetails] = useState(userInfo)
     const [geterror, setError] = useState(error)
-    const [registered, setRegistered] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
 
 
     //login page
-    const hasAccount = () =>{
-        setRegistered(true)
-    }
+
 
     if(registered){
         return (<LogIn/>)
@@ -241,7 +239,7 @@ const SignUp: React.FC =() =>{
                         </Text>
                         <TouchableOpacity
                             style={styles.registerBtn}
-                            onPress={() => hasAccount()}
+                            onPress={() => dispatch(setRegistered(true))}
                         >
                             <Text style={styles.registerBtnText2}>Log in</Text>
                         </TouchableOpacity>
