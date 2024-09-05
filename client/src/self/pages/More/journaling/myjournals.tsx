@@ -12,6 +12,8 @@ import RecordAudioScreen from "./audioJoun/audioContainer";
 import {getMediaJournals} from "../../../../store/journals/journals.action";
 import {useNavigation} from "@react-navigation/native";
 import TextLibContainer from "./JounLibrary/textJournLib";
+import AudioContainer from "./audioJoun/audioContainer";
+import AudVidLibContainer from "./JounLibrary/AudVidJounLib";
 
 interface NewProps {
     visible: boolean,
@@ -132,6 +134,8 @@ const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
             </Pressable>
             {launchJournalmode(jmode)}
             <TextLibContainer/>
+        <AudVidLibContainer/>
+
 
 
     </View></Modal>);
@@ -176,7 +180,7 @@ container:{
         justifyContent: 'flex-start', // align-items equivalent for main axis
         gap: 8,
         //color: '#FFF',
-        fontFamily: 'Rubik',
+        fontFamily: 'Raleway_400Regular',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',

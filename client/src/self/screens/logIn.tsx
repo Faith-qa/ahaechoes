@@ -7,17 +7,16 @@ import {AppDispatch, RootState} from "../../store/store";
 import Home from "./home";
 import SignUp from "./register";
 import ForgetPassword from "./forgotPassword";
-import {resetError, setForgotPassword} from "../../store/auth/auth.slice";
+import {resetError, setForgotPassword, setRegistered} from "../../store/auth/auth.slice";
 
 const LogIn: React.FC = () =>{
-    let {loading, error, forgotPassword} = useSelector((state: RootState)=> state.auth);
+    let {loading, error, forgotPassword, registered} = useSelector((state: RootState)=> state.auth);
     const dispatch = useDispatch<AppDispatch>();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [Error, setError] = useState(error)
-    const [registered, setRegistered] = useState(true)
     //login Validation
 
     useEffect(() => {
@@ -43,9 +42,7 @@ const LogIn: React.FC = () =>{
 
     //navigate to sign up page
 
-    const register = () => {
-        setRegistered(false)
-    }
+
 
     if (!registered){
         return(<SignUp/>)
@@ -181,7 +178,7 @@ const LogIn: React.FC = () =>{
                 </Text>
                 <TouchableOpacity
                     style={styles.registerBtn}
-                    onPress={() => register()}
+                    onPress={() => dispatch(setRegistered(false))}
                 >
                     <Text style={styles.registerBtnText}>Register for Free!</Text>
                 </TouchableOpacity>

@@ -7,6 +7,11 @@ import {AppDispatch} from "../../../../../../store/store";
 import AudioLibScreen from "./AudVidLibScreen";
 import AudiVidLibScreen from "./AudVidLibScreen";
 
+
+interface AudVidNote {
+    date: string;
+    uri: string;
+}
 const AudVidLibContainer:React.FC = () => {
     const [rawJournals, setRawJournals] = useState<string[]>([])
 
@@ -28,30 +33,34 @@ const AudVidLibContainer:React.FC = () => {
 
     }, []);
     const handleAudioUri = async(fileUri: string) => {
+        console.log(isAudioFile(fileUri))
         if (!isAudioFile(fileUri) || !isVideoFile(fileUri))
+
             return
         // get the uri
         const dirUri = await createDirectory();
         const asset = `${dirUri}/${fileUri}`
         const fileInfo = await FileSystem.getInfoAsync(asset)
-        return fileInfo.uri;
+        let AudNote = {
+            date: "test",
+            uri: fileInfo.uri
+        }
+        return AudNote;
     }
 
     // return a list of audio file uri
     const processRawAudVid = async() => {
-        let AudVids: [audFile: string[], vidFile: string[]] = [[], []];
+        console.log("raw Journals", rawJournals)
+        let AudVids: AudVidNote[] = []
         if (rawJournals == undefined)
             return
         for(var i = 0; i < rawJournals.length; i++){
             const audioUri = await handleAudioUri(rawJournals[i]);
 
             if(audioUri){
-                if(isAudioFile(rawJournals[i])){
-                    AudVids[0].push(audioUri)
-                }else{
-                    AudVids[1].push(audioUri)
-                }
+                AudVids.push(audioUri)
             }
+
         }
         console.log(AudVids);
         return AudVids;
