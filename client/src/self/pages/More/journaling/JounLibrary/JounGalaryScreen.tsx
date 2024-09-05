@@ -1,4 +1,4 @@
-import s from "./textJournLib/styles";
+import s from "./styles";
 import {FlatList, Text, TouchableOpacity} from "react-native";
 import {Card} from "@rneui/base";
 import React, {useEffect, useState} from "react";
@@ -46,20 +46,22 @@ const JounGalaryScreen:React.FC<NewProps>= ({
     const renderItem =  ({item}: {item: MediaItem})=>{
         if (item.type === 'txt') {
             return(
-                <Card containerStyle={s.card}>
-                    <Text style={s.title}>{item.uri.date}</Text>
-                    <Text style={s.text}>{truncateNote(item.uri.note)}</Text>
-                </Card>
+                <TouchableOpacity>
+                <Card containerStyle={s.image}>
+                    <Text>{item.uri.date}</Text>
+                    <Text>{truncateNote(item.uri.note)}</Text>
+                </Card></TouchableOpacity>
             )
         }
         return(<TouchableOpacity>
             {item.type == 'video' ? (
                 <Video
+                    style={s.image}
                     source={{uri: item.uri}}
                     resizeMode={ResizeMode.COVER}
                     shouldPlay={false}/>
             ):(
-                <Card>
+                <Card containerStyle={s.image}>
                     <Ionicons name="musical-notes" size={48} color={"black"}/>
                     <Text>Audio</Text>
                 </Card>

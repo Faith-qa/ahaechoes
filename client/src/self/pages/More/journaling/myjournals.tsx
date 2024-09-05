@@ -14,6 +14,8 @@ import {useNavigation} from "@react-navigation/native";
 import TextLibContainer from "./JounLibrary/textJournLib";
 import AudioContainer from "./audioJoun/audioContainer";
 import AudVidLibContainer from "./JounLibrary/AudVidJounLib";
+import journGalaryContainer from "./JounLibrary/JournGalaryContainer";
+import JournGalaryContainer from "./JounLibrary/JournGalaryContainer";
 
 interface NewProps {
     visible: boolean,
@@ -133,8 +135,9 @@ const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
             <AntDesign name="pluscircle" size={45} color="#DFBD43" />
             </Pressable>
             {launchJournalmode(jmode)}
-            <TextLibContainer/>
-        <AudVidLibContainer/>
+        {/*}<TextLibContainer/>
+        <AudVidLibContainer/>*/}
+        <JournGalaryContainer/>
 
 
 
