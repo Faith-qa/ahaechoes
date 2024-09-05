@@ -37,6 +37,26 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 14,
     },
+    button: {
+        padding: 10,
+        backgroundColor: '#6200ee',
+        borderRadius: 5,
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+    },
+    progressBar: {
+        height: 10,
+        borderRadius: 5,
+    },
+    time: {
+        marginTop: 5,
+        fontSize: 14,
+        color: '#555',
+    },
 });
 
 export default styles;
