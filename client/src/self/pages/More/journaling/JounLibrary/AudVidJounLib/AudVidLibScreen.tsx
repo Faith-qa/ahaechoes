@@ -27,9 +27,10 @@ const AudiVidLibScreen:React.FC<NewProps>= ({
         const fetchJournals = async()=> {
             try{
                 const fetched = await processRawAudio()
+                console.log("this is fetched", fetched)
                 setAudVidNotes(fetched);
-            }catch{
-                console.error("error fetching media journals", )
+            }catch(err){
+                console.error("error fetching media journals", err)
             }finally {
                 setLoading(false)
             }
@@ -50,16 +51,16 @@ const AudiVidLibScreen:React.FC<NewProps>= ({
 
     const renderNoteItem = ({ item }: { item: AudVidNote }) => (
             <Card containerStyle={s.card}>
-                {isAudioFile(item.uri) ?<> <View>
+                {isAudioFile(item.uri) ?<View>
                         <Text style={s.title}>{item.date}</Text>
-                        <TouchableOpacity onPress={handlePlayPause} style={s.button}>
+                    <TouchableOpacity onPress={handlePlayPause} style={s.button}>
                             <Text style={s.buttonText}>"isPlaying ? 'Pause' : 'Play'"</Text>
                         </TouchableOpacity>
                         <ProgressBar progress={getProgress()} color="#6200ee" style={s.progressBar} />
                         <Text style={s.time}>
                             {playbackStatus ? `${Math.floor(playbackStatus / 1000)}s` : '0s'}
                         </Text>
-                    </View></>
+                    </View>
                     :null}
 
 
