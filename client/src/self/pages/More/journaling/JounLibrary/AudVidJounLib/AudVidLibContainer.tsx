@@ -33,11 +33,11 @@ const AudVidLibContainer:React.FC = () => {
 
     }, []);
     const handleAudioUri = async(fileUri: string) => {
-        console.log(isAudioFile(fileUri))
-        if (!isAudioFile(fileUri) || !isVideoFile(fileUri))
-
-            return
-        // get the uri
+        if(!isAudioFile(fileUri)){
+            if(!(isVideoFile(fileUri))){
+                return
+            }
+        }
         const dirUri = await createDirectory();
         const asset = `${dirUri}/${fileUri}`
         const fileInfo = await FileSystem.getInfoAsync(asset)
