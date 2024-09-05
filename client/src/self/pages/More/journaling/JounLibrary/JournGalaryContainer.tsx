@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {getMediaJournals} from "../../../../../store/journals/journals.action";
 import {getMediaItemUri, handleTextUri} from "./jounLibUtils";
 import {isAudioFile, isTextFile} from "../../../../../store/journals/utils";
+import JounGalaryScreen from "./JounGalaryScreen";
 
 interface MediaItem  {
     index: number,
@@ -54,6 +55,6 @@ const JournGalaryContainer:React.FC=()=>{
 
 
 
-    return(<></>)
+    return(<JounGalaryScreen processJourns={processJourns}/>)
 }
 export default JournGalaryContainer;
