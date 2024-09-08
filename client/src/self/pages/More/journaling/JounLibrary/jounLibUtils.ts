@@ -14,9 +14,18 @@ export const handleTextUri = async(fileUri: string) => {
     }
 
     try {
+        let dateOnly: string | number | Date = "test"; // Declare dateOnly outside and assign i as a default value
+        const timestampList = fileUri.split('-').at(-1)
+        if(timestampList !== undefined){
+            const timestamp = Number(timestampList.split('.').at(0))
+            const newDate = new Date(timestamp);
+            dateOnly = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
+
+        }
         const note =  await FileSystem.readAsStringAsync(fileUri, {encoding: FileSystem.EncodingType.UTF8});
+
         let Note = {
-            date: "test",
+            date: dateOnly,
             note: note,
 
         }
