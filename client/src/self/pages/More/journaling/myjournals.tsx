@@ -131,17 +131,17 @@ const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
         <Text style={styles.gtext}>{`${greeting()} ${userInfo.firstName}`}</Text>
         <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch"}}/>
 
-        <Pressable onPress={openMode} >
-            <AntDesign name="pluscircle" size={45} color="#DFBD43" />
+        <Pressable onPress={openMode} style={{}} >
+            <AntDesign name="pluscircle" size={45} color="#DFBD43"  />
             </Pressable>
             {launchJournalmode(jmode)}
         {/*}<TextLibContainer/>
         <AudVidLibContainer/>*/}
+
+    </View>
         <JournGalaryContainer/>
 
-
-
-    </View></Modal>);
+    </Modal>);
 
 }
 
@@ -151,7 +151,7 @@ container:{
         flex: 1,
         backgroundColor: '#FFFFFF',
         alignItems: 'flex-start',
-        justifyContent: 'center',
+        //justifyContent: 'center',
         margin: 20,
         gap: 10,
         //marginBottom: "80%",

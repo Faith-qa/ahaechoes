@@ -1,5 +1,5 @@
-import s from "./styles";
-import {FlatList, Text, TouchableOpacity} from "react-native";
+import s, {width} from "./styles";
+import {FlatList, Text, TouchableOpacity, View} from "react-native";
 import {Card} from "@rneui/base";
 import React, {useEffect, useState} from "react";
 import {ResizeMode, Video} from "expo-av";
@@ -46,21 +46,23 @@ const JounGalaryScreen:React.FC<NewProps>= ({
     const renderItem =  ({item}: {item: MediaItem})=>{
         if (item.type === 'txt') {
             return(
-                <TouchableOpacity>
+                <TouchableOpacity style={s.item}>
                 <Card containerStyle={s.image}>
                     <Text>{item.uri.date}</Text>
                     <Text>{truncateNote(item.uri.note)}</Text>
                 </Card></TouchableOpacity>
             )
         }
-        return(<TouchableOpacity>
+        return(<TouchableOpacity style={s.item}>
             {item.type == 'video' ? (
+                <Card containerStyle={s.image}>
                 <Video
                     style={s.image}
                     source={{uri: item.uri}}
                     resizeMode={ResizeMode.COVER}
-                    shouldPlay={false}/>
+                    shouldPlay={false}/></Card>
             ):(
+
                 <Card containerStyle={s.image}>
                     <Ionicons name="musical-notes" size={48} color={"black"}/>
                     <Text>Audio</Text>
@@ -73,7 +75,8 @@ const JounGalaryScreen:React.FC<NewProps>= ({
         <FlatList data={mediaData}
                   renderItem={renderItem}
                   keyExtractor={(item, index)=> index.toString()}
-                  numColumns={3}/>
+                  numColumns={3}
+        />
     )
 
 }
