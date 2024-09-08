@@ -4,9 +4,10 @@ import {Card} from "@rneui/base";
 import React, {useEffect, useState} from "react";
 import {ResizeMode, Video} from "expo-av";
 import {Ionicons} from "@expo/vector-icons";
+import ViewText from "./PlayModal/ViewText";
 
 interface MediaItem  {
-    index: number,
+    index: any,
     type: 'txt'|'audio'|'video';
     uri: any;
 }
@@ -20,12 +21,17 @@ const JounGalaryScreen:React.FC<NewProps>= ({
 ) => {
     const [mediaData, setMediaData] = useState<MediaItem[]>()
     const [loading, setLoading] = useState<boolean>(true); // Loading state
+    const [openText, setOpenText] = useState(false)
 
+    const closeText = () => {
+        setOpenText(false)
+    }
 
     useEffect(() => {
         const fetchJournals = async()=>{
             try{
                 const fetched = await processJourns();
+                console.log("these are fecch", fetched)
                 if(fetched){
                     setMediaData(fetched)
                 }
@@ -40,17 +46,21 @@ const JounGalaryScreen:React.FC<NewProps>= ({
     }, [processJourns]);
 
     const truncateNote = (note: string) => {
-        return note.length > 255 ? note.substring(0, 100) + '...' : note;
+        return note.length > 50 ? note.substring(0, 100) + '...' : note;
     };
 
     const renderItem =  ({item}: {item: MediaItem})=>{
         if (item.type === 'txt') {
             return(
-                <TouchableOpacity style={s.item}>
+                <View>
+                <TouchableOpacity style={s.item} onPress={()=>setOpenText(true)}>
                 <Card containerStyle={s.image}>
                     <Text>{item.uri.date}</Text>
+                    <Text>-----------------------</Text>
                     <Text>{truncateNote(item.uri.note)}</Text>
                 </Card></TouchableOpacity>
+                    <ViewText title={item.uri.date} content={item.uri.note} open={openText} onClose={closeText}/>
+                </View>
             )
         }
         return(<TouchableOpacity style={s.item}>
@@ -72,11 +82,13 @@ const JounGalaryScreen:React.FC<NewProps>= ({
 
     }
     return(
-        <FlatList data={mediaData}
+
+        <FlatList data={mediaData?.slice().reverse()}
                   renderItem={renderItem}
                   keyExtractor={(item, index)=> index.toString()}
                   numColumns={3}
         />
+
     )
 
 }
