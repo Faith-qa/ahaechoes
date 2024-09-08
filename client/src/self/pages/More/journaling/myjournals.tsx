@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {View, Text, Modal, Pressable, StyleSheet, Image, FlatList, TouchableOpacity} from "react-native";
 import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
-import { greeting } from "../../../../../utils/date";
+import { greeting } from "../../../../../utils/ndate";
 import {useSelector, useDispatch} from 'react-redux'
 import {AppDispatch, RootState} from "../../../../store/store";
 import * as MediaLibrary from "expo-media-library";
@@ -9,12 +9,7 @@ import * as MediaLibrary from "expo-media-library";
 import RecordVideoScreenContainer from "./videoJoun/record_vid_cont";
 import TextJournCont from "./textJoun";
 import RecordAudioScreen from "./audioJoun/audioContainer";
-import {getMediaJournals} from "../../../../store/journals/journals.action";
 import {useNavigation} from "@react-navigation/native";
-import TextLibContainer from "./JounLibrary/textJournLib";
-import AudioContainer from "./audioJoun/audioContainer";
-import AudVidLibContainer from "./JounLibrary/AudVidJounLib";
-import journGalaryContainer from "./JounLibrary/JournGalaryContainer";
 import JournGalaryContainer from "./JounLibrary/JournGalaryContainer";
 
 interface NewProps {
@@ -128,20 +123,21 @@ const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
                 </Pressable>
             <Image source={{uri: 'https://images.pexels.com/photos/18340828/pexels-photo-18340828/free-photo-of-man-in-traditional-north-american-indigenous-clothing.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'}}
              style={styles.image} />
-        <Text style={styles.gtext}>{`${greeting()} ${userInfo.firstName}`}</Text>
-        <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch"}}/>
+        <Text style={styles.gtext}>{`${greeting()}${userInfo.firstName}, how are you?`}</Text>
+        <Pressable onPress={openMode} style={{}} >
+            <AntDesign name="pluscircle" size={45} color="#DFBD43"  />
+        </Pressable>
+        {launchJournalmode(jmode)}
+        <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch",}}/>
 
-        <Pressable onPress={openMode} >
-            <AntDesign name="pluscircle" size={45} color="#DFBD43" />
-            </Pressable>
-            {launchJournalmode(jmode)}
+
         {/*}<TextLibContainer/>
         <AudVidLibContainer/>*/}
+
+    </View>
         <JournGalaryContainer/>
 
-
-
-    </View></Modal>);
+    </Modal>);
 
 }
 
@@ -151,7 +147,7 @@ container:{
         flex: 1,
         backgroundColor: '#FFFFFF',
         alignItems: 'flex-start',
-        justifyContent: 'center',
+        //justifyContent: 'center',
         margin: 20,
         gap: 10,
         //marginBottom: "80%",

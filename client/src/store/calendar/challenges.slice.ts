@@ -1,7 +1,7 @@
 
 import {createSlice} from "@reduxjs/toolkit";
 import {registerChallenge} from "./challenges.action";
-import {getCurrentTime} from "../../../utils/date";
+import {getCurrentTime} from "../../../utils/ndate";
 
 const initialState = {
     loading: false,

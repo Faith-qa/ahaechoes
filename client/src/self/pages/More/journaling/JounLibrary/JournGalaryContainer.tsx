@@ -8,7 +8,7 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../../../store/store";
 
 interface MediaItem  {
-    index: number,
+    index: any,
     type: 'txt'|'audio'|'video';
     uri: any;
 }
@@ -44,24 +44,34 @@ const JournGalaryContainer:React.FC=()=>{
         let ProcessedJourns:MediaItem[] = []
 
         for (var i = 0; i < rowJourns.length; i++) {
+            let dateOnly: string | number | Date = i; // Declare dateOnly outside and assign i as a default value
             const fileUri = await getMediaItemUri(rowJourns[i]);
+            const timestampList: string[] = fileUri.split('-')
+
+            if(timestampList !== undefined && timestampList.length > 1){
+                const timestamp = Number(timestampList.at(-1).split('.').at(0))
+                const newDate = new Date(timestamp);
+                dateOnly = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate()).toISOString().split('T')[0];
+
+            }
+
             if (isTextFile(rowJourns[i])){
                 let item = {
-                    index: i,
+                    index: dateOnly,
                     type: 'txt',
                     uri: await handleTextUri(fileUri)
                 }
                 ProcessedJourns.push(item as MediaItem)
             } else if(isAudioFile(rowJourns[i])){
                 let item = {
-                    index: i,
+                    index: dateOnly,
                     type: 'audio',
                     uri: fileUri
                 }
                 ProcessedJourns.push(item as MediaItem)
             }else{
                 let item = {
-                    index: i,
+                    index: dateOnly,
                     type: 'video',
                     uri: fileUri
                 }
