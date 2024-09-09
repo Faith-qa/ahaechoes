@@ -46,20 +46,27 @@ const JournGalaryContainer:React.FC=()=>{
         for (var i = 0; i < rowJourns.length; i++) {
             let dateOnly: string | number | Date = i; // Declare dateOnly outside and assign i as a default value
             const fileUri = await getMediaItemUri(rowJourns[i]);
-            const timestampList: string[] = fileUri.split('-')
+            const llist = fileUri.split('-')
+            if(llist.length > 1) {
+                const timestampList = llist.at(-1)
+                if(timestampList !== undefined){
+                    const timestamp = Number(timestampList.split('.').at(0))
+                    const newDate = new Date(timestamp);
+                    dateOnly = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate()).toISOString().split('T')[0];
+                    console.log("hello this is how the date looks like", dateOnly)
 
-            if(timestampList !== undefined && timestampList.length > 1){
-                const timestamp = Number(timestampList.at(-1).split('.').at(0))
-                const newDate = new Date(timestamp);
-                dateOnly = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate()).toISOString().split('T')[0];
+                }
 
             }
+            console.log("list my woman here", llist)
+
+
 
             if (isTextFile(rowJourns[i])){
                 let item = {
                     index: dateOnly,
                     type: 'txt',
-                    uri: await handleTextUri(fileUri)
+                    uri: await handleTextUri({index:dateOnly, type: 'txt', uri: fileUri})
                 }
                 ProcessedJourns.push(item as MediaItem)
             } else if(isAudioFile(rowJourns[i])){

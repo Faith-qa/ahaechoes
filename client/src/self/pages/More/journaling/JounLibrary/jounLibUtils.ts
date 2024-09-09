@@ -2,30 +2,24 @@ import {createDirectory, isTextFile} from "../../../../../store/journals/utils";
 import * as FileSystem from "expo-file-system";
 
 type MediaItem = {
-    index: string;
+    index: any;
     type: 'txt'|'audio'|'video';
     uri: string;
 }
 //handle text file
-export const handleTextUri = async(fileUri: string) => {
+export const handleTextUri = async(textdata:MediaItem) => {
 
-    if (!isTextFile(fileUri)){
+    if (!isTextFile(textdata.uri)){
         return
     }
 
     try {
-        let dateOnly: string | number | Date = "test"; // Declare dateOnly outside and assign i as a default value
-        const timestampList = fileUri.split('-').at(-1)
-        if(timestampList !== undefined){
-            const timestamp = Number(timestampList.split('.').at(0))
-            const newDate = new Date(timestamp);
-            dateOnly = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
 
-        }
-        const note =  await FileSystem.readAsStringAsync(fileUri, {encoding: FileSystem.EncodingType.UTF8});
+
+        const note =  await FileSystem.readAsStringAsync(textdata.uri, {encoding: FileSystem.EncodingType.UTF8});
 
         let Note = {
-            date: dateOnly,
+            date: textdata.index,
             note: note,
 
         }
