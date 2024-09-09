@@ -27,7 +27,6 @@ const ViewText:React.FC<NewProps> = ({title, content, open, onClose}) =>{
                 </View>
                 <View style={{borderBottomColor: "#dddddd", borderBottomWidth: 1}}/>
                 <Text style={[s.input, {paddingVertical: 12, paddingHorizontal: 10}]}>{content}</Text>
-
             </View>
         </View></Modal>
     )
