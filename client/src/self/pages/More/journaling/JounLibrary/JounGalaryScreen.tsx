@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import {ResizeMode, Video} from "expo-av";
 import {Ionicons} from "@expo/vector-icons";
 import ViewText from "./PlayModal/ViewText";
+import ViewVideo from "./PlayModal/ViewVideo";
 
 interface MediaItem  {
     index: any,
@@ -22,10 +23,21 @@ const JounGalaryScreen:React.FC<NewProps>= ({
     const [mediaData, setMediaData] = useState<MediaItem[]>()
     const [loading, setLoading] = useState<boolean>(true); // Loading state
     const [openText, setOpenText] = useState(false)
+    const [isplaying, setIsplaying] = useState(false)
+    const [openVid, setOpenVid] = useState(false)
 
     const closeText = () => {
         setOpenText(false)
+
     }
+
+    const stopPlaying = ()=>{
+        if(!isplaying){
+            setIsplaying(false)
+        }
+        setOpenVid(false)
+    }
+
 
     useEffect(() => {
         const fetchJournals = async()=>{
@@ -51,34 +63,40 @@ const JounGalaryScreen:React.FC<NewProps>= ({
 
     const renderItem =  ({item}: {item: MediaItem})=>{
         if (item.type === 'txt') {
-            return(
+            return (
                 <View>
-                <TouchableOpacity style={s.item} onPress={()=>setOpenText(true)}>
-                <Card containerStyle={s.image}>
-                    <Text>{item.uri.date}</Text>
-                    <Text>-----------------------</Text>
-                    <Text>{truncateNote(item.uri.note)}</Text>
-                </Card></TouchableOpacity>
+                    <TouchableOpacity style={s.item} onPress={() => setOpenText(true)}>
+                        <Card containerStyle={s.image}>
+                            <Text>{item.uri.date}</Text>
+                            <Text>-----------------------</Text>
+                            <Text>{truncateNote(item.uri.note)}</Text>
+                        </Card></TouchableOpacity>
                     <ViewText title={item.uri.date} content={item.uri.note} open={openText} onClose={closeText}/>
                 </View>
             )
-        }
-        return(<TouchableOpacity style={s.item}>
-            {item.type == 'video' ? (
+        } else if(item.type == 'video'){
+        return(
+            <View>
+           <TouchableOpacity style={s.item} onPress={()=> {
+               setOpenVid(true)
+               setIsplaying(true)}}>
                 <Card containerStyle={s.image}>
                 <Video
-                    style={s.image}
+                    style={{width: "90%", height:"90%"}}
                     source={{uri: item.uri}}
                     resizeMode={ResizeMode.COVER}
-                    shouldPlay={false}/></Card>
-            ):(
-
+                    shouldPlay={false}/></Card></TouchableOpacity>
+                <ViewVideo videoUri={item.uri} isplaying={isplaying} onClose={stopPlaying} openVid={openVid}/>
+            </View>
+            )} else{
+            return(
+                <View>
+                <TouchableOpacity style={s.item}>
                 <Card containerStyle={s.image}>
                     <Ionicons name="musical-notes" size={48} color={"black"}/>
                     <Text>Audio</Text>
-                </Card>
-            ) }
-        </TouchableOpacity>)
+                </Card></TouchableOpacity></View>
+            )}
 
     }
     return(
@@ -87,6 +105,7 @@ const JounGalaryScreen:React.FC<NewProps>= ({
                   renderItem={renderItem}
                   keyExtractor={(item, index)=> index.toString()}
                   numColumns={3}
+                  contentContainerStyle={{marginTop: 50}}
         />
 
     )

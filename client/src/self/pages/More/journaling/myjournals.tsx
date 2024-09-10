@@ -117,7 +117,10 @@ const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
         animationType="slide"
         visible={visible}
        // transparent={true}
-        ><View style={[styles.container]}>
+
+        >
+
+        <View style={[styles.container]}>
             <Pressable style={styles.XContainer} onPress={()=> onClose()} >
                 <Feather name="x-circle" size={24} color="black"/>
                 </Pressable>
@@ -128,10 +131,10 @@ const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
             <AntDesign name="pluscircle" size={45} color="#DFBD43"  />
         </Pressable>
         {launchJournalmode(jmode)}
-        <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch",}}/>
+        <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch",     marginBottom: 20, // Add space after the line
+        }}/>
 
-
-        {/*}<TextLibContainer/>
+            {/*}<TextLibContainer/>
         <AudVidLibContainer/>*/}
 
     </View>
