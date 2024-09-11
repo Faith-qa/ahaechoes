@@ -1,4 +1,12 @@
-import {Controller, Patch, Post, Body, Delete, Get, Param} from '@nestjs/common';
+import {
+  Controller,
+  Patch,
+  Post,
+  Body,
+  Delete,
+  Get,
+  Param,
+} from '@nestjs/common';
 import { CreateUserDto } from '../dto/users/create-user.dto';
 import { UsersService } from '../services/users.service';
 import { AuthService } from '../auth/auth.service';
@@ -40,5 +48,12 @@ export class UsersControllers {
   @Patch('forgotPassword')
   async updatePassword(@Body() email: string, password: string): Promise<User> {
     return await this.authService.updatePassword(email, password);
+  }
+  @Patch('avatar')
+  async updateAvatar(
+    @Body() email: string,
+    avatar: Express.Multer.File,
+  ): Promise<User> {
+    return await this.usersService.updateAvatar(email, avatar);
   }
 }
