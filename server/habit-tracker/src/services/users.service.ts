@@ -4,10 +4,12 @@ import { User } from '../interfaces/user.interface';
 import { CreateUserDto } from '../dto/users/create-user.dto';
 import { UpdateUserDto } from '../dto/users/update-user.dto';
 import { NotFoundError } from 'rxjs';
+import { CloudinaryService } from '../imageUpload-Cloudinary/cloudinary.service';
 
 @Injectable()
 export class UsersService {
   constructor(
+    private cloudinary: CloudinaryService,
     @Inject('USER_MODEL')
     private userModel: Model<User>,
   ) {}
@@ -42,5 +44,17 @@ export class UsersService {
 
   async delete(user_id: string): Promise<void> {
     await this.userModel.findByIdAndDelete(user_id);
+  }
+
+  async updateAvatar(email: string, avatar: string): Promise<User> {
+    const existingUser = await this.userModel.findOneAndUpdate(
+      { email: email },
+      { avatar: avatar },
+      { new: true },
+    );
+    if (!existingUser) {
+      throw new NotFoundError('user not found');
+    }
+    return existingUser;
   }
 }
