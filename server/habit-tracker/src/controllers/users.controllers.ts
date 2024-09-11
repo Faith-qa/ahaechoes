@@ -52,7 +52,7 @@ export class UsersControllers {
   @Patch('avatar')
   async updateAvatar(
     @Body() email: string,
-    avatar: Express.Multer.File,
+    avatar: string,
   ): Promise<User> {
     return await this.usersService.updateAvatar(email, avatar);
   }
