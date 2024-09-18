@@ -6,6 +6,7 @@
       "preview": {
       "env": {
         "EXPO_PUBLIC_API_URI": "https://habit-tracker-faiths-projects-8773cfe6.vercel.app"
+
       },
         "android": {
           "buildType": "apk",
@@ -17,7 +18,8 @@
       },
       "preview2": {
         "android": {
-          "gradleCommand": ":app:assembleRelease"
+          "gradleCommand": ":app:assembleRelease",
+          "channel": "first-test"
         }
       },
       "preview3": {

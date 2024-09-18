@@ -6,6 +6,7 @@ import {ResizeMode, Video} from "expo-av";
 import {Ionicons} from "@expo/vector-icons";
 import ViewText from "./PlayModal/ViewText";
 import ViewVideo from "./PlayModal/ViewVideo";
+import ViewAudio from "./PlayModal/ViewAudio";
 
 interface MediaItem  {
     index: any,
@@ -25,10 +26,13 @@ const JounGalaryScreen:React.FC<NewProps>= ({
     const [openText, setOpenText] = useState(false)
     const [isplaying, setIsplaying] = useState(false)
     const [openVid, setOpenVid] = useState(false)
-
+    const [openAudio, setOpenAudio] = useState(false)
     const closeText = () => {
         setOpenText(false)
 
+    }
+    const closeAudio = ()=> {
+        setOpenAudio(false)
     }
 
     const stopPlaying = ()=>{
@@ -91,11 +95,13 @@ const JounGalaryScreen:React.FC<NewProps>= ({
             )} else{
             return(
                 <View>
-                <TouchableOpacity style={s.item}>
+                <TouchableOpacity style={s.item} onPress={()=> setOpenAudio(true)}>
                 <Card containerStyle={s.image}>
                     <Ionicons name="musical-notes" size={48} color={"black"}/>
                     <Text>Audio</Text>
-                </Card></TouchableOpacity></View>
+                </Card></TouchableOpacity>
+                    <ViewAudio audiourl={item.uri} onClose={closeAudio} openAudio={openAudio}/>
+                </View>
             )}
 
     }

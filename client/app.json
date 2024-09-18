@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "client",
+    "name": "ahechoes",
     "slug": "ahaechoes",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.client",
+      "package": "com.anonymous.ahechoes",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
