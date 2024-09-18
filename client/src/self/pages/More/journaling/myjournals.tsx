@@ -11,6 +11,7 @@ import TextJournCont from "./textJoun";
 import RecordAudioScreen from "./audioJoun/audioContainer";
 import {useNavigation} from "@react-navigation/native";
 import JournGalaryContainer from "./JounLibrary/JournGalaryContainer";
+import ProfilePicContainer from "../../Home/profilePic";
 
 interface NewProps {
     visible: boolean,
@@ -124,8 +125,7 @@ const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
             <Pressable style={styles.XContainer} onPress={()=> onClose()} >
                 <Feather name="x-circle" size={24} color="black"/>
                 </Pressable>
-            <Image source={{uri: 'https://images.pexels.com/photos/18340828/pexels-photo-18340828/free-photo-of-man-in-traditional-north-american-indigenous-clothing.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'}}
-             style={styles.image} />
+            <ProfilePicContainer/>
         <Text style={styles.gtext}>{`${greeting()}${userInfo.firstName}, how are you?`}</Text>
         <Pressable onPress={openMode} style={{}} >
             <AntDesign name="pluscircle" size={45} color="#DFBD43"  />
