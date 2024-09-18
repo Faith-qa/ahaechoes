@@ -3,10 +3,7 @@ import { TouchableOpacity, Text, View, StyleSheet, Image, ScrollView } from "rea
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../store/store";
 import { setSearch_Date } from "../../../store/goals/newGoal.slice";
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { pickImage } from "./profilePic/handleProfilePic";
-import { updateProfile } from "../../../store/auth/auth.actions";
-import Toast from 'react-native-toast-message';
+import ProfilePicContainer from "./profilePic";
 
 const DaysOfWeekButtons: React.FC = () => {
     const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -14,34 +11,9 @@ const DaysOfWeekButtons: React.FC = () => {
     const [currentDay, setCurrentDay] = useState(new Date().getDay());
     const [currentWeekStart, setCurrentWeekStart] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState<string | null>(null); // State to track selected date
-    const [photo, setphoto] = useState<string | undefined>(undefined);
     const dispatch = useDispatch<AppDispatch>();
 
-    const handleUpload = async () => {
-        await profilepic().then(async () => {
-            if (!photo) {
-                return;
-            }
 
-            await dispatch(updateProfile({ email: userInfo.email, avatar: photo }))
-                .then(() => {
-                    // Show toast when the upload is successful
-                    Toast.show({
-                        type: 'success',
-                        text1: 'Upload Successful',
-                        text2: 'Your image has been updated!',
-                    });
-                })
-                .catch((error) => {
-                    // Show toast when there's an error
-                    Toast.show({
-                        type: 'error',
-                        text1: 'Upload Failed',
-                        text2: 'Failed to update profile picture.',
-                    });
-                });
-        });
-    };
 
     const handleSwipe = (direction: 'left' | 'right') => {
         const newWeekStart = new Date(currentWeekStart);
@@ -61,38 +33,7 @@ const DaysOfWeekButtons: React.FC = () => {
         };
     };
 
-    const profilepic = async () => {
-        let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dwwxkbeeo/upload'
-        try {
-            const uri = await pickImage();
 
-            if (uri) {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Upload Successful, kindly be patient for server configurations',
-                });
-
-                let data = {
-                    file: uri,
-                    upload_preset: 'dwwxkbeeo'
-                }
-
-                await fetch(CLOUDINARY_URL, {
-                    body: JSON.stringify(data),
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    method: 'POST',
-                }).then(async r => {
-                    let data = await r.json();
-                    console.log(data.url);
-                    setphoto(data.url);
-                }).catch(err => console.log(err));
-            }
-        } catch (err: any) {
-            alert(err.message);
-        }
-    }
 
     const greeting = () => {
         const currentHour: number = new Date().getHours();
@@ -139,14 +80,7 @@ const DaysOfWeekButtons: React.FC = () => {
 
     return (
         <View>
-            <View style={{ width: 70, height: 70, }}>
-                <TouchableOpacity onPress={async () => { await handleUpload() }} style={styles.profileUp}>
-                    <AntDesign name="edit" size={24} color="black" />
-                </TouchableOpacity>
-                <Image source={{ uri: 'https://images.pexels.com/photos/18340828/pexels-photo-18340828/free-photo-of-man-in-traditional-north-american-indigenous-clothing.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load' }}
-                       style={styles.image} />
-            </View>
-
+            <ProfilePicContainer/>
             <Text style={styles.gtext}>{greeting()}</Text>
             <ScrollView
                 horizontal

@@ -11,7 +11,7 @@ interface userRegistrationData {
 firstName: string;
 lastName: string;
 preferredName?: string;
-avatar?: string;
+avatar?: string | null;
 email: string;
 password: string;
 }
