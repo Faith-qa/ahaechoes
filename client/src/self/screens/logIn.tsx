@@ -44,16 +44,16 @@ const LogIn: React.FC = () =>{
 
 
 
-    if (!registered){
+    /*if (!registered){
         return(<SignUp/>)
-    }
-    if (forgotPassword){
+    }*/
+    /*if (forgotPassword){
        return(<ForgetPassword/>)
-    }
+    }*/
 
     return (
         <View style={styles.container}>
-        <View>
+            {registered && <View>
             <StatusBar barStyle="light-content" />
             <Image
                 style={styles.myLogo}
@@ -183,7 +183,9 @@ const LogIn: React.FC = () =>{
                     <Text style={styles.registerBtnText}>Register for Free!</Text>
                 </TouchableOpacity>
             </View>
-        </View></View>
+        </View>}
+            <SignUp/>
+        </View>
     );
 };
 

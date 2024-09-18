@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {Provider, useSelector} from 'react-redux';
 import { store } from './src/store/store';
+import Toast from 'react-native-toast-message';
+
 import {
     useFonts,
     Raleway_100Thin,
@@ -60,6 +62,7 @@ function App() {
       <SafeAreaProvider>
       <NavigationContainer>
           <NavBar/>
+          <Toast/>
     </NavigationContainer>
     </SafeAreaProvider>
     </Provider>

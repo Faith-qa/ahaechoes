@@ -2,6 +2,7 @@ import axios from 'axios';
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import AsyncStorage, {useAsyncStorage} from "@react-native-async-storage/async-storage";
 import {retrieveToken} from "./Authorization";
+import {pickImage} from "../../self/pages/Home/profilePic/handleProfilePic";
 
 const api_URL = process.env.EXPO_PUBLIC_API_URI;
 if (api_URL === undefined) throw new Error('api url unreachable')
@@ -13,6 +14,10 @@ preferredName?: string;
 avatar?: string;
 email: string;
 password: string;
+}
+interface userUpdateProfile {
+    avatar: string;
+    email: string;
 }
 //handle registration
 interface userLoginData{
@@ -124,3 +129,31 @@ export const updatePassword = createAsyncThunk(
     }
 )
 
+// @ts-ignore
+export const updateProfile = createAsyncThunk(
+    'auth/updateProfile',
+    async(profileData: userUpdateProfile, {rejectWithValue})=>{
+        try{
+
+            const token = await retrieveToken();
+
+            //set headers
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            const {data} = await axios.patch(
+                `${api_URL}/users/avatar`, profileData, config
+            )
+            console.log("mMm I MASW IT",data)
+
+            return data;
+        }catch(err){
+            return rejectWithValue(err)
+        }
+    }
+)
