@@ -11,20 +11,31 @@ import {isFulfilled} from "@reduxjs/toolkit";
 
 const ProfilePicContainer:React.FC= () => {
     const { userInfo } = useSelector((state: RootState) => state.auth);
-    const [uploadedProfile, setUploadedProfile] = useState<string|undefined>(userInfo.avatar)
+    const [uploadedProfile, setUploadedProfile] = useState<string|undefined>(userInfo.Avatar)
     const dispatch = useDispatch<AppDispatch>();
 
-    useEffect(() => {
+
         const sendtoserver = async()=>{
             console.log("hello", uploadedProfile)
             if (uploadedProfile == undefined){
                 return
             }
-            await dispatch(updateProfile({email: userInfo.email, avatar: uploadedProfile}))
+            const result = await dispatch(updateProfile({ email: userInfo.email, avatar: uploadedProfile}));
+
+            // You can check if the result indicates success (depending on how you handle async actions)
+            if (result.meta && result.meta.requestStatus === 'fulfilled') {
+                Toast.show({
+                    type:'success',
+                    text1: "server updated successfully"
+                })
+            } else {
+                Toast.show({
+                    type: "error",
+                    text1: "server error"
+                })
+            }
 
         }
-        sendtoserver()
-    }, []);
 
 
     // handle file upload to cloudinary
@@ -60,6 +71,9 @@ const ProfilePicContainer:React.FC= () => {
                     });
 
                 }).catch(err => console.log(err));
+
+                sendtoserver();
+
             }
         } catch (err: any) {
             alert(err.message);

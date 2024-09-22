@@ -49,11 +49,4 @@ export class UsersControllers {
   async updatePassword(@Body() email: string, password: string): Promise<User> {
     return await this.authService.updatePassword(email, password);
   }
-  @Patch('avatar')
-  async updateAvatar(
-    @Body() email: string,
-    avatar: string,
-  ): Promise<User> {
-    return await this.usersService.updateAvatar(email, avatar);
-  }
 }
