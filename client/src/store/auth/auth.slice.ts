@@ -14,8 +14,8 @@ const initialState = {
     userInfo:{
         firstName: "",
         lastName: "",
-        //preferredName: "",
-        avatar: "",
+        preferredName: "",
+        Avatar: "",
         email: "",
         password: ""
     },
@@ -115,7 +115,7 @@ const authSlice = createSlice({
             .addCase(updateProfile.fulfilled, (state, action)=>{
                 state.loading = false;
                 state.error = null;
-                state.userInfo.avatar = action.payload.avatar
+                state.userInfo.Avatar = action.payload.avatar
             })
             .addCase(updateProfile.pending,(state)=>{
                 state.loading = true;

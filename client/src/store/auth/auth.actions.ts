@@ -78,6 +78,7 @@ export const loginUser = createAsyncThunk(
             const profileResponse = await axios.get(
                 `${api_URL}/auth/profile`, profConfig
             );
+            console.log("these are tue",profileResponse.data)
 
             return profileResponse.data;
         }catch(err: any){
@@ -147,7 +148,7 @@ export const updateProfile = createAsyncThunk(
             }
 
             const {data} = await axios.patch(
-                `${api_URL}/users/avatar`, profileData, config
+                `${api_URL}/users`, profileData, config
             )
             console.log("mMm I MASW IT",data)
 

@@ -49,7 +49,7 @@ export class UsersService {
   async updateAvatar(email: string, avatar: string): Promise<User> {
     const existingUser = await this.userModel.findOneAndUpdate(
       { email: email },
-      { avatar: avatar },
+      { Avatar: avatar },
       { new: true },
     );
     if (!existingUser) {
