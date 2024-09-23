@@ -20,9 +20,9 @@ const SignUp: React.FC =() =>{
     //login page
 
 
-    if(registered){
+    /*if(registered){
         return (<LogIn/>)
-    }
+    }*/
     const registerFunction = async () => {
         //handle registration
         if (userDetails.email != '' &&
@@ -40,7 +40,8 @@ const SignUp: React.FC =() =>{
 
     }
     return (
-        <View style={{ backgroundColor: "white" }}>
+        <View>
+            {!registered && <View style={{ backgroundColor: "white" }}>
             <StatusBar barStyle="light-content" />
             <ScrollView style={{ paddingTop: 20 }}>
                 <View style={styles.container}>
@@ -246,7 +247,7 @@ const SignUp: React.FC =() =>{
                     </View>
                 </View>
             </ScrollView>
-        </View>
+        </View>}</View>
     );
 }
 

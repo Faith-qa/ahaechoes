@@ -107,7 +107,7 @@ const ForgetPassword: React.FC = () =>{
                 />
                 <CustomBox
                     placeholder={"Repeat Password"}
-                    focusColor={"#f1d15f"}
+                    focusColor={"#9e883a"}
                     boxStyle={{ borderRadius: 40, borderWidth: 2 }}
                     inputStyle={{
                         fontWeight: "bold",
