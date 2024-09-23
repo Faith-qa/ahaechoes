@@ -16,8 +16,7 @@ const ProfilePicScreen:React.FC<NewProps>= ({uploadedProfile, uploadToCloudinary
             <TouchableOpacity onPress={async () => { await uploadToCloudinary() }} style={s.profileUp}>
                 <AntDesign name="edit" size={24} color="black" />
             </TouchableOpacity>
-            <Image source={uploadedProfile === undefined ? { uri: 'https://images.pexels.com/photos/18340828/pexels-photo-18340828/free-photo-of-man-in-traditional-north-american-indigenous-clothing.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'}:
-            {uri: uploadedProfile}}
+            <Image source={uploadedProfile === undefined ? require('./assets/profilepicplaceholder.png'):{uri: uploadedProfile}}
                    style={s.image} />
         </View>
     )
