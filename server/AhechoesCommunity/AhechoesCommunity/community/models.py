@@ -11,7 +11,7 @@ class Thread(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class Comment(models.Model):
-    thread = models.ForeignKey(Thread, related_name="comments", on_delete=models.CASCADE())
+    threadid = models.ForeignKey(Thread, related_name="comments", on_delete=models.CASCADE())
     content = models.TextField()
     created_at = models.DateTimeField(auto_now=True)
     userid = models.CharField()
