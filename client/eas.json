@@ -1,44 +1,26 @@
 {
   "cli": {
-    "version": ">= 7.5.0"
+    "version": ">= 11.0.2"
   },
   "build": {
-    "preview": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URI": "https://habit-tracker-faiths-projects-8773cfe6.vercel.app"
+        "EXPO_PUBLIC_API_URI":" https://habit-tracker-faiths-projects-8773cfe6.vercel.app"
       },
       "android": {
         "buildType": "apk",
-        "channel": "preview"
-      },
-      "ios": {
-        "simulator": true
-      },
-      "channel": "preview"
+        "gradleCommand": ":app:assembleRelease"
+      }
+
     },
-    "preview2": {
-      "android": {
-        "gradleCommand": ":app:assembleRelease",
-        "channel": "first-test"
-      },
-      "channel": "preview2"
+    "preview": {
+      "distribution": "internal"
     },
-    "preview3": {
-      "developmentClient": true,
-      "channel": "preview3"
-    },
-    "preview4": {
-      "distribution": "internal",
-      "channel": "preview"
-    },
-    "production": {
-      "channel": "production"
-    },
-    "test": {
-      "env": {
-        "EXPO_PUBLIC_API_URI": "https://habit-tracker-faiths-projects-8773cfe6.vercel.app"
-      },
-      "channel": "test"
-    }
+    "production": {}
+  },
+  "submit": {
+    "production": {}
   }
 }
