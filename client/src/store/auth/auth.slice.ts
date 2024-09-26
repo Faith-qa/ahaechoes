@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {loginUser, registerUser, updatePassword, validateExistingUser} from "./auth.actions";
+import {loginUser, registerUser, updatePassword, updateProfile, validateExistingUser} from "./auth.actions";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import forgotPassword from "../../self/screens/forgotPassword";
 
@@ -13,15 +14,16 @@ const initialState = {
     userInfo:{
         firstName: "",
         lastName: "",
-        //preferredName: "",
-        avatar: "",
+        preferredName: "",
+        Avatar: "",
         email: "",
         password: ""
     },
     userToken: null,
     error: null,
     success: false,
-    userId: null
+    userId: null,
+    registered: true
 }
 
 const authSlice = createSlice({
@@ -36,6 +38,9 @@ const authSlice = createSlice({
         },
         setUserExist: (state, action)=>{
             state.userExist = action.payload
+        },
+        setRegistered: (state, action)=> {
+            state.registered = action.payload
         }
 
     },
@@ -107,10 +112,25 @@ const authSlice = createSlice({
                 //@ts-ignore
                 state.error = action.payload.message
             })
+            .addCase(updateProfile.fulfilled, (state, action)=>{
+                state.loading = false;
+                state.error = null;
+                state.userInfo.Avatar = action.payload.avatar
+            })
+            .addCase(updateProfile.pending,(state)=>{
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateProfile.rejected, (state, action)=>{
+                state.loading = false;
+                // @ts-ignore
+                state.error = action.payload
+            })
+
 
 
 
     }
 })
-export const {setForgotPassword, resetError, setUserExist} = authSlice.actions
+export const {setForgotPassword, resetError, setUserExist, setRegistered} = authSlice.actions
 export default  authSlice.reducer;

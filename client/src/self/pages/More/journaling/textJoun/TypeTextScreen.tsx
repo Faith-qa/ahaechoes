@@ -19,10 +19,10 @@ interface NewProps {
     setTitle: (title: string)=> void
     text: string,
     setText: (text:string)=> void,
-    onCancelSave : ()=> void,
+    onCancelSave? : ()=> void,
     exit: boolean,
     setExit: (exit:boolean)=> void
-    exitDelete: any
+    exitDelete?: any
 
 }
 const TypeTextScreen:React.FC<NewProps> = ({
@@ -46,7 +46,7 @@ const TypeTextScreen:React.FC<NewProps> = ({
                     placeholderTextColor="#ccc"
                 />
                 <View style={s.iconRow}>
-                    <TouchableOpacity onPress={() => onSubmit()}>
+                    <TouchableOpacity onPress={() => onSubmit ? onSubmit() : null}>
                         <Icon name="plus" size={24} color="#000" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {

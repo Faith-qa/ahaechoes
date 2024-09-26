@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {  View, Text, Modal, Pressable, StyleSheet, Image, FlatList } from "react-native";
+import {View, Text, Modal, Pressable, StyleSheet, Image, FlatList, TouchableOpacity} from "react-native";
 import { Entypo, MaterialIcons,FontAwesome, Feather, AntDesign } from '@expo/vector-icons';
-import { greeting } from "../../../../../utils/date";
+import { greeting } from "../../../../../utils/ndate";
 import {useSelector, useDispatch} from 'react-redux'
 import {AppDispatch, RootState} from "../../../../store/store";
 import * as MediaLibrary from "expo-media-library";
@@ -9,14 +9,16 @@ import * as MediaLibrary from "expo-media-library";
 import RecordVideoScreenContainer from "./videoJoun/record_vid_cont";
 import TextJournCont from "./textJoun";
 import RecordAudioScreen from "./audioJoun/audioContainer";
-import {getMediaJournals} from "../../../../store/journals/journals.action";
+import {useNavigation} from "@react-navigation/native";
+import JournGalaryContainer from "./JounLibrary/JournGalaryContainer";
+import ProfilePicContainer from "../../Home/profilePic";
 
 interface NewProps {
     visible: boolean,
-    onClose: () => void
+    onClose: () => void,
 }
 
-const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
+const MyJournals: React.FC<NewProps> =({ visible, onClose})=>{
     const {userInfo} = useSelector((state:RootState)=> state.auth)
     
     const dispatch = useDispatch<AppDispatch>()
@@ -27,8 +29,15 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
     //update video state
     const [videoList, setVideoList] = useState<Array<{videoUri: any}>>([]);
 
+    const navigation = useNavigation()
     //handle video journal
 
+    const openJounNavigation = () => {
+
+        // @ts-ignore
+        navigation.navigate('Journals', {
+            screen: 'TextJouns',
+        });    }
 
     useEffect(() => {
         (async () => {
@@ -109,22 +118,29 @@ const MyJournals: React.FC<NewProps> =({visible, onClose})=>{
         animationType="slide"
         visible={visible}
        // transparent={true}
-        ><View style={[styles.container]}>
+
+        >
+
+        <View style={[styles.container]}>
             <Pressable style={styles.XContainer} onPress={()=> onClose()} >
                 <Feather name="x-circle" size={24} color="black"/>
                 </Pressable>
-            <Image source={{uri: 'https://images.pexels.com/photos/18340828/pexels-photo-18340828/free-photo-of-man-in-traditional-north-american-indigenous-clothing.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'}}
-             style={styles.image} />
-        <Text style={styles.gtext}>{`${greeting()} ${userInfo.firstName}`}</Text>
-        <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch"}}/>
+            <ProfilePicContainer/>
+        <Text style={styles.gtext}>{`${greeting()}${userInfo.firstName}, how are you?`}</Text>
+        <Pressable onPress={openMode} style={{}} >
+            <AntDesign name="pluscircle" size={45} color="#DFBD43"  />
+        </Pressable>
+        {launchJournalmode(jmode)}
+        <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: "stretch",     marginBottom: 20, // Add space after the line
+        }}/>
 
-        <Pressable onPress={openMode} >
-            <AntDesign name="pluscircle" size={45} color="#DFBD43" />
-            </Pressable>
-            {launchJournalmode(jmode)}
+            {/*}<TextLibContainer/>
+        <AudVidLibContainer/>*/}
 
+    </View>
+        <JournGalaryContainer/>
 
-    </View></Modal>);
+    </Modal>);
 
 }
 
@@ -134,7 +150,7 @@ container:{
         flex: 1,
         backgroundColor: '#FFFFFF',
         alignItems: 'flex-start',
-        justifyContent: 'center',
+        //justifyContent: 'center',
         margin: 20,
         gap: 10,
         //marginBottom: "80%",
@@ -166,7 +182,7 @@ container:{
         justifyContent: 'flex-start', // align-items equivalent for main axis
         gap: 8,
         //color: '#FFF',
-        fontFamily: 'Rubik',
+        fontFamily: 'Raleway_400Regular',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',

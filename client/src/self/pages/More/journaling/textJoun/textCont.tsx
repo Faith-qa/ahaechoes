@@ -51,9 +51,7 @@ const TextJournCont: React.FC<NewProps>=({
         ><View style={[s.exitModal, {alignSelf:"flex-end", marginTop: 80}]}>
             <TouchableOpacity onPress={()=> {onCancelSave()}}>
                 <Icon name="delete"size={24} color="#000"/>
-            </TouchableOpacity></View>
-
-        </Modal>)
+            </TouchableOpacity></View></Modal>)
 
     }
     //handle submit
@@ -66,7 +64,7 @@ const TextJournCont: React.FC<NewProps>=({
             visible={onTextVisible}
             animationType={"fade"}
         >
-        <TypeTextScreen onSubmit={handleSubmit}
+            <TypeTextScreen onSubmit={handleSubmit}
                             title={title}
                             setTitle={setTitle}
                             text={text}

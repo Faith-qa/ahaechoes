@@ -1,55 +1,22 @@
 {
   "expo": {
-    "name": "client",
+    "name": "ahechoes",
     "slug": "ahaechoes",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "testios"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.anonymous.client",
-      "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
+    "plugins": [
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow ahechoes to access your microphone."
+        }
       ]
-    },
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      [
-        "expo-camera",
-        {
-          "cameraPermissionText": "$(PRODUCT_NAME) needs access to your Camera.",
-          "enableMicrophonePermission": true,
-          "microphonePermissionText": "$(PRODUCT_NAME) needs access to your Microphone."
-        }
-      ],
-      [
-        "expo-media-library",
-        {
-          "isAccessMediaLocationEnabled": true
-        }
-      ],
-      "expo-localization",
-      "expo-router"
-    ],
     "extra": {
       "eas": {
         "projectId": "60797254-ac90-4f7f-87c5-df581bc6f2a0"
@@ -58,8 +25,8 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "updates": {
-      "url": "https://u.expo.dev/60797254-ac90-4f7f-87c5-df581bc6f2a0"
+    "android": {
+      "package": "com.faith5991.ahaechoes"
     }
   }
 }

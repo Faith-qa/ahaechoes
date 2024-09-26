@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {StyleSheet, View, Text, FlatList, Pressable, ScrollView,} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import getFormattedDate from "../../../../utils/date";
+import getFormattedDate from "../../../../utils/ndate";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons, Feather } from '@expo/vector-icons';
 import {RootState, AppDispatch} from "../../../store/store";
@@ -57,9 +57,22 @@ const LoadHabits: React.FC = ()=>{
 
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={styles.todayText}>Challenge yourself Today</Text>
-            <View style={styles.container}>
+            <FlatList
+                data={challenges}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item, index }) => (
+                    <View style={styles.itemHold}>
+                        {checkbox(index)}
+                        <Text style={completed[index] ? styles.strikethrough : styles.text}>
+                            {item.challenge}
+                        </Text>
+                    </View>
+                )}
+                ListEmptyComponent={() => <Text>No challenges available</Text>}
+            />
+            {/*<View style={styles.container}>
                 {challenges.length > 0 &&  (
                     challenges.map((challenge, index: number) => (
                         <View key={index} style={styles.itemHold}>
@@ -70,7 +83,7 @@ const LoadHabits: React.FC = ()=>{
                     ))
                 )
                 }
-            </View>
+            </View>*/}
         </View>
     );
 
@@ -97,19 +110,20 @@ const styles = StyleSheet.create({
         width: 388,
         paddingBottom:10,
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        padding: 10,
 
         
     },
     itemHold: {
-        width:388,
+        width:350,
         height: 72,
         flexShrink: 0,
         borderRadius: 20,
         borderWidth: 2,
         padding: 20,
         borderColor: "#D6D6D6",
-        margin: 5,
+        margin: 10,
         flexDirection: 'row',
         gap: 20
 
