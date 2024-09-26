@@ -1,6 +1,6 @@
 # created by virtualenv automatically
-venv/*
-.idea/*
+venv/
+.idea/
 AhechoesCommunity.iml
-.env/
-server/AhechoesCommunity/AhechoesCommunity/.env/
+.env
+server/AhechoesCommunity/AhechoesCommunity/.env
