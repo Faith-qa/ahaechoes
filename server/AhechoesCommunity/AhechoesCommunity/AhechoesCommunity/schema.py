@@ -1,5 +1,7 @@
 import graphene
-import community.schema
+
+from AhechoesCommunity import community
+
 
 class Query(community.schema.Query, graphene.ObjectType):
     #combine the queries from different apps

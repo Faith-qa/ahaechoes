@@ -79,4 +79,8 @@ class Query(graphene.ObjectType):
         except Comment.DoesNotExist:
             return None
 
-schema = graphene.Schema(query=Query)
+class Mutation(graphene.ObjectType):
+    create_thread = CreateThread.Field()
+    update_thread = UpdateThread.Field()
+    delete_thread = DeleteThread.Field()
+schema = graphene.Schema(query=Query, mutation=Mutation)

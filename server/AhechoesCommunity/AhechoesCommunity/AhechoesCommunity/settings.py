@@ -32,7 +32,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+GRAPHENE = {
+    "SCHEMA": "community.schema.schema"
+}
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     #installed_apps
     "graphene_django"
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
