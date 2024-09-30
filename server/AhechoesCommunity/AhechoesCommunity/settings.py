@@ -9,12 +9,10 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
-from pathlib import Path
 import os
-from dotenv import  load_dotenv
-load_dotenv()
-
+from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()  # loads the configs from .env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a3e97n%qt+gu@18e-$q3)%l03yv0c5bkn3=_yg8_nen!#v7qjx'
+SECRET_KEY = 'django-insecure-8@xdnp5j!6ypnb8*t835pwupq*sl48g5gya#*#h+tzp#g=4hm5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,9 +30,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-GRAPHENE = {
-    "SCHEMA": "community.schema.schema"
-}
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,12 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #local_apps
-    "community.apps.CommunityConfig",
-    #installed_apps
-    "graphene_django"
+    'threads',
+    'graphene_django'
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,11 +79,14 @@ WSGI_APPLICATION = 'AhechoesCommunity.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("dbName"),
-        'USER': os.getenv("user"),
-        'PASSWORD': os.getenv("password"),
-        'HOST': os.getenv("host"),
-        'PORT': os.getenv("port")
+        'NAME': str(os.getenv("dbName")),
+        'USER': str(os.getenv("user")),
+        'PASSWORD': str(os.getenv("password")),
+        'HOST': str(os.getenv("host")),
+        'PORT': str(os.getenv("port")),
+
+
+
 
     }
 }
@@ -136,3 +132,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+GRAPHENE = {
+    "SCHEMA":"AhechoesCommunity.schema.schema"
+}

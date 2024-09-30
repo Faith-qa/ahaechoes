@@ -1,7 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
 
-from .models import Thread, Comment, Like, Reply
+from threads.models import Thread, Comment, Like, Reply
 
 class ThreadType(DjangoObjectType):
     class Meta:
@@ -55,7 +55,7 @@ class UpdateThread(graphene.Mutation):
 
 class DeleteThread(graphene.Mutation):
     class Arguments:
-        id = graphene.id(required=True)
+        id = graphene.ID(required=True)
     success = graphene.Boolean
 
     def mutate(self, info, id):

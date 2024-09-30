@@ -1,10 +1,12 @@
+
+# Create your models here.
 from django.db import models
 
 # Create your models here.
 #user models
 
 class Thread(models.Model):
-    user_id = models.CharField()
+    user_id = models.CharField(max_length=255)
     title = models.CharField(max_length=100)
     content = models.TextField()
     updated_at = models.DateTimeField(auto_now=True)
@@ -14,7 +16,7 @@ class Comment(models.Model):
     threadid = models.ForeignKey(Thread, related_name="comments", on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now=True)
-    userid = models.CharField()
+    userid = models.CharField(max_length=255)
 
 class Reply(models.Model):
     comment = models.ForeignKey(Comment, related_name='replies', on_delete=models.CASCADE)
