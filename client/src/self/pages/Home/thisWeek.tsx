@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState, useMemo, useCallback} from "react";
 import { TouchableOpacity, Text, View, StyleSheet, Image, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../store/store";
@@ -6,16 +6,17 @@ import { setSearch_Date } from "../../../store/goals/newGoal.slice";
 import ProfilePicContainer from "./profilePic";
 
 const DaysOfWeekButtons: React.FC = () => {
-    const { userInfo } = useSelector((state: RootState) => state.auth);
-    const { search_date } = useSelector((state: RootState) => state.goal);
+    const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+    const searchDate = useSelector((state: RootState) => state.goal.search_date);
     const [currentDay, setCurrentDay] = useState(new Date().getDay());
     const [currentWeekStart, setCurrentWeekStart] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState<string | null>(null); // State to track selected date
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const dispatch = useDispatch<AppDispatch>();
 
 
+    // memoize dats to avoid data calaculation
 
-    const handleSwipe = (direction: 'left' | 'right') => {
+    const calculateWeekStart = useCallback((direction: 'left' | 'right') => {
         const newWeekStart = new Date(currentWeekStart);
         if (direction === 'left') {
             newWeekStart.setDate(currentWeekStart.getDate() + 7);
@@ -23,52 +24,49 @@ const DaysOfWeekButtons: React.FC = () => {
             newWeekStart.setDate(currentWeekStart.getDate() - 7);
         }
         setCurrentWeekStart(newWeekStart);
-    }
+    }, [currentWeekStart]);
 
-    const getButtonStyle = (day: number, date: string) => {
+    const getButtonStyle = useCallback((day: number, date: string) => {
         const isSelected = selectedDate === date;
         const isCurrent = date === new Date().toISOString().split('T')[0];
         return {
-            backgroundColor: isSelected ? '#DFBD43' : (isCurrent ? '#B9E3F3' : '#8AA6B5')
+            backgroundColor: isSelected ? '#DFBD43' : isCurrent ? '#B9E3F3' : '#8AA6B5',
         };
-    };
+    }, [selectedDate]);
 
 
 
-    const greeting = () => {
+    // Memoize greeting to avoid recalculating on every render
+    const greeting = useMemo(() => {
         const currentHour: number = new Date().getHours();
-        const morningStart: number = 0;
-        const afternoonStart: number = 12;
-        const eveningStart: number = 18;
-
-        if (currentHour >= morningStart && currentHour < afternoonStart) {
+        if (currentHour < 12) {
             return `Good morning, ${userInfo.firstName}`;
-        } else if (currentHour >= afternoonStart && currentHour < eveningStart) {
+        } else if (currentHour < 18) {
             return `Good afternoon, ${userInfo.firstName}`;
         } else {
             return `Good evening, ${userInfo.firstName}`;
         }
-    };
+    }, [userInfo.firstName]);
 
-    const renderDayButtons = () => {
-        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    const renderDayButtons = useMemo(() => {
+        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
         return daysOfWeek.map((day, index) => {
             const date = new Date(currentWeekStart);
-            const daydiff = index - currentDay;
-            date.setDate(date.getDate() + daydiff);
-            const fdate = date.toISOString().split('T')[0];
+            const dayDiff = index - currentDay;
+            date.setDate(date.getDate() + dayDiff);
+            const formattedDate = date.toISOString().split('T')[0];
 
             return (
                 <TouchableOpacity
                     key={index}
                     onPress={() => {
-                        setSelectedDate(fdate); // Update selected date
-                        dispatch(setSearch_Date(fdate));
+                        setSelectedDate(formattedDate); // Update selected date
+                        dispatch(setSearch_Date(formattedDate));
                     }}
                 >
-                    <View style={[styles.dayButton, getButtonStyle(index, fdate)]}>
-                        <Text style={styles.btext}>{fdate.split('-')[2]} </Text>
+                    <View style={[styles.dayButton, getButtonStyle(index, formattedDate)]}>
+                        <Text style={styles.btext}>{formattedDate.split('-')[2]} </Text>
                     </View>
                     <View>
                         <Text style={styles.dtext}>{day}</Text>
@@ -76,26 +74,26 @@ const DaysOfWeekButtons: React.FC = () => {
                 </TouchableOpacity>
             );
         });
-    }
+    }, [currentWeekStart, currentDay, getButtonStyle, dispatch]);
 
     return (
         <View>
-            <ProfilePicContainer/>
-            <Text style={styles.gtext}>{greeting()}</Text>
+            <ProfilePicContainer />
+            <Text style={styles.gtext}>{greeting}</Text>
             <ScrollView
                 horizontal
                 pagingEnabled
-                onMomentumScrollEnd={evt => {
+                onMomentumScrollEnd={(evt) => {
                     const xOffset = evt.nativeEvent.contentOffset.x;
                     if (xOffset > 0) {
-                        handleSwipe('left')
+                        calculateWeekStart('left');
                     } else {
-                        handleSwipe('right');
+                        calculateWeekStart('right');
                     }
                 }}
                 style={{ flexGrow: 0 }}
             >
-                <View style={styles.dcontainer}>{renderDayButtons()}</View>
+                <View style={styles.dcontainer}>{renderDayButtons}</View>
             </ScrollView>
         </View>
     );
