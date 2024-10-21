@@ -26,7 +26,7 @@ export default function TabLayout() {
         <Tabs.Screen
             name={'(Journals)'}
             options={{
-                title: 'Journals',
+                title: '',
                 tabBarIcon: ()=>null,
                 tabBarShowLabel: false
             }}

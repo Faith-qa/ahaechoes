@@ -1,14 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Audio, InterruptionModeAndroid, InterruptionModeIOS} from 'expo-av';
 import {useDispatch} from 'react-redux'
-//import uuid from 'uuid';
-//import {updateAlbum} from "../../../../../store/journals/journals.action";
-//import {AppDispatch} from "../../../../../store/store";
+import {updateAlbum} from "@/store/journals/journals.action";
+import {AppDispatch} from "@/store/store";
 import RecordAudioScreenView from "./RecordAudioScreen";
 import {Modal, PermissionsAndroid} from "react-native";
-//import { audioOperations } from '../../modules/audio';
-//import screens from '../../navigation/screens';
-
 
 interface RecordingStatus {
     durationMillis: number;
@@ -20,10 +16,10 @@ interface NewProps {
     onClose: () => void;
 }
 const RecordAudioScreen:React.FC<NewProps> = ({
-    audVisible,
-    onClose
+                                                  audVisible,
+                                                  onClose
                                               }) => {
-    //const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch<AppDispatch>();
     const [recording, setRecording] = useState<any>(null);
     const [isRecording, setIsRecording] = useState(false);
     const [durationMillis, setDurationMillis] = useState(0);
@@ -144,7 +140,7 @@ const RecordAudioScreen:React.FC<NewProps> = ({
             try{
                 console.log("this is the audio uri,", fileUrl)
 
-                //await dispatch(updateAlbum({filetype: "audio", vidAudUrl: fileUrl, name: audioName}))
+                await dispatch(updateAlbum({filetype: "audio", vidAudUrl: fileUrl, name: audioName}))
                 setAudioName('');
                 setIsDoneRecording(false);
                 onClose();
@@ -155,7 +151,7 @@ const RecordAudioScreen:React.FC<NewProps> = ({
 
             //navigation.navigate(screens.LibraryTab);
         }
-    }, [audioName, fileUrl, durationMillis, /*dispatch*/ ])
+    }, [audioName, fileUrl, durationMillis, dispatch, ])
 
     const onCancelSave = useCallback(() => {
         setAudioName('');
@@ -176,19 +172,19 @@ const RecordAudioScreen:React.FC<NewProps> = ({
             visible={audVisible}
             animationType={"slide"}
         >
-        <RecordAudioScreenView
-            onStartRecording={onStartRecording}
-            onEndRecording={onEndRecording}
-            onCancelRecording={onCancelRecording}
-            onSubmit={onSubmit}
-            onCancelSave={onCancelSave}
-            audioName={audioName}
-            setAudioName={setAudioName}
-            isRecording={isRecording}
-            isDoneRecording={isDoneRecording}
-            durationMillis={durationMillis}
-            fileUrl={fileUrl}
-        /></Modal>
+            <RecordAudioScreenView
+                onStartRecording={onStartRecording}
+                onEndRecording={onEndRecording}
+                onCancelRecording={onCancelRecording}
+                onSubmit={onSubmit}
+                onCancelSave={onCancelSave}
+                audioName={audioName}
+                setAudioName={setAudioName}
+                isRecording={isRecording}
+                isDoneRecording={isDoneRecording}
+                durationMillis={durationMillis}
+                fileUrl={fileUrl}
+            /></Modal>
     );
 };
 

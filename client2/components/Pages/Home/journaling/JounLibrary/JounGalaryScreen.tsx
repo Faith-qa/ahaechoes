@@ -18,7 +18,7 @@ interface NewProps {
 }
 
 const JounGalaryScreen:React.FC<NewProps>= ({
-    processJourns
+                                                processJourns
                                             }
 ) => {
     const [mediaData, setMediaData] = useState<MediaItem[]>()
@@ -79,27 +79,27 @@ const JounGalaryScreen:React.FC<NewProps>= ({
                 </View>
             )
         } else if(item.type == 'video'){
-        return(
-            <View>
-           <TouchableOpacity style={s.item} onPress={()=> {
-               setOpenVid(true)
-               setIsplaying(true)}}>
-                <Card containerStyle={s.image}>
-                <Video
-                    style={{width: "90%", height:"90%"}}
-                    source={{uri: item.uri}}
-                    resizeMode={ResizeMode.COVER}
-                    shouldPlay={false}/></Card></TouchableOpacity>
-                <ViewVideo videoUri={item.uri} isplaying={isplaying} onClose={stopPlaying} openVid={openVid}/>
-            </View>
+            return(
+                <View>
+                    <TouchableOpacity style={s.item} onPress={()=> {
+                        setOpenVid(true)
+                        setIsplaying(true)}}>
+                        <Card containerStyle={s.image}>
+                            <Video
+                                style={{width: "90%", height:"90%"}}
+                                source={{uri: item.uri}}
+                                resizeMode={ResizeMode.COVER}
+                                shouldPlay={false}/></Card></TouchableOpacity>
+                    <ViewVideo videoUri={item.uri} isplaying={isplaying} onClose={stopPlaying} openVid={openVid}/>
+                </View>
             )} else{
             return(
                 <View>
-                <TouchableOpacity style={s.item} onPress={()=> setOpenAudio(true)}>
-                <Card containerStyle={s.image}>
-                    <Ionicons name="musical-notes" size={48} color={"black"}/>
-                    <Text>Audio</Text>
-                </Card></TouchableOpacity>
+                    <TouchableOpacity style={s.item} onPress={()=> setOpenAudio(true)}>
+                        <Card containerStyle={s.image}>
+                            <Ionicons name="musical-notes" size={48} color={"black"}/>
+                            <Text>Audio</Text>
+                        </Card></TouchableOpacity>
                     <ViewAudio audiourl={item.uri} onClose={closeAudio} openAudio={openAudio}/>
                 </View>
             )}

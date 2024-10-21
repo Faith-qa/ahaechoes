@@ -112,10 +112,4 @@ const RecordAudioScreenView:React.FC<NewProps> = ({
     );
 };
 
-/*RecordAudioScreenView.propTypes = {
-    isRecording: PropTypes.bool,
-    durationMillis: PropTypes.number,
-
-
-}*/
 export default RecordAudioScreenView;
