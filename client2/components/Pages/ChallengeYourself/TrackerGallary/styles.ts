@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
         height: 30,
         borderRadius: 15,
         borderWidth: 1,
+        borderColor:"#8AA6B5",
         alignItems:"center",
         padding:2,
 
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width:350,
-        height: 72,
+        height: 80,
         flexShrink: 0,
         borderRadius: 20,
         borderWidth: 1,
@@ -167,6 +168,72 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#333',
+    },
+    leftActionContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+
+    },
+    actionButton: {
+        width: 80,
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 30,
+        backgroundColor: '#E0E0E0',
+    },
+    deleteButton: {
+        backgroundColor: '#FF3B30',
+    },
+    actionText: {
+        fontSize: 12,
+        color: 'black',
+        marginTop: 5,
+    },
+    actionTextWhite: {
+        fontSize: 12,
+        color: 'white',
+        marginTop: 5,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dim background
+    },
+    modalContent: {
+        backgroundColor: '#E2F3FF',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        padding: 20,
+        alignItems: 'center',
+    },
+
+    completedTaskTitle: {
+        textDecorationLine: 'line-through',
+    },
+    taskDetailText: {
+        fontSize: 14,
+        color: '#666',
+        marginBottom: 20,
+    },
+    editButton: {
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 20,
+        borderColor: '#ccc',
+        borderWidth: 1,
+    },
+    editButtonText: {
+        color: '#333',
+        fontWeight: 'bold',
+    },
+    closeButton: {
+        marginTop: 10,
+    },
+    closeButtonText: {
+        color: '#007BFF',
+        fontWeight: '600',
     },
 });
 export default styles
