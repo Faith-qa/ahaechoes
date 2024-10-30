@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#B4D8E2',
         paddingTop: 80,
+        //padding: 5
     },
     header: {
         flexDirection: 'row',
@@ -81,8 +82,8 @@ const styles = StyleSheet.create({
     fab: {
         position: 'absolute',
         right: 30,
-        bottom: 120,
-        backgroundColor: '#7748DA',
+        bottom: 80,
+        backgroundColor: '#365B6D',
         borderRadius: 30,
         width: 60,
         height: 60,
@@ -118,6 +119,54 @@ const styles = StyleSheet.create({
     openButtonText: {
         color: 'white',
         fontWeight: 'bold',
+    },
+    mainTaskListCont:{
+        flex: 1,
+        marginTop: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        alignItems: "center",
+        padding: 10,
+        backgroundColor: '#F5F9FA',
+        zIndex: -1
+    },
+    taskContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width:350,
+        height: 72,
+        flexShrink: 0,
+        borderRadius: 20,
+        borderWidth: 1,
+        padding: 20,
+        //backgroundColor: '#B4D8E2',
+        margin: 10,
+        marginVertical: 5,
+    },
+    taskCompleted: {
+        backgroundColor: '#DFF7DF', // Different color for completed tasks
+    },
+    strikethrough: {
+        color: 'black',
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "400",
+        textDecorationLine: "line-through",
+
+
+    },
+    taskTextContainer: {
+        flex: 1,
+        marginLeft: 10,
+    },
+    taskTimeText: {
+        fontSize: 12,
+        color: '#555',
+    },
+    taskTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333',
     },
 });
 export default styles
