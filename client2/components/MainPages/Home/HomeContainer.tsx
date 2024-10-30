@@ -1,4 +1,4 @@
-import HomeScreen from "@/components/Home/HomeScreen";
+import HomeScreen from "@/components/MainPages/Home/HomeScreen";
 
 const HomeContainer: React.FC = () => {
     return(

@@ -31,6 +31,16 @@ export default function TabLayout() {
                 tabBarShowLabel: false
             }}
         />
+        <Tabs.Screen
+            name={'(MyGoals)'}
+            options={{
+                title:'',
+                tabBarIcon:({color, focused})=>(
+                    <TabBarIcon name={focused ? 'today' : 'today-outline'} color={color}/>
+                )
+            }}
+        />
+
 
     </Tabs>
   );
