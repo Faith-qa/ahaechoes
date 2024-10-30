@@ -2,7 +2,7 @@ import {StyleSheet} from "react-native";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //backgroundColor: '#F3E9FF',
+        backgroundColor: '#B4D8E2',
         paddingTop: 80,
     },
     header: {
@@ -28,20 +28,35 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     dateText: {
-        fontSize: 12,
-        color: '#B3B3B3',
+        fontSize: 16,
+        color: '#333333',
+    },
+    dateNumberCont:{
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        borderWidth: 1,
+        alignItems:"center",
+        padding:2,
+
     },
     dateNumber: {
         fontSize: 16,
-        color: '#B3B3B3',
+        color: '#333333',
+
+
+
     },
     selectedDate: {
-        backgroundColor: '#D0B3FF',
+        backgroundColor: '#365B6D',
         borderRadius: 20,
-        padding: 5,
+        width: 40,
+        height: 60,
+        paddingVertical: 3
+        //padding: 5,
     },
     selectedDateText: {
-        color: '#7748DA',
+        color: '#F5F9FA',
         fontWeight: 'bold',
     },
     illustrationContainer: {
